@@ -1,0 +1,4 @@
+interface:
+  display_name: "Rentner Rules"
+  short_description: "Clean TanStack features, hooks, config, and checks"
+  default_prompt: "Use $rentner-rules to implement the requested change with clean feature structure, grouped logic hooks, and relevant verification."

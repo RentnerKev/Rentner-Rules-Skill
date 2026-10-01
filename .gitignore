@@ -1,0 +1,12 @@
+# Local editor settings
+.idea/
+.vscode/
+
+# Operating system metadata
+.DS_Store
+Thumbs.db
+
+# Editor temporary files
+*.swp
+*.swo
+*~

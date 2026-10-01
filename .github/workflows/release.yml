@@ -1,0 +1,92 @@
+name: Release
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  release:
+    types: [published]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    name: Validate Rentner Rules
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout requested version
+        uses: actions/checkout@v7
+        with:
+          ref: ${{ github.event.release.tag_name || github.sha }}
+
+      - name: Validate release tag
+        if: github.event_name == 'release'
+        shell: bash
+        env:
+          TAG: ${{ github.event.release.tag_name }}
+        run: |
+          if [[ ! "$TAG" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "::error::Release tag must use SemVer format, e.g. v1.0.0"
+            exit 1
+          fi
+
+      - name: Validate required files
+        shell: bash
+        run: |
+          for file in SKILL.md README.md LICENSE agents/openai.yaml \
+            references/architecture.md references/frontend.md \
+            references/dependencies-and-config.md \
+            references/backend-and-safety.md \
+            references/workflow-and-verification.md; do
+            test -s "$file" || {
+              echo "::error::$file is missing or empty"
+              exit 1
+            }
+          done
+
+      - name: Validate references and interface metadata
+        shell: bash
+        run: |
+          node --input-type=module <<'JS'
+          import { existsSync, readFileSync, readdirSync } from 'node:fs'
+          import { dirname, resolve, sep } from 'node:path'
+
+          const root = process.cwd()
+          const files = [
+              'SKILL.md',
+              'README.md',
+              ...readdirSync('references')
+                  .filter((file) => file.endsWith('.md'))
+                  .map((file) => 'references/' + file),
+          ]
+
+          for (const file of files) {
+              const content = readFileSync(file, 'utf8')
+              for (const match of content.matchAll(/\[[^\]\n]+\]\(([^)\s]+)\)/g)) {
+                  const target = match[1]
+                  if (/^https?:\/\//.test(target) || target.startsWith('#')) continue
+                  const destination = resolve(dirname(file), target.split('#')[0])
+                  if (!destination.startsWith(root + sep) || !existsSync(destination)) {
+                      throw new Error(file + ': invalid local reference ' + target)
+                  }
+              }
+          }
+
+          const metadata = readFileSync('agents/openai.yaml', 'utf8')
+          const shortDescription = metadata.match(/^  short_description: "([^"]+)"$/m)?.[1]
+          if (!shortDescription || shortDescription.length < 25 || shortDescription.length > 64) {
+              throw new Error('Codex short_description must contain 25–64 characters')
+          }
+          const defaultPrompt = metadata.match(/^  default_prompt: "([^"]+)"$/m)?.[1]
+          if (!defaultPrompt?.includes('$rentner-rules')) {
+              throw new Error('Codex default_prompt must invoke $rentner-rules')
+          }
+          console.log('Validated ' + files.length + ' Markdown files and Codex interface metadata')
+          JS
+
+      - name: Validate skill discovery
+        shell: bash
+        run: npx --yes skills@latest add . --list
