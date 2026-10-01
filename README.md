@@ -52,6 +52,7 @@ It works independently of Hybrid Coding. When both are used, Hybrid Coding provi
 - Use installed `@rentnerkev/*` packages as the primary source for their supported UI.
 - Research current maintenance, compatibility, and suitable alternatives before adding dependencies.
 - Keep TSX components focused on presentation; put behavior in `use...Logic` hooks.
+- Use one public `use...Logic` per screen/component; avoid nested full logic hooks and forwarding wrappers. Focused custom hooks remain reusable.
 - Return `state` and `handler`, with optional `setter`, `refs`, and named library instances such as `table` or `form`.
 - Keep Table/Form/Modal submodules inside `Components/`.
 - Separate Server Function adapters in `middleware.ts`, schemas in `validation.ts`, and backend domain logic in `src/server`.
@@ -59,7 +60,7 @@ It works independently of Hybrid Coding. When both are used, Hybrid Coding provi
 - Keep config files declarative and types in the owner's `Types/` directory.
 - Use local constants where needed; avoid separate `constants.ts` and `queryKeys.ts` modules.
 - Name public and authenticated shells `PublicLayout` and `AuthenticatedLayout`.
-- Keep tests centralized under `src/test`, mirroring source paths.
+- Keep tests centralized under `src/tests`, mirroring source paths.
 - Preserve secrets, existing user changes, security checks, and the Drizzle/migration boundary.
 
 Full instructions are in [SKILL.md](SKILL.md), with examples in [references](references/architecture.md).

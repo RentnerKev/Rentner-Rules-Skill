@@ -21,15 +21,16 @@ Build maintainable applications using Kevin Sträßler's coding conventions. Kee
 1. Keep routes thin. Organize feature UI in `src/features`, reusable UI in `src/shared`, UI-free helpers in `src/lib`, backend domain logic in `src/server`, and configuration data in `src/config`.
 2. A feature may contain `index.tsx`, `Components/`, `Hooks/`, `Types/`, `middleware.ts`, and `validation.ts`. Create only the parts the feature needs.
 3. Keep TSX components as presentation templates: imports, typed props, hook wiring, and JSX. Put state, queries, mutations, effects, derived business values, and action workflows in `use...Logic` hooks.
-4. Return named hook groups: `state` and `handler`, with optional `setter`, `refs`, and clearly named library instances such as `table` or `form`. Include only the groups actually needed.
-5. Place a complex Table, Form, or Modal inside `Components/<Component>/`, with its own components, hooks, and types when useful. Use TanStack Table and the existing shared table components.
-6. Use feature `middleware.ts` for the Server Function boundary: method, input validation, authentication, permission, rate limit, and service delegation. Put business logic, database access, queues, mail, and storage in backend services.
-7. Use `validation.ts` for input schemas and pure normalization. It describes the validated contract; it does not perform authentication or persistence.
-8. Keep configuration files declarative: values, objects, and arrays. Put types in the owner's `Types/` directory and runtime computations in hooks, lib, or server modules.
-9. Dissolve feature `Helpers/` folders into the appropriate lib modules. Do not create separate `constants.ts`, `queryKeys.ts`, or query-key directories.
-10. Inline simple values used once. For repeated use in one file, define a local constant there. Keep meaningful cross-file reuse with its domain implementation; keep policy and security settings in config.
-11. Use `PublicLayout` for public pages and `AuthenticatedLayout` for authenticated pages. Layouts and client guards never replace server authorization.
-12. Keep tests centralized in `src/test`, mirroring the source path below `src/`.
+4. Give each screen or complex component one public `use...Logic` entrypoint. Do not nest full screen/component logic hooks or add presentation wrappers that forward their complete results. Focused custom hooks remain valid; see the frontend composition rules.
+5. Return named hook groups: `state` and `handler`, with optional `setter`, `refs`, and clearly named library instances such as `table` or `form`. Include only the groups actually needed.
+6. Place a complex Table, Form, or Modal inside `Components/<Component>/`, with its own components, hooks, and types when useful. Use TanStack Table and the existing shared table components.
+7. Use feature `middleware.ts` for the Server Function boundary: method, input validation, authentication, permission, rate limit, and service delegation. Put business logic, database access, queues, mail, and storage in backend services.
+8. Use `validation.ts` for input schemas and pure normalization. It describes the validated contract; it does not perform authentication or persistence.
+9. Keep configuration files declarative: values, objects, and arrays. Put types in the owner's `Types/` directory and runtime computations in hooks, lib, or server modules.
+10. Dissolve feature `Helpers/` folders into the appropriate lib modules. Do not create separate `constants.ts`, `queryKeys.ts`, or query-key directories.
+11. Inline simple values used once. For repeated use in one file, define a local constant there. Keep meaningful cross-file reuse with its domain implementation; keep policy and security settings in config.
+12. Use `PublicLayout` for public pages and `AuthenticatedLayout` for authenticated pages. Layouts and client guards never replace server authorization.
+13. Keep tests centralized in `src/tests`, mirroring the source path below `src/`.
 
 ## Read the relevant details
 

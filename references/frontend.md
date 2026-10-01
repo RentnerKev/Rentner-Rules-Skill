@@ -28,6 +28,18 @@ export function Notifications() {
 
 Do not hide a workflow inside a large JSX callback or an immediately invoked function. Component simplicity comes from placing behavior with its owner, not from moving unreadable code into markup.
 
+## Logic hook composition
+
+A screen or complex component has one public `use...Logic` orchestration hook. The component calls that entrypoint directly. Do not call another screen/component's complete logic hook from it, or add a second `PresentationLogic` layer that mainly forwards the first hook's `state`, `handler`, or other groups. Merge such a wrapper into the owning entrypoint.
+
+Focused custom hooks are allowed inside an orchestration hook: stores, queries, form/table integration, debounce, subscriptions, and a coherent reusable UI lifecycle. Give them explicit inputs for the values and actions they need rather than passing a complete foreign logic result. Name them after their responsibility, such as `useSessionActivity` or `useRestoreStatus`; reserve `use...Logic` for the screen or component's orchestration.
+
+Keep feature-specific focused hooks with their owner. Move React/UI hooks to `src/shared/<Area>/Hooks` when they have real reuse. UI-free computations, helpers, and schemas belong in `src/lib/<Domain>`, including when multiple features use them. A function that calls React hooks remains a custom hook and must follow React's Rules of Hooks; do not disguise it as a lib helper.
+
+Build the public return contract explicitly from the state, actions, refs, and library instances the template needs. Do not spread whole foreign `state`/`handler` objects into it. Selecting named values from a focused hook is fine; ordinary immutable updates to a domain object are also fine.
+
+This convention does not ban React/library hooks or useful custom-hook composition. Preserve a single source of truth and existing subscription/effect lifecycles during refactors; merging orchestrators must not duplicate local state, fetches, or side effects. Do not flatten every focused hook into one oversized function.
+
 ## Logic hook return contract
 
 Use `use<MeaningfulName>Logic` for a screen or complex component's orchestration. Define its public result contract in the owner's `Types/` directory.

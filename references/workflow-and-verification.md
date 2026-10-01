@@ -38,14 +38,14 @@ Write comments for non-obvious invariants, security reasons, compatibility windo
 
 ## Tests and checks
 
-Keep tests in `src/test` and mirror the tested source path below `src/`. For example:
+Keep tests in `src/tests` and mirror the tested source path below `src/`. For example:
 
 ```text
 src/features/Admin/Users/validation.ts
-src/test/features/Admin/Users/validation.test.ts
+src/tests/features/Admin/Users/validation.test.ts
 
 src/server/Users/users.service.ts
-src/test/server/Users/users.service.test.ts
+src/tests/server/Users/users.service.test.ts
 ```
 
 Use `.test.ts` for normal tests and `.db.test.ts` for actual database integration tests. Align test discovery with these paths; database tests must run separately from normal tests.

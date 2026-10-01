@@ -11,7 +11,7 @@
 | `src/shared/<Area>` | Reusable UI, its UI hooks, and UI contract types |
 | `src/lib/<Domain>` | UI-free utilities, reusable validation, and technical or domain modules |
 | `src/config` | Declarative application configuration |
-| `src/test` | Tests mirroring the source hierarchy |
+| `src/tests` | Tests mirroring the source hierarchy |
 
 The normal call direction is:
 
@@ -65,6 +65,8 @@ A `table` returned from the hook is the complete library instance. Domain action
 ## Shared UI and lib modules
 
 Reusable UI belongs in `src/shared/<Area>`, including the hooks and types that belong to that UI. UI-free utilities and reusable schemas belong in `src/lib/<Domain>`.
+
+Keep focused reusable React hooks in the relevant shared area, not in UI-free lib modules. Keep local hooks with their owner. Screen/component orchestration stays in its own `use...Logic` entrypoint; see the [frontend composition rules](frontend.md#logic-hook-composition).
 
 Split former `features/Auth/Shared` content by responsibility:
 
