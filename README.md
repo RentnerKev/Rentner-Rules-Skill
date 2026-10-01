@@ -9,15 +9,17 @@ The skill covers predictable feature structure, presentation components, grouped
 Install globally for Codex:
 
 ```powershell
-bunx skills add RentnerKev/Rentner-Rules-Skill --skill rentner-rules -g -a codex
+bunx skills@1.7.0 add RentnerKev/Rentner-Rules-Skill --skill rentner-rules -g -a codex
 ```
 
-Alternatively, use `npx skills add` with the same arguments.
+These examples pin Skills CLI 1.7.0 for reproducibility.
+
+Alternatively, use `npx skills@1.7.0 add` with the same arguments.
 
 Verify the installation:
 
 ```powershell
-bunx skills list -g -a codex
+bunx skills@1.7.0 list -g -a codex
 ```
 
 Install for another supported agent by replacing `codex` with its agent identifier, or omit `-a codex` to select agents interactively.
@@ -25,8 +27,8 @@ Install for another supported agent by replacing `codex` with its agent identifi
 ## Update
 
 ```powershell
-bunx skills update rentner-rules -g
-bunx skills check -g
+bunx skills@1.7.0 update rentner-rules -g
+bunx skills@1.7.0 check -g
 ```
 
 ## Usage
@@ -90,7 +92,7 @@ The repository contains one skill, so `SKILL.md` lives directly in the repositor
 Check local skill discovery without installing:
 
 ```powershell
-bunx skills add . --list
+bunx skills@1.7.0 add . --list
 ```
 
 Expected skill: `rentner-rules`.

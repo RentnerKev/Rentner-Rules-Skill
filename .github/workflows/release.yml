@@ -18,7 +18,7 @@ jobs:
 
     steps:
       - name: Checkout requested version
-        uses: actions/checkout@v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           ref: ${{ github.event.release.tag_name || github.sha }}
 
@@ -89,4 +89,4 @@ jobs:
 
       - name: Validate skill discovery
         shell: bash
-        run: npx --yes skills@latest add . --list
+        run: npx --yes skills@1.7.0 add . --list
