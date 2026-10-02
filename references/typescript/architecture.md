@@ -1,6 +1,6 @@
 # Architecture
 
-Scope: [TypeScript profile](typescript.md). These paths and boundaries do not define Rust architecture.
+Scope: [TypeScript profile](index.md). These paths and boundaries do not define Rust architecture.
 
 ## Responsibility map
 

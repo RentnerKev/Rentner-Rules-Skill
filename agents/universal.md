@@ -6,6 +6,6 @@ For any agent registered in Skills CLI 1.7.0, use its identifier from the [suppo
 
 For manual installation, copy the complete repository contents into the agent's supported `skills/rentner-rules/` location. Preserve `SKILL.md`, `references/`, and their relative paths. Check the agent's official documentation for discovery and invocation.
 
-For a tool that can read Markdown instructions but has no native Agent Skills support, reference the installed `SKILL.md` from its existing project instruction file and instruct it to read the matching language profile. Merge that reference into existing instructions without overwriting them. This is a manual integration, not automatic skill discovery.
+For a tool that can read Markdown instructions but has no native Agent Skills support, reference the installed `SKILL.md` from its existing project instruction file and instruct it to read the matching project/language profiles and their nested references. Merge that reference into existing instructions without overwriting them. This is a manual integration, not automatic skill discovery.
 
-All integrations use the established TypeScript and Rust-only profiles and leave the combined profile for later planning. A supported installation target alone does not prove successful discovery or execution in that agent.
+All integrations use the established TypeScript, Rust-only, and general hybrid profiles. Tauri integration remains reserved and is not covered by the general hybrid profile. A supported installation target alone does not prove successful discovery or execution in that agent.

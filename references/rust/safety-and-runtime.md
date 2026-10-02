@@ -1,6 +1,6 @@
 # Rust safety and runtime
 
-Scope: [Rust profile](rust.md). Load sections for the actual boundaries touched. Shared secret, authorization, migration, generated-file, and security-preservation constraints live in [SKILL.md](../SKILL.md).
+Scope: [Rust profile](index.md). Load sections for the actual boundaries touched. Shared secret, authorization, migration, generated-file, and security-preservation constraints live in [SKILL.md](../../SKILL.md).
 
 ## External data and resource limits
 
@@ -54,4 +54,4 @@ Check pointer validity, alignment, initialization, aliasing, lifetimes, ownershi
 
 At FFI boundaries, make ownership and release functions, valid lengths, nullability, callback lifetimes, thread rules, and unwinding/error translation explicit. `repr(C)` describes a layout choice; it does not make arbitrary Rust values safe for C. Do not let panics or foreign exceptions cross an ABI boundary unless the chosen ABI and both sides' contracts explicitly permit it. `catch_unwind` does not catch aborting panics and is not an ordinary error policy. See the [Rust FFI guide](https://doc.rust-lang.org/nomicon/ffi.html).
 
-Use focused boundary tests and applicable diagnostic tooling described in [verification](rust-testing-and-verification.md#ci-compatibility-and-release-checks). Passing tests does not prove unsafe code sound.
+Use focused boundary tests and applicable diagnostic tooling described in [verification](testing-and-verification.md#ci-compatibility-and-release-checks). Passing tests does not prove unsafe code sound.

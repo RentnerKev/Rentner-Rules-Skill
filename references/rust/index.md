@@ -6,7 +6,7 @@ Status: established Rust-only conventions for ordinary Rust/Cargo projects. Use 
 
 Identify the owning `Cargo.toml`, crate targets, workspace membership, toolchain, edition, supported platforms, and relevant repository instructions. Read neighboring implementations before changing an existing project. A frontend `package.json` does not turn a nested Rust crate into TypeScript.
 
-Apply the shared scope, authorization, dependency-research, safety, and handover rules in [SKILL.md](../SKILL.md). Rust details live here and in the references below; TypeScript structure, hooks, formatting, config purity, and test paths do not define Rust defaults. The combined TypeScript + Rust profile remains reserved for later planning.
+Apply the shared scope, authorization, dependency-research, safety, and handover rules in [SKILL.md](../../SKILL.md). Rust details live here and in the references below; TypeScript structure, hooks, formatting, config purity, and test paths do not define Rust defaults.
 
 ## Decision defaults
 
@@ -24,10 +24,10 @@ These are decision criteria, not a scaffolding template. Avoid both giant implem
 
 | Work | Reference |
 | --- | --- |
-| Module/crate boundaries, entrypoints, config/shared ownership, visibility, file size | [Rust architecture](rust-architecture.md) |
-| Ownership, errors, types, traits/generics, public APIs, async selection, naming, performance | [Rust coding](rust-coding.md) |
-| Cargo manifests, dependency research, toolchain/MSRV, lockfiles, features, build scripts, releases | [Rust Cargo and tooling](rust-cargo-and-tooling.md) |
-| Test placement and discovery, binary/library tests, docs, rustfmt/Clippy, CI/platform checks | [Rust testing and verification](rust-testing-and-verification.md) |
-| External input, filesystem/path safety, environment, logging, concurrency/shutdown, unsafe/FFI | [Rust safety and runtime](rust-safety-and-runtime.md) |
+| Module/crate boundaries, entrypoints, config/shared ownership, visibility, file size | [Rust architecture](architecture.md) |
+| Ownership, errors, types, traits/generics, public APIs, async selection, naming, performance | [Rust coding](coding.md) |
+| Cargo manifests, dependency research, toolchain/MSRV, lockfiles, features, build scripts, releases | [Rust Cargo and tooling](cargo-and-tooling.md) |
+| Test placement and discovery, binary/library tests, docs, rustfmt/Clippy, CI/platform checks | [Rust testing and verification](testing-and-verification.md) |
+| External input, filesystem/path safety, environment, logging, concurrency/shutdown, unsafe/FFI | [Rust safety and runtime](safety-and-runtime.md) |
 
 Read the references that affect the current decision before implementation or review. For a new Rust project, use the architecture and coding defaults and establish the Cargo and verification baseline. Load specialized safety sections when the code touches their boundaries; do not create those facilities merely because the guidance exists.

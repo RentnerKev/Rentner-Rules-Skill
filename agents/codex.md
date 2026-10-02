@@ -9,6 +9,6 @@ bunx skills@1.7.0 list -g -a codex
 
 Omit `-g` for a project install at `.agents/skills/rentner-rules/`. The CLI's default global destination is `~/.codex/skills/rentner-rules/`, or `CODEX_HOME/skills/rentner-rules/` when configured.
 
-Invoke explicitly with `$rentner-rules`, or allow relevance-based selection. [openai.yaml](openai.yaml) supplies the interface label and example prompt; the instructions remain in [SKILL.md](../SKILL.md). Its default prompt selects the established TypeScript or Rust-only profile and leaves the combined profile for later planning.
+Invoke explicitly with `$rentner-rules`, or allow relevance-based selection. [openai.yaml](openai.yaml) supplies the interface label and example prompt; the instructions remain in [SKILL.md](../SKILL.md). Its default prompt selects the established TypeScript, Rust-only, or non-Tauri hybrid profile and keeps Tauri integration reserved for separate planning.
 
 See the [shared integration notes](README.md) and the [pinned CLI registry](https://github.com/vercel-labs/skills/blob/v1.7.0/src/agents.ts).

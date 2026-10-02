@@ -1,0 +1,35 @@
+# TypeScript + Rust hybrid profile
+
+Status: established conventions for a TypeScript web/frontend application and a Rust core/backend/system/server area that form one product in the same repository. Examples include a web application with a Rust core, a TypeScript UI with Rust system logic, and a web interface for a Rust proxy/server, including RentnerProxy-like projects.
+
+Tauri is explicitly outside this profile. Its separate profile is reserved in [SKILL.md](../../SKILL.md); no Tauri architecture or integration conventions are defined here.
+
+## Compose the existing profiles
+
+| Scope | Source of rules |
+| --- | --- |
+| `web/` TypeScript area | The complete [TypeScript profile](../typescript/index.md) and its relevant references |
+| `core/` Rust area | The complete [Rust profile](../rust/index.md) and its relevant references |
+| Repository root and the boundary between those areas | This profile and the hybrid references below |
+
+The language profiles remain independent sources of truth. Interpret their package-relative paths inside the appropriate area; do not introduce hybrid-specific hooks, module layouts, naming, formatting, config purity, or test conventions inside either language. Shared authorization, safety, dependency research, and handover rules remain in [SKILL.md](../../SKILL.md).
+
+## Decision defaults
+
+- For new normal hybrid projects, separate TypeScript under `web/` and Rust under `core/`. Add root documentation/tooling and contract/system-test areas only for actual needs.
+- Keep shared implementations inside their owning language area. Use an optional root contract/schema source when a real cross-language source of truth is useful.
+- Assign each capability an authoritative owner. Frontend UX validation can support the user but cannot replace core policy or security enforcement.
+- Communicate through a deliberate, small transport/contract surface, preserving each side's internal architecture. Select the transport and encoding for the concrete deployment and workflow.
+- Keep dependency management and language checks separate. Coordinate builds, generated contracts, integration tests, startup/shutdown, and release compatibility where the system actually needs it.
+
+For existing projects, inspect their separation, contracts, and build/deployment assumptions before proposing changes. Preserve a clear existing layout unless a migration has a concrete benefit within the request. A shared repository does not require a large monorepo or one deployment/version for everything.
+
+## Read the relevant details
+
+| Work | Reference |
+| --- | --- |
+| Root layout/names, language-local shared code, responsibility ownership, dependency/transport direction, existing projects | [Hybrid architecture](architecture.md) |
+| Contract source/generation, serialization/evolution, external errors, authentication/trust boundaries, observability | [Hybrid contracts and boundaries](contracts-and-boundaries.md) |
+| Root tooling/configuration, development/build coordination, test placement, CI, containers, shutdown, releases | [Hybrid workflow and verification](workflow-and-verification.md) |
+
+Read the hybrid details affected by the task and each applicable language profile. A local presentation change does not require redesigning the transport; a Rust module refactor does not justify new frontend models if the boundary contract remains unchanged.

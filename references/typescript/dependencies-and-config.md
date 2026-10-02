@@ -1,6 +1,6 @@
 # Dependencies and config
 
-Scope: [TypeScript profile](typescript.md). The preferred stack and config layout are TypeScript conventions; Rust uses its own [Cargo and config guidance](rust.md).
+Scope: [TypeScript profile](index.md). The preferred stack and config layout are TypeScript conventions; Rust uses its own [Cargo and config guidance](../rust/index.md).
 
 ## Preferred platform
 

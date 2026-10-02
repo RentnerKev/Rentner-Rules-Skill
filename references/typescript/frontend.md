@@ -1,6 +1,6 @@
 # Frontend
 
-Scope: [TypeScript profile](typescript.md). React hooks and their grouped returns apply to the TypeScript frontend.
+Scope: [TypeScript profile](index.md). React hooks and their grouped returns apply to the TypeScript frontend.
 
 ## Presentation components
 

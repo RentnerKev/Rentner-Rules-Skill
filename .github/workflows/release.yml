@@ -41,15 +41,18 @@ jobs:
             agents/claude-code.md agents/gemini-cli.md \
             agents/github-copilot.md agents/windsurf.md \
             agents/opencode.md agents/universal.md \
-            references/typescript.md references/rust.md \
-            references/rust-architecture.md references/rust-coding.md \
-            references/rust-cargo-and-tooling.md \
-            references/rust-testing-and-verification.md \
-            references/rust-safety-and-runtime.md \
-            references/architecture.md references/frontend.md \
-            references/dependencies-and-config.md \
-            references/backend-and-safety.md \
-            references/workflow-and-verification.md; do
+            references/typescript/index.md references/typescript/architecture.md \
+            references/typescript/frontend.md \
+            references/typescript/dependencies-and-config.md \
+            references/typescript/backend-and-safety.md \
+            references/typescript/workflow-and-verification.md \
+            references/rust/index.md references/rust/architecture.md \
+            references/rust/coding.md references/rust/cargo-and-tooling.md \
+            references/rust/testing-and-verification.md \
+            references/rust/safety-and-runtime.md \
+            references/hybrid/index.md references/hybrid/architecture.md \
+            references/hybrid/contracts-and-boundaries.md \
+            references/hybrid/workflow-and-verification.md; do
             test -s "$file" || {
               echo "::error::$file is missing or empty"
               exit 1
@@ -64,15 +67,17 @@ jobs:
           import { dirname, resolve, sep } from 'node:path'
 
           const root = process.cwd()
+          const markdownFiles = (directory) => readdirSync(directory, { withFileTypes: true })
+              .flatMap((entry) => {
+                  const path = directory + '/' + entry.name
+                  if (entry.isDirectory()) return markdownFiles(path)
+                  return entry.isFile() && entry.name.endsWith('.md') ? [path] : []
+              })
           const files = [
               'SKILL.md',
               'README.md',
-              ...readdirSync('references')
-                  .filter((file) => file.endsWith('.md'))
-                  .map((file) => 'references/' + file),
-              ...readdirSync('agents')
-                  .filter((file) => file.endsWith('.md'))
-                  .map((file) => 'agents/' + file),
+              ...markdownFiles('references'),
+              ...markdownFiles('agents'),
           ]
 
           for (const file of files) {

@@ -1,6 +1,6 @@
 # Workflow and verification
 
-Scope: [TypeScript profile](typescript.md). Formatting, naming, tooling, and test placement here are TypeScript-specific; use [SKILL.md](../SKILL.md) for shared workflow constraints.
+Scope: [TypeScript profile](index.md). Formatting, naming, tooling, and test placement here are TypeScript-specific; use [SKILL.md](../../SKILL.md) for shared workflow constraints.
 
 ## Start with the actual request
 

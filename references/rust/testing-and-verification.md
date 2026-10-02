@@ -1,6 +1,6 @@
 # Rust testing and verification
 
-Scope: [Rust profile](rust.md). Apply shared authorization and verification-side-effect constraints from [SKILL.md](../SKILL.md). Discover the project's real targets, aliases, scripts, features, and CI before choosing commands.
+Scope: [Rust profile](index.md). Apply shared authorization and verification-side-effect constraints from [SKILL.md](../../SKILL.md). Discover the project's real targets, aliases, scripts, features, and CI before choosing commands.
 
 ## Preferred test layout and Cargo discovery
 
@@ -82,7 +82,7 @@ For the changed behavior, run the relevant tests first, then formatting, compila
 
 - Use selected workspace/package targets rather than assuming the root default covers every changed crate.
 - Test supported default, minimal/no-default, and significant feature combinations; use all-features only when valid. Optional dependencies can hide compilation and API regressions.
-- Test declared MSRV and current stable separately when compatibility is promised. Check freshly resolved compatible dependencies in an isolated job in addition to the committed lock, as explained in [Cargo tooling](rust-cargo-and-tooling.md#cargolock-and-reproducible-dependency-resolution).
+- Test declared MSRV and current stable separately when compatibility is promised. Check freshly resolved compatible dependencies in an isolated job in addition to the committed lock, as explained in [Cargo tooling](cargo-and-tooling.md#cargolock-and-reproducible-dependency-resolution).
 - Run native tests on promised operating systems when platform behavior matters. Cross-compilation checks compilation; execution/linking requires the correct target toolchain, native dependencies, and runner.
 - Build/test the real release profile for release-only logic, overflow/panic strategy, binary size, or performance changes. Use representative benchmarks with a before/after baseline only for a real performance requirement.
 - Verify public docs/API/package contents when the change affects a published library. Use `cargo doc --no-deps` and an appropriate rustdoc warning policy when documentation is part of the deliverable.

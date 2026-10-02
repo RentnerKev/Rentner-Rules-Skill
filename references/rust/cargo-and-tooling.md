@@ -1,6 +1,6 @@
 # Rust Cargo and tooling
 
-Scope: [Rust profile](rust.md). Apply the shared dependency-research and safety constraints in [SKILL.md](../SKILL.md); this reference adds Cargo-specific decisions.
+Scope: [Rust profile](index.md). Apply the shared dependency-research and safety constraints in [SKILL.md](../../SKILL.md); this reference adds Cargo-specific decisions.
 
 ## Toolchain, edition, and MSRV
 

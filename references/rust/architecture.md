@@ -1,6 +1,6 @@
 # Rust architecture
 
-Scope: [Rust profile](rust.md). Shared workflow and safety constraints remain in [SKILL.md](../SKILL.md).
+Scope: [Rust profile](index.md). Shared workflow and safety constraints remain in [SKILL.md](../../SKILL.md).
 
 ## Responsibilities before layers
 
@@ -33,7 +33,7 @@ Use `src/bin/` when a package actually has multiple independent executables. Int
 
 CLI, HTTP, Tauri command, and worker adapters may call application/core operations. Keep terminal formatting, argument parsing, transport/UI contracts, and framework-specific runtime wiring out of reusable core logic where practical. Do not make the core import its outer adapters.
 
-A filesystem tool's core can own filesystem operations; this rule does not require a purely in-memory domain or a trait for every I/O call. Create a boundary when it provides a real independence or substitution benefit. Avoid forced Clean Architecture layers; see [traits and generics](rust-coding.md#traits-and-generics).
+A filesystem tool's core can own filesystem operations; this rule does not require a purely in-memory domain or a trait for every I/O call. Create a boundary when it provides a real independence or substitution benefit. Avoid forced Clean Architecture layers; see [traits and generics](coding.md#traits-and-generics).
 
 ## Config, shared code, and platform code
 
@@ -49,7 +49,7 @@ src/
     └── logging_config.rs
 ```
 
-`config.rs` is the module surface. A small project may need just `config.rs` or it plus `config/app_config.rs`. Rust config may own typed contracts, parsing, normalization, and validation; the TypeScript rule requiring pure declarative config files does not apply. Establish precedence for supported sources, validate at startup, and pass config explicitly to consumers rather than repeatedly reading global state. Environment and secret handling are covered in [safety](rust-safety-and-runtime.md#environment-and-observability).
+`config.rs` is the module surface. A small project may need just `config.rs` or it plus `config/app_config.rs`. Rust config may own typed contracts, parsing, normalization, and validation; the TypeScript rule requiring pure declarative config files does not apply. Establish precedence for supported sources, validate at startup, and pass config explicitly to consumers rather than repeatedly reading global state. Environment and secret handling are covered in [safety](safety-and-runtime.md#environment-and-observability).
 
 Production code used by several independent areas may live behind `shared.rs`, with specific children such as `shared/filesystem.rs`, `validation.rs`, `ids.rs`, or `time.rs`. Each shared module still needs one clear responsibility. Code used only by `copy` stays in `copy`. Keep test fixtures in the test area.
 
@@ -59,7 +59,7 @@ When platform differences become substantial, contain them behind `platform.rs` 
 
 ## Error ownership and visibility
 
-Keep operation errors with their owner, for example `copy/error.rs` with `CopyError`, `config/error.rs` with `ConfigError`, or `storage/error.rs` with `StorageError`. Small modules can define their error inline. An application may aggregate them into `AppError` at its boundary; a library may expose a crate-wide `Error`. Do not funnel every unrelated failure into a giant global enum. Error semantics and propagation are defined in [coding](rust-coding.md#errors-and-invariants).
+Keep operation errors with their owner, for example `copy/error.rs` with `CopyError`, `config/error.rs` with `ConfigError`, or `storage/error.rs` with `StorageError`. Small modules can define their error inline. An application may aggregate them into `AppError` at its boundary; a library may expose a crate-wide `Error`. Do not funnel every unrelated failure into a giant global enum. Error semantics and propagation are defined in [coding](coding.md#errors-and-invariants).
 
 Default to private items. Use `pub(super)`, `pub(in ...)`, or `pub(crate)` for the smallest needed internal scope; use `pub` for intentional public contracts. Keep child modules private where possible and export selected API items with `pub use`. Do not couple consumers unnecessarily to internal file paths or expose implementation details for convenience. The TypeScript restriction on pure re-export barrels does not forbid Rust module facades.
 

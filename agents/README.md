@@ -1,8 +1,8 @@
 # Agent integrations
 
-All integrations use the same [SKILL.md](../SKILL.md), language profiles, and relative references. The `.md` files in this directory describe installation and invocation; they are not automatically loaded agent configuration. [openai.yaml](openai.yaml) is Codex-specific interface metadata.
+All integrations use the same [SKILL.md](../SKILL.md), project/language profiles, and relative references. The `.md` files in this directory describe installation and invocation; they are not automatically loaded agent configuration. [openai.yaml](openai.yaml) is Codex-specific interface metadata.
 
-Install the complete skill directory, including `references/`. Keep coding rules in the language profiles so every agent receives the same established TypeScript and Rust-only conventions. All integrations detect mixed work through `SKILL.md`; the combined TypeScript + Rust profile remains reserved for later planning.
+Install the complete skill directory, including the nested `references/typescript/`, `references/rust/`, and `references/hybrid/` folders. Every agent uses the same established profiles: hybrid composes both language profiles and adds root/boundary rules. Routing in `SKILL.md` distinguishes a shared non-Tauri web/core product from unrelated mixed files and a Tauri application. Tauri integration remains reserved for a separate profile.
 
 ## Supported integrations
 

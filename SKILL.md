@@ -1,11 +1,11 @@
 ---
 name: rentner-rules
-description: Apply RentnerKev's coding conventions when planning, implementing, refactoring, or reviewing TypeScript or Rust projects. Select the target language first. TypeScript covers React, TanStack Start, and grouped logic hooks; Rust covers responsibility-oriented modules and idiomatic code for ordinary Cargo projects. Use when these conventions are requested or the project follows them. A combined TypeScript + Rust profile is not yet defined.
+description: Apply RentnerKev's coding conventions when planning, implementing, refactoring, or reviewing TypeScript, Rust, or shared TypeScript web and Rust core projects. Select the project scope first. TypeScript covers React/TanStack and grouped hooks; Rust covers ordinary Cargo projects; the non-Tauri hybrid profile defines web/core separation and cross-language boundaries. Use when these conventions are requested or the project follows them. Tauri integration rules are reserved for a separate profile.
 ---
 
 # Rentner Rules
 
-Build maintainable applications using Kevin Sträßler's coding conventions. Select the applicable language profile before applying architecture, naming, formatting, or test-layout rules.
+Build maintainable applications using Kevin Sträßler's coding conventions. Select the project scope and applicable profiles before applying architecture, naming, formatting, or test-layout rules.
 
 ## Scope and precedence
 
@@ -14,19 +14,23 @@ Build maintainable applications using Kevin Sträßler's coding conventions. Sel
 - When the user asks to plan, discuss, or collect ideas, produce the plan before changing files. Start implementation when it is requested.
 - This skill defines coding conventions for any compatible coding agent. It does not depend on Hybrid Coding or prescribe models or delegation.
 
-## Select the language profile
+## Select the project and language profiles
+
+Identify a declared Tauri application or its framework dependencies/configuration before applying the general hybrid profile. Tauri is outside that profile's scope; its integration rules remain reserved for separate work.
 
 | Target | Evidence in the affected package | Profile | Status |
 | --- | --- | --- | --- |
-| TypeScript, React, TanStack Start | `.ts`/`.tsx`, `tsconfig.json`, and the stack declared in `package.json` | [TypeScript](references/typescript.md) | Established conventions |
-| Rust-only | `.rs` and the owning `Cargo.toml` or Cargo workspace | [Rust](references/rust.md) | Established conventions for ordinary Cargo projects |
-| Mixed TypeScript and Rust | Both language areas are affected | Separate language profiles for their own files | Combined profile reserved for later planning |
+| TypeScript-only | `.ts`/`.tsx`, `tsconfig.json`, and the stack declared in `package.json` | [TypeScript](references/typescript/index.md) | Established conventions; React/TanStack rules where used |
+| Rust-only | `.rs` and the owning `Cargo.toml` or Cargo workspace | [Rust](references/rust/index.md) | Established conventions for ordinary Cargo projects |
+| TypeScript + Rust hybrid | A TypeScript web area and Rust core/server form one non-Tauri product in the same repository | [Hybrid](references/hybrid/index.md), plus the language profiles | Established web/core and boundary conventions |
+| Tauri | Declared Tauri application or Tauri framework dependencies/configuration | Separate profile reserved | General hybrid rules do not provide Tauri integration coverage |
 
 - Use the user's requested target and the actual affected files. A root `package.json` does not make a nested Rust crate TypeScript, and a Cargo workspace does not change React files into Rust.
 - Read the matching profile before implementation or review, then only the references it requires. During architecture planning, read the profile being planned.
 - Apply TypeScript hooks, `state`/`handler`/`setter`/`refs`, `Components/`/`Hooks/`/`Types/`, TanStack boundaries, formatting, and `src/tests` only to the TypeScript area. Do not translate these conventions into `.rs` modules or Rust structs by analogy.
 - The Rust profile is framework-independent and covers libraries, CLI tools, server cores, workers, daemons, filesystem tools, Tauri Rust cores, and system tools. Select frameworks, runtimes, and crates only for a concrete project need.
-- Detect mixed work explicitly, but do not invent a combined architecture or cross-language conventions. For authorized changes, use each independent profile only for its own files and preserve existing repository contracts. Plan the combined profile separately when requested.
+- In a non-Tauri hybrid project, apply the full TypeScript profile inside the web area and the full Rust profile inside the core area. Read the hybrid profile for shared architecture, contracts, or build/test work; it adds boundary rules rather than a third internal architecture.
+- Keep language-local changes scoped to their owner. Unrelated tooling files or the mere presence of both languages do not establish a shared web/core product. Do not route a Tauri application to general hybrid merely because both languages are present, or claim that a complete Tauri profile exists.
 
 ## Shared conventions
 
