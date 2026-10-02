@@ -1,5 +1,7 @@
 # Dependencies and config
 
+Scope: [TypeScript profile](typescript.md). The preferred stack and config layout are TypeScript conventions; Rust uses its own [Cargo and config guidance](rust.md).
+
 ## Preferred platform
 
 For new web projects, prefer Bun, TypeScript strict, React, TanStack Start, Tailwind CSS, Zod, and the TanStack libraries appropriate to the feature: Router, Query, Form, and Table.

@@ -1,5 +1,7 @@
 # Backend and safety
 
+Scope: [TypeScript profile](typescript.md). Server Function and service conventions are TypeScript-specific; the shared safety restrictions in [SKILL.md](../SKILL.md) apply to every language.
+
 ## Feature boundary and backend ownership
 
 The feature's `middleware.ts` is the chosen filename for its Server Function adapter. It normally uses TanStack Start `createServerFn`; the filename does not mean every exported function must be a framework `createMiddleware` object.

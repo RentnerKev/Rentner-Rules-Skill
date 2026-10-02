@@ -1,5 +1,7 @@
 # Workflow and verification
 
+Scope: [TypeScript profile](typescript.md). Formatting, naming, tooling, and test placement here are TypeScript-specific; use [SKILL.md](../SKILL.md) for shared workflow constraints.
+
 ## Start with the actual request
 
 Read applicable repository instructions, Git status, the nearest canonical implementation, and directly relevant tests. Search and read only the area needed for the task; expand when a concrete dependency requires it.

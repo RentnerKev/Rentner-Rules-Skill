@@ -1,4 +1,4 @@
 interface:
   display_name: "Rentner Rules"
-  short_description: "Clean TanStack features, hooks, config, and checks"
-  default_prompt: "Use $rentner-rules to implement the requested change with clean feature structure, grouped logic hooks, and relevant verification."
+  short_description: "TypeScript and Rust coding and architecture conventions"
+  default_prompt: "Use $rentner-rules to select and apply the TypeScript or Rust-only profile; the combined TypeScript + Rust profile is reserved for later planning."

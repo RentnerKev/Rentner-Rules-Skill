@@ -1,5 +1,7 @@
 # Frontend
 
+Scope: [TypeScript profile](typescript.md). React hooks and their grouped returns apply to the TypeScript frontend.
+
 ## Presentation components
 
 TSX component files contain imports, props and hook wiring, and JSX. Put state, effects, queries, mutations, business calculations, and action workflows in logic hooks.

@@ -37,6 +37,15 @@ jobs:
         shell: bash
         run: |
           for file in SKILL.md README.md LICENSE agents/openai.yaml \
+            agents/README.md agents/codex.md agents/cursor.md \
+            agents/claude-code.md agents/gemini-cli.md \
+            agents/github-copilot.md agents/windsurf.md \
+            agents/opencode.md agents/universal.md \
+            references/typescript.md references/rust.md \
+            references/rust-architecture.md references/rust-coding.md \
+            references/rust-cargo-and-tooling.md \
+            references/rust-testing-and-verification.md \
+            references/rust-safety-and-runtime.md \
             references/architecture.md references/frontend.md \
             references/dependencies-and-config.md \
             references/backend-and-safety.md \
@@ -61,6 +70,9 @@ jobs:
               ...readdirSync('references')
                   .filter((file) => file.endsWith('.md'))
                   .map((file) => 'references/' + file),
+              ...readdirSync('agents')
+                  .filter((file) => file.endsWith('.md'))
+                  .map((file) => 'agents/' + file),
           ]
 
           for (const file of files) {
