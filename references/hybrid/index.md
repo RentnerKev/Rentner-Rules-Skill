@@ -2,7 +2,7 @@
 
 Status: established conventions for a TypeScript web/frontend application and a Rust core/backend/system/server area that form one product in the same repository. Examples include a web application with a Rust core, a TypeScript UI with Rust system logic, and a web interface for a Rust proxy/server, including RentnerProxy-like projects.
 
-Tauri is explicitly outside this profile. Its separate profile is reserved in [SKILL.md](../../SKILL.md); no Tauri architecture or integration conventions are defined here.
+Tauri is explicitly outside this profile. Select the separate [Tauri profile](../tauri/index.md) first for a Tauri application; its native IPC and frontend/`src-tauri/` layout are governed there. Unrelated applications in a larger repository retain their own profile.
 
 ## Compose the existing profiles
 

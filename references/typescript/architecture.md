@@ -1,6 +1,6 @@
 # Architecture
 
-Scope: [TypeScript profile](index.md). These paths and boundaries do not define Rust architecture.
+Scope: [TypeScript profile](index.md). These paths and boundaries do not define Rust architecture. Server entries/call direction below apply where a TypeScript server exists; the [Tauri frontend override](../tauri/index.md#compose-the-existing-rules) preserves client ownership and uses native adapters instead.
 
 ## Responsibility map
 

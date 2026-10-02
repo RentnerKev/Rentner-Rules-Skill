@@ -1,8 +1,8 @@
 # Rentner Rules Skill
 
-Reusable coding conventions by Kevin Sträßler, with profiles for TypeScript, Rust, and a shared TypeScript web / Rust core product.
+Reusable coding conventions by Kevin Sträßler, with four profiles: TypeScript, Rust, a shared TypeScript web / Rust core product, and Tauri.
 
-The TypeScript profile covers React and TanStack Start feature structure, presentation components, grouped logic hooks, declarative configuration, clean package usage, and verified changes. The Rust-only profile covers responsibility-oriented modules, idiomatic ownership and errors, Cargo, testing, and runtime safety for ordinary Rust projects. The general hybrid profile composes both and adds repository and boundary rules; Tauri integration remains reserved for a separate profile. It is packaged like [Hybrid Coding Skill](https://github.com/RentnerKev/Hybrid-Coding-Skill).
+The TypeScript profile covers React and TanStack Start feature structure, presentation components, grouped logic hooks, declarative configuration, clean package usage, and verified changes. The Rust-only profile covers responsibility-oriented modules, idiomatic ownership and errors, Cargo, testing, and runtime safety for ordinary Rust projects. General hybrid adds web/core repository and boundary rules. Tauri reuses the language conventions with its client frontend, native IPC, capabilities, and desktop lifecycle. It is packaged like [Hybrid Coding Skill](https://github.com/RentnerKev/Hybrid-Coding-Skill).
 
 ## Project and language profiles
 
@@ -11,9 +11,9 @@ The TypeScript profile covers React and TanStack Start feature structure, presen
 | TypeScript / React / TanStack Start | Established conventions | [TypeScript profile](references/typescript/index.md) |
 | Rust-only | Established, framework-independent conventions | [Rust profile](references/rust/index.md) |
 | TypeScript web + Rust core in one product/repository | Established general hybrid conventions | [Hybrid profile](references/hybrid/index.md), plus both language profiles |
-| Tauri | Integration profile reserved for later planning | Scope distinction in [SKILL.md](SKILL.md) |
+| Tauri | Established native IPC and desktop integration conventions | [Tauri profile](references/tauri/index.md), with language rules and its client/native override |
 
-The skill identifies the project scope and affected package or crate before loading relevant details. React hooks, grouped returns, TypeScript formatting, and `src/tests` are TypeScript conventions. Rust uses its own module, visibility, formatting, and test rules while respecting coherent existing projects. A non-Tauri hybrid product uses the full TypeScript profile in its web area, the full Rust profile in its core area, and hybrid rules for the root and their boundary. Merely having files in both languages does not establish that product relationship.
+The skill identifies the affected application and package/crate before loading relevant details. A Tauri application selects its own profile before general hybrid, even inside a larger repository. React hooks, grouped returns, TypeScript formatting, and `src/tests` are TypeScript conventions; Rust has its own module, visibility, formatting, and test rules. General hybrid uses both language profiles plus web/core boundary rules. Tauri preserves client conventions and Rust core rules while replacing web/server defaults with native integration. Merely having files in both languages does not establish either product relationship.
 
 ## Installation
 
@@ -59,29 +59,33 @@ bunx skills@1.7.0 check -g
 ```text
 $rentner-rules
 
-Identify the project scope and apply the relevant language and hybrid profiles.
+Identify the affected application and apply the relevant project and language profiles.
 Implement the requested feature using established project conventions.
 Preserve existing changes and run the relevant checks.
 ```
 
 The skill can also be selected automatically when the task and project match its description. Explicit user requests and applicable repository instructions take precedence.
 
-`$rentner-rules` is the Codex invocation above. Other agents use their native skill interface; see the [integration notes](agents/README.md). All integrations read the same `SKILL.md` and TypeScript, Rust, and hybrid references.
+`$rentner-rules` is the Codex invocation above. Other agents use their native skill interface; see the [integration notes](agents/README.md). All integrations read the same `SKILL.md`, four profile folders, and shared JS/TS tooling policy.
 
 For planning, ask for a plan or rules discussion first; the skill keeps that work at the planning stage.
 
 It works independently of Hybrid Coding. When both are used, Hybrid Coding provides orchestration and Rentner Rules provides code and architecture conventions.
 
+## Shared JavaScript/TypeScript tooling
+
+The central [tooling policy](references/typescript/tooling.md) defines Oxlint for linting and Oxfmt for formatting across all JS/TS areas, including hybrid, Tauri, auxiliary scripts, and future profiles. It owns React rules, type-aware compatibility decisions, format settings, scoped checks, and migrations with demonstrated coverage exceptions; profiles reference it instead of maintaining competing defaults.
+
 ## TypeScript conventions
 
-- Prefer Bun, TypeScript strict, React, TanStack Start, Tailwind CSS, Zod, and the relevant TanStack libraries for new web projects.
+- Prefer Bun, TypeScript strict, React, TanStack Start, Tailwind CSS, Zod, and the relevant TanStack libraries for new non-Tauri web projects; use the Tauri frontend override for its WebView.
 - Use installed `@rentnerkev/*` packages as the primary source for their supported UI.
 - Research current maintenance, compatibility, and suitable alternatives before adding dependencies.
 - Keep TSX components focused on presentation; put behavior in `use...Logic` hooks.
 - Use one public `use...Logic` per screen/component; avoid nested full logic hooks and forwarding wrappers. Focused custom hooks remain reusable.
 - Return `state` and `handler`, with optional `setter`, `refs`, and named library instances such as `table` or `form`.
 - Keep Table/Form/Modal submodules inside `Components/`.
-- Separate Server Function adapters in `middleware.ts`, schemas in `validation.ts`, and backend domain logic in `src/server`.
+- For actual TypeScript servers, separate Server Function adapters in `middleware.ts`, schemas in `validation.ts`, and backend domain logic in `src/server`.
 - Put reusable UI in `src/shared` and UI-free helper modules in `src/lib`.
 - Keep config files declarative and types in the owner's `Types/` directory.
 - Use local constants where needed; avoid separate `constants.ts` and `queryKeys.ts` modules.
@@ -117,7 +121,23 @@ The [Hybrid profile](references/hybrid/index.md) covers a TypeScript web applica
 | [Contracts and boundaries](references/hybrid/contracts-and-boundaries.md) | Contract ownership/generation, serialization/evolution, safe errors, authentication, HTTP-specific protections, and observability |
 | [Workflow and verification](references/hybrid/workflow-and-verification.md) | Separate dependencies/builds/tests, optional orchestration, config/secrets, containers, shutdown, CI, and release compatibility |
 
-Transport, code generation, root contracts, orchestration, and system tests depend on actual needs. TypeScript tests retain `web/src/tests`; Rust tests use the Rust profile's `core/tests` rules and exceptions. Tauri is explicitly outside the general hybrid profile; its architecture and integration rules will be planned separately.
+Transport, code generation, root contracts, orchestration, and system tests depend on actual needs. TypeScript tests retain `web/src/tests`; Rust tests use the Rust profile's `core/tests` rules and exceptions. Tauri is explicitly outside general hybrid and uses its own [integration profile](references/tauri/index.md).
+
+## Tauri conventions
+
+The [Tauri profile](references/tauri/index.md) preserves the frontend plus `src-tauri/` application layout. New normal desktop frontends prefer React, TypeScript, Vite, TanStack Router/Query/Form, and Tailwind. Client ownership/hooks and Rust module/core rules remain in their existing language references. Tauri adds the native integration and explicitly overrides TanStack Start/SSR/Server Function defaults.
+
+The usual operation path is `component → owning hook/query/mutation → native.ts → Tauri IPC adapter → Rust core`. Commands handle request/response, channels carry ordered progress/streams, and events deliver suitable notifications. A separate HTTP/Axum server requires an actual external-server use case.
+
+| Reference | Decisions |
+| --- | --- |
+| [Architecture](references/tauri/architecture.md) | Project shape, bootstrap/registration, core independence, managed resources, config, and optional servers |
+| [Frontend and IPC](references/tauri/frontend-and-ipc.md) | Feature `native.ts`, Query integration, IPC primitive selection, contracts/errors, and subscription ownership |
+| [Security and capabilities](references/tauri/security-and-capabilities.md) | Native validation, effective permissions/custom-command ACL, CSP, remote content, protocols, files/processes, and secrets |
+| [Desktop and runtime](references/tauri/desktop-and-runtime.md) | Background jobs, cancellation/shutdown, windows, persistence, optional desktop integrations, and observability |
+| [Workflow and verification](references/tauri/workflow-and-verification.md) | Current versions/plugins, development/builds, isolated tests/E2E, platform CI, bundles, signing, and updates |
+
+Frontend tests remain in `src/tests`; Rust behavior tests normally use `src-tauri/tests`. Root system/E2E tests exist only for actual integration needs. Tauri recommendations link current official v2 sources checked on 2026-10-02; version/platform/tooling decisions must be rechecked when applied.
 
 ## Repository structure
 
@@ -145,6 +165,7 @@ Rentner-Rules-Skill/
 │   │   ├── frontend.md
 │   │   ├── dependencies-and-config.md
 │   │   ├── backend-and-safety.md
+│   │   ├── tooling.md
 │   │   └── workflow-and-verification.md
 │   ├── rust/
 │   │   ├── index.md
@@ -153,17 +174,24 @@ Rentner-Rules-Skill/
 │   │   ├── cargo-and-tooling.md
 │   │   ├── testing-and-verification.md
 │   │   └── safety-and-runtime.md
-│   └── hybrid/
+│   ├── hybrid/
+│   │   ├── index.md
+│   │   ├── architecture.md
+│   │   ├── contracts-and-boundaries.md
+│   │   └── workflow-and-verification.md
+│   └── tauri/
 │       ├── index.md
 │       ├── architecture.md
-│       ├── contracts-and-boundaries.md
+│       ├── frontend-and-ipc.md
+│       ├── security-and-capabilities.md
+│       ├── desktop-and-runtime.md
 │       └── workflow-and-verification.md
 └── .github/
     └── workflows/
         └── release.yml
 ```
 
-The repository contains one skill with three profile folders, so `SKILL.md` lives directly in the repository root. Each profile has a short `index.md` that routes to its focused references. Agent Markdown files document integrations; only `openai.yaml` is Codex interface metadata. No application dependencies are installed by this skill.
+The repository contains one skill with four profile folders, so `SKILL.md` lives directly in the repository root. Each profile has a short `index.md` that routes to its focused references. Shared JS/TS tooling lives once in the TypeScript folder. Agent Markdown files document integrations; only `openai.yaml` is Codex interface metadata. No application dependencies are installed by this skill.
 
 ## Validation and releases
 
@@ -175,7 +203,7 @@ bunx skills@1.7.0 add . --list
 
 Expected skill: `rentner-rules`.
 
-The GitHub workflow validates all three profile folders and agent files, local Markdown links recursively, Codex interface metadata, and CLI discovery on pushes, pull requests, and published releases. These checks validate packaging; they do not run each coding agent. Release tags use SemVer, for example `v1.0.0`.
+The GitHub workflow validates all four profile folders and agent files, local Markdown links recursively, Codex interface metadata, and CLI discovery on pushes, pull requests, and published releases. These checks validate packaging; they do not run each coding agent. Release tags use SemVer, for example `v1.0.0`.
 
 ## skills.sh
 

@@ -1,4 +1,4 @@
 interface:
   display_name: "Rentner Rules"
-  short_description: "TypeScript, Rust, and web/core boundary conventions"
-  default_prompt: "Use $rentner-rules to select and apply the TypeScript, Rust-only, or non-Tauri hybrid profile and its relevant references; Tauri integration remains reserved for separate planning."
+  short_description: "TypeScript, Rust, Hybrid, and Tauri coding conventions"
+  default_prompt: "Use $rentner-rules to select the TypeScript, Rust-only, general hybrid, or Tauri profile, apply its relevant references, and use the shared JavaScript/TypeScript tooling policy."

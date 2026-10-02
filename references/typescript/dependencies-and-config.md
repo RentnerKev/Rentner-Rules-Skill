@@ -4,7 +4,7 @@ Scope: [TypeScript profile](index.md). The preferred stack and config layout are
 
 ## Preferred platform
 
-For new web projects, prefer Bun, TypeScript strict, React, TanStack Start, Tailwind CSS, Zod, and the TanStack libraries appropriate to the feature: Router, Query, Form, and Table.
+For new non-Tauri web projects, prefer Bun, TypeScript strict, React, TanStack Start, Tailwind CSS, Zod, and the TanStack libraries appropriate to the feature: Router, Query, Form, and Table. The [Tauri profile](../tauri/index.md) supplies its client build/runtime override. All JavaScript/TypeScript areas use the shared [tooling policy](tooling.md) for lint/format choices.
 
 Select supported, compatible versions from current documentation and the actual project constraints. Do not copy an old starter's version pins into a new application without checking them.
 

@@ -16,7 +16,7 @@ Preserve existing user changes. Avoid blanket reset, restore, cleanup, and forma
 
 ## Code style and names
 
-Use the established project formatter. For a new project adopting these rules, use:
+Apply the central [JavaScript/TypeScript tooling policy](tooling.md) for lint/format selection and compatible migrations. Preserve the established project's style. For a new project adopting these rules, use:
 
 - Four spaces; no tabs.
 - No semicolons.

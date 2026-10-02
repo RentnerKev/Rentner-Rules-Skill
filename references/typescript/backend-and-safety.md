@@ -1,6 +1,6 @@
 # Backend and safety
 
-Scope: [TypeScript profile](index.md). Server Function and service conventions are TypeScript-specific; the shared safety restrictions in [SKILL.md](../../SKILL.md) apply to every language.
+Scope: [TypeScript profile](index.md). Server Function and service conventions apply to actual TypeScript server code; a [Tauri frontend](../tauri/index.md) uses its native boundary instead. The shared safety restrictions in [SKILL.md](../../SKILL.md) apply to every language.
 
 ## Feature boundary and backend ownership
 

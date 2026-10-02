@@ -8,4 +8,4 @@ For manual installation, copy the complete repository contents into the agent's 
 
 For a tool that can read Markdown instructions but has no native Agent Skills support, reference the installed `SKILL.md` from its existing project instruction file and instruct it to read the matching project/language profiles and their nested references. Merge that reference into existing instructions without overwriting them. This is a manual integration, not automatic skill discovery.
 
-All integrations use the established TypeScript, Rust-only, and general hybrid profiles. Tauri integration remains reserved and is not covered by the general hybrid profile. A supported installation target alone does not prove successful discovery or execution in that agent.
+All integrations use the established TypeScript, Rust-only, general hybrid, and Tauri profiles and the shared JS/TS tooling policy. Tauri has its own integration profile and takes precedence over general hybrid for that application. A supported installation target alone does not prove successful discovery or execution in that agent.

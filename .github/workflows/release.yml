@@ -44,6 +44,7 @@ jobs:
             references/typescript/index.md references/typescript/architecture.md \
             references/typescript/frontend.md \
             references/typescript/dependencies-and-config.md \
+            references/typescript/tooling.md \
             references/typescript/backend-and-safety.md \
             references/typescript/workflow-and-verification.md \
             references/rust/index.md references/rust/architecture.md \
@@ -52,7 +53,12 @@ jobs:
             references/rust/safety-and-runtime.md \
             references/hybrid/index.md references/hybrid/architecture.md \
             references/hybrid/contracts-and-boundaries.md \
-            references/hybrid/workflow-and-verification.md; do
+            references/hybrid/workflow-and-verification.md \
+            references/tauri/index.md references/tauri/architecture.md \
+            references/tauri/frontend-and-ipc.md \
+            references/tauri/security-and-capabilities.md \
+            references/tauri/desktop-and-runtime.md \
+            references/tauri/workflow-and-verification.md; do
             test -s "$file" || {
               echo "::error::$file is missing or empty"
               exit 1

@@ -137,4 +137,4 @@ Simple translation lookups are permitted in presentation components; workflows a
 
 Carry semantic HTML, labels, focus management, keyboard access, and loading, empty, success, and error states through the implementation. Use stable list keys. Reuse the UI package's accessibility behavior where available.
 
-Client permission state controls presentation; every protected operation still requires a server-side authorization check.
+Client permission state controls presentation; every protected operation still requires authorization at its trusted server or native boundary.
