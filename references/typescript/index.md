@@ -2,6 +2,8 @@
 
 Status: established conventions for TypeScript, React, and TanStack Start. The rules in this profile and its references apply to the TypeScript area; they do not define Rust architecture.
 
+For non-Tauri hybrid products, interpret source paths under `web/` and apply the [hybrid root-tooling override](../hybrid/architecture.md#root-tooling-and-one-project-entrypoint) before placing manifests or tooling configs. The JS/TS package, lockfile, and web toolchain live at the repository root; application config remains under `web/src/config`.
+
 For new non-Tauri web projects, prefer Bun, TypeScript strict, React, TanStack Start, Tailwind CSS, Zod, and the relevant TanStack packages. The [Tauri profile](../tauri/index.md) overrides frontend/server defaults for its WebView while retaining these client conventions. Verify current compatible versions rather than copying historical version pins. In existing projects, follow the installed stack and the canonical neighboring implementation; apply React and TanStack rules only where those frameworks are used.
 
 When TanStack Dummy is available as the user's reference project, inspect the relevant implementation and preserve its hook structure. If it is unavailable, use the documented contracts below and the target project's matching examples without claiming to have inspected TanStack Dummy.

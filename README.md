@@ -113,15 +113,15 @@ No framework, runtime, or error/security crate is a mandatory default. Current r
 
 ## General hybrid conventions
 
-The [Hybrid profile](references/hybrid/index.md) covers a TypeScript web application and Rust core/server that form one product in the same repository. New normal projects prefer `web/` and `core/`; coherent existing layouts remain valid. Both language profiles retain their internal architecture and rules. Hybrid adds the shared decisions below without copying those rules or requiring a large monorepo.
+The [Hybrid profile](references/hybrid/index.md) covers a TypeScript web application and Rust core/server that form one product in the same repository. New normal projects use `web/` for TypeScript source and `core/` for Rust. One root `package.json`, JS/TS lockfile, and root web tooling configs operate the product's installation, development, builds, and checks; do not create a duplicate web package or move root configs into `web/`. Cargo stays in `core/`, and application config stays in `web/src/config`. Compose, when used, has one central root entrypoint. Both language profiles retain their internal code rules; hybrid explicitly overrides web tooling placement.
 
 | Reference | Decisions |
 | --- | --- |
-| [Architecture](references/hybrid/architecture.md) | Root layout, language-local shared code, authoritative responsibilities, transport direction, and existing layouts |
+| [Architecture](references/hybrid/architecture.md) | Root web tooling and project entrypoint, central Compose ownership, language-local shared code, authoritative responsibilities, transport direction, and existing layouts |
 | [Contracts and boundaries](references/hybrid/contracts-and-boundaries.md) | Contract ownership/generation, serialization/evolution, safe errors, authentication, HTTP-specific protections, and observability |
-| [Workflow and verification](references/hybrid/workflow-and-verification.md) | Separate dependencies/builds/tests, optional orchestration, config/secrets, containers, shutdown, CI, and release compatibility |
+| [Workflow and verification](references/hybrid/workflow-and-verification.md) | Root development/build/check commands, separate JS/TS and Cargo resolution, config/secrets, containers, shutdown, CI, and release compatibility |
 
-Transport, code generation, root contracts, orchestration, and system tests depend on actual needs. TypeScript tests retain `web/src/tests`; Rust tests use the Rust profile's `core/tests` rules and exceptions. Tauri is explicitly outside general hybrid and uses its own [integration profile](references/tauri/index.md).
+Transport, code generation, root contracts, additional task runners, and system tests depend on actual needs. Coherent existing source-area names remain valid; layout migrations require authorization for that scope. TypeScript tests retain `web/src/tests`; Rust tests use the Rust profile's `core/tests` rules and exceptions. Tauri is explicitly outside general hybrid and uses its own [integration profile](references/tauri/index.md).
 
 ## Tauri conventions
 

@@ -8,19 +8,20 @@ Tauri is explicitly outside this profile. Select the separate [Tauri profile](..
 
 | Scope | Source of rules |
 | --- | --- |
-| `web/` TypeScript area | The complete [TypeScript profile](../typescript/index.md) and its relevant references |
+| `web/` TypeScript source | The complete [TypeScript profile](../typescript/index.md) and its relevant references, with the hybrid root-tooling override |
 | `core/` Rust area | The complete [Rust profile](../rust/index.md) and its relevant references |
 | Repository root and the boundary between those areas | This profile and the hybrid references below |
 
-The language profiles remain independent sources of truth. Interpret their package-relative paths inside the appropriate area; do not introduce hybrid-specific hooks, module layouts, naming, formatting, config purity, or test conventions inside either language. Shared authorization, safety, dependency research, and handover rules remain in [SKILL.md](../../SKILL.md).
+The language profiles remain the sources of truth for internal code. Interpret TypeScript source paths under `web/` and Rust crate paths under `core/`. For JS/TS manifests, web tooling configuration, and project commands, the [hybrid root-tooling rule](architecture.md#root-tooling-and-one-project-entrypoint) takes precedence over package-local placement. Do not introduce hybrid-specific hooks, module layouts, naming, formatting, config purity, or test conventions inside either language. Shared authorization, safety, dependency research, and handover rules remain in [SKILL.md](../../SKILL.md).
 
 ## Decision defaults
 
-- For new normal hybrid projects, separate TypeScript under `web/` and Rust under `core/`. Add root documentation/tooling and contract/system-test areas only for actual needs.
+- For new normal hybrid projects, separate TypeScript source under `web/` and Rust under `core/`. Operate the product from the repository root through one JS/TS `package.json`, its lockfile, and root web tooling configs; do not create a separate web package merely for language separation. Add documentation and contract/system-test areas only for actual needs.
+- When Docker Compose is used, keep one central root entrypoint for the combined product. Do not duplicate it under `web/` and `core/`.
 - Keep shared implementations inside their owning language area. Use an optional root contract/schema source when a real cross-language source of truth is useful.
 - Assign each capability an authoritative owner. Frontend UX validation can support the user but cannot replace core policy or security enforcement.
 - Communicate through a deliberate, small transport/contract surface, preserving each side's internal architecture. Select the transport and encoding for the concrete deployment and workflow.
-- Keep dependency management and language checks separate. Coordinate builds, generated contracts, integration tests, startup/shutdown, and release compatibility where the system actually needs it.
+- Resolve JS/TS dependencies through the root manifest/lockfile and Rust dependencies through Cargo in `core/`. Keep language checks independently runnable through root commands; coordinate builds, generated contracts, integration tests, startup/shutdown, and release compatibility where the system actually needs it.
 
 For existing projects, inspect their separation, contracts, and build/deployment assumptions before proposing changes. Preserve a clear existing layout unless a migration has a concrete benefit within the request. A shared repository does not require a large monorepo or one deployment/version for everything.
 
