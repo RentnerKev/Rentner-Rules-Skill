@@ -72,6 +72,12 @@ For planning, ask for a plan or rules discussion first; the skill keeps that wor
 
 It works independently of Hybrid Coding. When both are used, Hybrid Coding provides orchestration and Rentner Rules provides code and architecture conventions.
 
+## Git branches and pull requests
+
+New PR branches use a fitting change type and a short kebab-case description, such as `feat/user-settings` or `fix/session-timeout`. PR titles describe the change with the matching type, such as `feat: add user settings`; neither uses a `codex/` prefix or agent labels. Other suitable types include `docs`, `refactor`, `test`, and `chore`.
+
+Explicit branch and workflow instructions take precedence, including requirements to work, commit, and push on `main`. The shared rules are in [SKILL.md](SKILL.md#git-branches-and-pull-requests) and apply to all four profiles and agent integrations.
+
 ## Shared JavaScript/TypeScript tooling
 
 The central [tooling policy](references/typescript/tooling.md) defines Oxlint for linting and Oxfmt for formatting across all JS/TS areas, including hybrid, Tauri, auxiliary scripts, and future profiles. It owns React rules, type-aware compatibility decisions, format settings, scoped checks, and migrations with demonstrated coverage exceptions; profiles reference it instead of maintaining competing defaults.

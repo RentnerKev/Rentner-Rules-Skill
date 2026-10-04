@@ -41,6 +41,12 @@ Identify the affected application before selecting a profile. A declared Tauri a
 - Prefer Tailwind CSS for web styling. Keep any necessary plain CSS exception small; this does not select a Rust UI framework.
 - Keep changes focused on the actual request. Separate agreed requirements from proposals during planning.
 
+## Git branches and pull requests
+
+- When a new pull-request branch is authorized, use a fitting change type (`feat`, `fix`, `docs`, `refactor`, `test`, or `chore`) followed by a short kebab-case description, for example `feat/user-settings` or `fix/session-timeout`. Never prefix new branches with `codex/`.
+- Give pull requests a descriptive title with the matching change type, for example `feat: add user settings` or `fix: handle session timeout`. Do not use `codex/` or other agent labels in PR titles.
+- Follow explicit branch and workflow instructions. If work must stay on `main`, commit and push there when authorized; do not create a branch or pull request just to apply these naming conventions.
+
 ## Work safely and finish the task
 
 - Check Git status and preserve existing user changes. Read only the relevant files, callers, contracts, and tests.
