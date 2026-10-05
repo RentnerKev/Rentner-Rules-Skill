@@ -37,5 +37,6 @@ Installed `@rentnerkev/*` packages are the primary source for their supported UI
 | Server boundaries, authorization, transactions, secrets, Drizzle restrictions | [Backend and safety](backend-and-safety.md) |
 | Planning, focused changes, naming, formatting, tests, Git, handover | [Workflow and verification](workflow-and-verification.md) |
 | CI/CD workflows/scripts, dependency automation, releases, repository metadata | [Shared deployment routing](../deployment/index.md), composed with this profile |
+| Actual server Docker/Compose, operating-model selection, state/recovery and deployment | [Shared deployment routing](../deployment/index.md); choose the model from operating requirements, not TypeScript |
 
 Read the references that affect the current task before implementation or review. Do not load unrelated references merely because they exist.

@@ -33,5 +33,6 @@ Shared authorization, secret, generated-file, migration, and handover restrictio
 | Background work, window/app lifecycle, persistence, multi-window, sidecars, optional desktop features | [Desktop and runtime](desktop-and-runtime.md) |
 | Versions/plugins, development/builds, test placement, desktop E2E, CI, bundling/signing/updates | [Workflow and verification](workflow-and-verification.md) |
 | CI/CD provider, workflows/scripts, dependency automation, releases, repository metadata | [Shared deployment routing](../deployment/index.md), retaining this profile's native delivery override |
+| Deployment of additional actual server services | [Server deployment models](../deployment/deployment-models.md); desktop delivery remains installer/bundle/updater |
 
 Load the details affected by the task. A UI-only edit does not require redesigning native services, creating every sample module, or building all installers.

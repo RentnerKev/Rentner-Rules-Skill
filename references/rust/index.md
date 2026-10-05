@@ -30,5 +30,6 @@ These are decision criteria, not a scaffolding template. Avoid both giant implem
 | Test placement and discovery, binary/library tests, docs, rustfmt/Clippy, CI/platform checks | [Rust testing and verification](testing-and-verification.md) |
 | External input, filesystem/path safety, environment, logging, concurrency/shutdown, unsafe/FFI | [Rust safety and runtime](safety-and-runtime.md) |
 | Provider workflows/scripts, dependency automation, publishing, repository metadata | [Shared deployment routing](../deployment/index.md), composed with this profile |
+| Actual server/daemon Docker/Compose, operating models, data/recovery and deployment | [Shared deployment routing](../deployment/index.md); Rust libraries/CLI tools do not automatically need a server model |
 
 Read the references that affect the current decision before implementation or review. For a new Rust project, use the architecture and coding defaults and establish the Cargo and verification baseline. Load specialized safety sections when the code touches their boundaries; do not create those facilities merely because the guidance exists.

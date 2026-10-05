@@ -1,0 +1,9 @@
+Use case: identity-preserve
+Asset type: reusable GitHub release banner and README header, opaque PNG
+Primary request: Redesign the existing Rentner Rules banner so it visibly belongs to the user's own Rentner identity. Center the branding on the elderly smiling man in the supplied Rentner icon, instead of the unrelated architectural setting.
+Input images: Image 1 is the edit target, the current wide Rentner Rules banner. Image 2 is the identity/reference image, a PNG rendering of the user's Rentner.ico.
+Identity constraints: Faithfully preserve the reference man's recognizable face, age, white hair, warm smile, green collared shirt and pale argyle sweater vest. Do not invent another person, change his age or turn him into a cartoon. He is the supplied project identity, not a generic replacement portrait.
+Scene/backdrop: A softly focused green park/garden with warm natural sunlight, matching the mood and colors of the reference icon. Quiet photographic texture and depth; no architecture from Image 1.
+Composition/framing: Wide landscape 3:1 banner. Place a clear medium portrait of the reference Rentner on the right, with comfortable head margins. Keep the left text area calm with a subtle dark green/olive treatment for contrast. Professional high-resolution editorial finish, warm and friendly, with generous space and strong readability at GitHub release and README widths.
+Text (verbatim): large main title "Rentner Rules"; smaller secondary line "TypeScript · Rust · Hybrid · Tauri".
+Constraints: Preserve the exact text, spelling and capitalization from Image 1. Only those two text lines. No version number, date, extra slogan, code, UI, chart, badge, watermark, third-party branding, extra people or invented accessories. The portrait and its green/warm natural palette must make the user's own Rentner immediately recognizable. Opaque background.

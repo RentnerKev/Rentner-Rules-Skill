@@ -2,6 +2,8 @@
 
 Scope: [deployment routing](index.md). Compose with the selected language/project verification rules and the active provider. Use [automation security](security.md) for every workflow and script decision.
 
+For container image workflows, use [Docker/Compose](docker-and-compose.md). For actual server delivery, also select the [operating model](deployment-models.md) independently of CI provider/language and use relevant [operations verification](operations.md#infrastructure-verification). A CLI distribution or build-tool image does not select a server model. Separate language checks can still assemble one product image; runtime topology does not change the specialized Forgejo job routing.
+
 ## Select workflows from evidence
 
 Workflows are capabilities, not a required file count. Reuse suitable existing jobs, combine small related checks, and split jobs/workflows when their triggers, permissions, failure reporting, runtime, or artifact boundaries differ.

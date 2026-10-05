@@ -46,6 +46,8 @@ A fitting sequence is checks → verify release identity → build exact source 
 
 Serialize writes by target/channel/environment, including competing workflows. Keep registry, release, deployment and signing rights confined to the operation that needs them. Untrusted previews cannot publish releases or deploy to production; apply the [security handoff boundary](security.md#untrusted-input-and-privileged-automation).
 
+Container releases compose [production image rules](docker-and-compose.md#production-images) with the chosen [operating model](deployment-models.md). Target installation/update/rollback follows [operations](operations.md); persisted formats and bundled PostgreSQL majors require [explicit data-upgrade planning](data-and-recovery.md#persistent-format-and-postgresql-major-upgrades). Registry publication is not a target deployment, and restoring an old image alone does not reverse incompatible state changes.
+
 ## Release banners and assets
 
 Projects with releases should have a professional project-branded release banner under `.github/assets/release-banners/` or `.forgejo/assets/release-banners/` according to the active provider. Detect real release channels before selecting variants. One channel needs only one suitable banner; alpha/beta/stable variants are appropriate only when those channels exist. RentnerProxy's `alpha-release-banner.png`, `beta-release-banner.png`, and `new-release-banner.png` illustrate channel-specific assets, not mandatory filenames or branding.

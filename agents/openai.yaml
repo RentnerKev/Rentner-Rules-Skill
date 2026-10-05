@@ -1,4 +1,4 @@
 interface:
   display_name: "Rentner Rules"
-  short_description: "TypeScript, Rust, Hybrid, Tauri, and CI/CD conventions"
-  default_prompt: "Use $rentner-rules to select the project and language profiles, apply their relevant references and shared JS/TS tooling, and compose the active provider's CI/CD rules when automation or releases are affected."
+  short_description: "TypeScript, Rust, Hybrid, Tauri, CI/CD and deployment rules"
+  default_prompt: "Use $rentner-rules to select project and language profiles, apply their relevant references and shared JS/TS tooling, and compose provider CI/CD or server deployment rules when affected, choosing the operating model independently of language."

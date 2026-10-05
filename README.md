@@ -1,8 +1,10 @@
+![Rentner Rules – TypeScript, Rust, Hybrid and Tauri](.github/assets/release-banners/new-release-banner.png)
+
 # Rentner Rules Skill
 
 Reusable coding conventions by Kevin Sträßler, with four profiles: TypeScript, Rust, a shared TypeScript web / Rust core product, and Tauri.
 
-A shared deployment area adds project-appropriate GitHub/Forgejo CI/CD, dependency automation, workflow security, releases, labels, and branded release assets without replacing those profiles.
+A shared deployment area adds project-appropriate GitHub/Forgejo CI/CD, Docker/Compose and server operating models, data/recovery, dependency automation, security, releases, labels, and branded release assets without replacing those profiles.
 
 The TypeScript profile covers React and TanStack Start feature structure, presentation components, grouped logic hooks, declarative configuration, clean package usage, and verified changes. The Rust-only profile covers responsibility-oriented modules, idiomatic ownership and errors, Cargo, testing, and runtime safety for ordinary Rust projects. General hybrid adds web/core repository and boundary rules. Tauri reuses the language conventions with its client frontend, native IPC, capabilities, and desktop lifecycle. It is packaged like [Hybrid Coding Skill](https://github.com/RentnerKev/Hybrid-Coding-Skill).
 
@@ -147,12 +149,16 @@ The usual operation path is `component → owning hook/query/mutation → native
 
 Frontend tests remain in `src/tests`; Rust behavior tests normally use `src-tauri/tests`. Root system/E2E tests exist only for actual integration needs. Tauri recommendations link current official v2 sources checked on 2026-10-02; version/platform/tooling decisions must be rechecked when applied.
 
-## Shared CI/CD and release automation
+## Shared deployment, CI/CD and release automation
 
-[Deployment routing](references/deployment/index.md) identifies the affected project, actual provider, existing automation, runner capabilities, and needed artifacts before selecting workflows. It composes with the four profiles; Tauri retains precedence over general hybrid. A provider folder alone does not establish the active host, and existing projects are not automatically migrated to a new pipeline.
+[Deployment routing](references/deployment/index.md) identifies the affected project, actual operating requirements/provider, existing runtime/automation, runner capabilities, and needed artifacts. Server operating model, language profile and provider are separate decisions. It composes with the four profiles; Tauri retains precedence over general hybrid. A provider folder alone does not establish the active host, and existing projects are not automatically migrated to a new pipeline or topology.
 
 | Reference | Decisions |
 | --- | --- |
+| [Deployment models](references/deployment/deployment-models.md) | Appliance, Standard Production or Scale / HA from lifecycle, scaling, availability and state requirements; canonical architecture references |
+| [Docker and Compose](references/deployment/docker-and-compose.md) | Published production images, multi-stage runtime packaging, one central Compose entrypoint, configuration/ports, readiness and supervised lifecycle |
+| [Data and recovery](references/deployment/data-and-recovery.md) | PostgreSQL/Valkey selection, volumes/backups, maintenance without normal startup, persistent-format/major upgrades and unchanged migration authorization |
+| [Operations](references/deployment/operations.md) | Target deployment, runtime verification, compatible upgrades/rollback, safe infrastructure checks and operator handover |
 | [Shared CI/CD](references/deployment/ci-cd.md) | Conditional workflow selection, project verification matrix, provider-owned scripts, toolchains, and infrastructure validation |
 | [Automation security](references/deployment/security.md) | Action SHA pins, minimal rights, trusted PR/artifact boundaries, secrets/runners/caches, and unchanged migration restrictions |
 | [GitHub](references/deployment/github.md) | RentnerProxy as an adaptable reference, actual Dependabot ecosystems with a one-day version-update cooldown, security/repository/release automation |
@@ -162,7 +168,11 @@ Frontend tests remain in `src/tests`; Rust behavior tests normally use `src-taur
 
 Only add capabilities justified by the actual project. Separate hybrid language jobs and Tauri frontend/core/native delivery; do not add Rust checks to TypeScript-only products, web checks to Rust-only products, or automatic server/container deployment to desktop apps. Provider-exclusive scripts stay under `.github/scripts/` or `.forgejo/scripts/`; application development/build tooling retains its owner. Missing runner capabilities, labels, or genuine banner assets require concrete maintainer steps, not invented configuration or placeholders.
 
-The provider references link official sources checked on 2026-10-05; recheck current schema/version/platform support before concrete configuration. Reference tool versions, names, deployment paths, branding, and database-migration steps are not global defaults.
+Simple self-hosting with a joint product lifecycle prefers Appliance, with RentnerProxy as the reference. Ordinary production web/business applications prefer Standard Production, with accessible TanstackDummy as the reference: app/worker can share one versioned image while required state services have their actual lifecycle. Scale / HA requires real scaling/availability/managed-infrastructure needs; code size or language count does not justify a cluster. Hybrid can use one product image or justified separate services. Pure Tauri desktop apps keep native delivery; additional servers are assessed separately.
+
+Prefer Valkey for new compatible cache/session/queue/coordination needs and PostgreSQL for relational storage; do not add unused services or migrate existing Redis without a concrete request. Keep database/cache ports internal, durable data outside the container layer, and operator configuration small. Document backups, failed-startup recovery, explicit PostgreSQL major upgrades and rollback/state compatibility. Existing authorized runtime migrations may be documented, while agent execution, hidden migrations and reading real environment/secret or Drizzle files remain prohibited.
+
+The deployment/provider references link official sources checked on 2026-10-05; recheck current schema/version/platform/image/upgrade support before concrete configuration. Reference tool versions, names, deployment paths, branding, and database-migration steps are not global defaults.
 
 ## Repository structure
 
@@ -218,7 +228,11 @@ Rentner-Rules-Skill/
 │       ├── github.md
 │       ├── forgejo.md
 │       ├── forgejo-runners.md
-│       └── releases-and-metadata.md
+│       ├── releases-and-metadata.md
+│       ├── deployment-models.md
+│       ├── docker-and-compose.md
+│       ├── data-and-recovery.md
+│       └── operations.md
 └── .github/
     └── workflows/
         └── release.yml

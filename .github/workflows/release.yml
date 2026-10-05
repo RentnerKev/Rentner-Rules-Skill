@@ -68,7 +68,11 @@ jobs:
             references/deployment/index.md references/deployment/ci-cd.md \
             references/deployment/security.md references/deployment/github.md \
             references/deployment/forgejo.md references/deployment/forgejo-runners.md \
-            references/deployment/releases-and-metadata.md; do
+            references/deployment/releases-and-metadata.md \
+            references/deployment/deployment-models.md \
+            references/deployment/docker-and-compose.md \
+            references/deployment/data-and-recovery.md \
+            references/deployment/operations.md; do
             test -s "$file" || {
               echo "::error::$file is missing or empty"
               exit 1
