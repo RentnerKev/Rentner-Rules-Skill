@@ -78,6 +78,8 @@ Do not add `#![allow(warnings)]` or broad suppressions. Use narrowly scoped, jus
 
 ## CI, compatibility, and release checks
 
+For provider workflows/scripts, dependency-update automation, or release/publish work, compose [shared deployment routing](../deployment/index.md) with this verification policy and [Cargo tooling](cargo-and-tooling.md). Keep actual Cargo targets/MSRV/features authoritative; a Rust-only pipeline does not acquire Bun/React/web checks merely from a provider reference.
+
 For the changed behavior, run the relevant tests first, then formatting, compilation, and Clippy. Add builds, docs, feature matrices, or platform checks where the change needs them. Do not broaden/repeat checks after passing without a new reason.
 
 - Use selected workspace/package targets rather than assuming the root default covers every changed crate.

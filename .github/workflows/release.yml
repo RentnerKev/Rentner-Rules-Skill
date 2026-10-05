@@ -11,16 +11,22 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: validate-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' || github.event_name == 'push' }}
+
 jobs:
   validate:
     name: Validate Rentner Rules
     runs-on: ubuntu-latest
+    timeout-minutes: 15
 
     steps:
       - name: Checkout requested version
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           ref: ${{ github.event.release.tag_name || github.sha }}
+          persist-credentials: false
 
       - name: Validate release tag
         if: github.event_name == 'release'
@@ -58,7 +64,11 @@ jobs:
             references/tauri/frontend-and-ipc.md \
             references/tauri/security-and-capabilities.md \
             references/tauri/desktop-and-runtime.md \
-            references/tauri/workflow-and-verification.md; do
+            references/tauri/workflow-and-verification.md \
+            references/deployment/index.md references/deployment/ci-cd.md \
+            references/deployment/security.md references/deployment/github.md \
+            references/deployment/forgejo.md references/deployment/forgejo-runners.md \
+            references/deployment/releases-and-metadata.md; do
             test -s "$file" || {
               echo "::error::$file is missing or empty"
               exit 1

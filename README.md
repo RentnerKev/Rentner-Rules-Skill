@@ -2,6 +2,8 @@
 
 Reusable coding conventions by Kevin Sträßler, with four profiles: TypeScript, Rust, a shared TypeScript web / Rust core product, and Tauri.
 
+A shared deployment area adds project-appropriate GitHub/Forgejo CI/CD, dependency automation, workflow security, releases, labels, and branded release assets without replacing those profiles.
+
 The TypeScript profile covers React and TanStack Start feature structure, presentation components, grouped logic hooks, declarative configuration, clean package usage, and verified changes. The Rust-only profile covers responsibility-oriented modules, idiomatic ownership and errors, Cargo, testing, and runtime safety for ordinary Rust projects. General hybrid adds web/core repository and boundary rules. Tauri reuses the language conventions with its client frontend, native IPC, capabilities, and desktop lifecycle. It is packaged like [Hybrid Coding Skill](https://github.com/RentnerKev/Hybrid-Coding-Skill).
 
 ## Project and language profiles
@@ -66,7 +68,7 @@ Preserve existing changes and run the relevant checks.
 
 The skill can also be selected automatically when the task and project match its description. Explicit user requests and applicable repository instructions take precedence.
 
-`$rentner-rules` is the Codex invocation above. Other agents use their native skill interface; see the [integration notes](agents/README.md). All integrations read the same `SKILL.md`, four profile folders, and shared JS/TS tooling policy.
+`$rentner-rules` is the Codex invocation above. Other agents use their native skill interface; see the [integration notes](agents/README.md). All integrations read the same `SKILL.md`, four profile folders, shared JS/TS tooling policy, and relevant deployment references.
 
 For planning, ask for a plan or rules discussion first; the skill keeps that work at the planning stage.
 
@@ -145,6 +147,23 @@ The usual operation path is `component → owning hook/query/mutation → native
 
 Frontend tests remain in `src/tests`; Rust behavior tests normally use `src-tauri/tests`. Root system/E2E tests exist only for actual integration needs. Tauri recommendations link current official v2 sources checked on 2026-10-02; version/platform/tooling decisions must be rechecked when applied.
 
+## Shared CI/CD and release automation
+
+[Deployment routing](references/deployment/index.md) identifies the affected project, actual provider, existing automation, runner capabilities, and needed artifacts before selecting workflows. It composes with the four profiles; Tauri retains precedence over general hybrid. A provider folder alone does not establish the active host, and existing projects are not automatically migrated to a new pipeline.
+
+| Reference | Decisions |
+| --- | --- |
+| [Shared CI/CD](references/deployment/ci-cd.md) | Conditional workflow selection, project verification matrix, provider-owned scripts, toolchains, and infrastructure validation |
+| [Automation security](references/deployment/security.md) | Action SHA pins, minimal rights, trusted PR/artifact boundaries, secrets/runners/caches, and unchanged migration restrictions |
+| [GitHub](references/deployment/github.md) | RentnerProxy as an adaptable reference, actual Dependabot ecosystems with a one-day version-update cooldown, security/repository/release automation |
+| [Forgejo](references/deployment/forgejo.md) | TanstackDummy as an adaptable reference, version-aware Actions support, daily 03:00 UTC/manual Renovate, dashboard and one-day release age |
+| [Forgejo runners](references/deployment/forgejo-runners.md) | Kevin's `.forgejo/workflows/`: TypeScript/Bun jobs on `bun`, Cargo jobs on `rust`, native Tauri delivery on `tauri`; infrastructure/integration by verified tools |
+| [Releases and metadata](references/deployment/releases-and-metadata.md) | Exact release source/artifacts, publishing vs deployment, labels/categories, templates, compatibility, and project-specific banners |
+
+Only add capabilities justified by the actual project. Separate hybrid language jobs and Tauri frontend/core/native delivery; do not add Rust checks to TypeScript-only products, web checks to Rust-only products, or automatic server/container deployment to desktop apps. Provider-exclusive scripts stay under `.github/scripts/` or `.forgejo/scripts/`; application development/build tooling retains its owner. Missing runner capabilities, labels, or genuine banner assets require concrete maintainer steps, not invented configuration or placeholders.
+
+The provider references link official sources checked on 2026-10-05; recheck current schema/version/platform support before concrete configuration. Reference tool versions, names, deployment paths, branding, and database-migration steps are not global defaults.
+
 ## Repository structure
 
 ```text
@@ -185,19 +204,27 @@ Rentner-Rules-Skill/
 │   │   ├── architecture.md
 │   │   ├── contracts-and-boundaries.md
 │   │   └── workflow-and-verification.md
-│   └── tauri/
+│   ├── tauri/
+│   │   ├── index.md
+│   │   ├── architecture.md
+│   │   ├── frontend-and-ipc.md
+│   │   ├── security-and-capabilities.md
+│   │   ├── desktop-and-runtime.md
+│   │   └── workflow-and-verification.md
+│   └── deployment/
 │       ├── index.md
-│       ├── architecture.md
-│       ├── frontend-and-ipc.md
-│       ├── security-and-capabilities.md
-│       ├── desktop-and-runtime.md
-│       └── workflow-and-verification.md
+│       ├── ci-cd.md
+│       ├── security.md
+│       ├── github.md
+│       ├── forgejo.md
+│       ├── forgejo-runners.md
+│       └── releases-and-metadata.md
 └── .github/
     └── workflows/
         └── release.yml
 ```
 
-The repository contains one skill with four profile folders, so `SKILL.md` lives directly in the repository root. Each profile has a short `index.md` that routes to its focused references. Shared JS/TS tooling lives once in the TypeScript folder. Agent Markdown files document integrations; only `openai.yaml` is Codex interface metadata. No application dependencies are installed by this skill.
+The repository contains one skill with four project/language profile folders and one shared deployment area, so `SKILL.md` lives directly in the repository root. Each area has a short `index.md` that routes to focused references. Shared JS/TS tooling lives once in the TypeScript folder. Agent Markdown files document integrations; only `openai.yaml` is Codex interface metadata. No application dependencies are installed by this skill.
 
 ## Validation and releases
 
@@ -209,7 +236,7 @@ bunx skills@1.7.0 add . --list
 
 Expected skill: `rentner-rules`.
 
-The GitHub workflow validates all four profile folders and agent files, local Markdown links recursively, Codex interface metadata, and CLI discovery on pushes, pull requests, and published releases. These checks validate packaging; they do not run each coding agent. Release tags use SemVer, for example `v1.0.0`.
+The GitHub workflow validates all four profile folders, the shared deployment references and agent files, local Markdown links recursively, Codex interface metadata, and CLI discovery on pushes, pull requests, and published releases. These checks validate packaging; they do not run each coding agent. Release tags use SemVer, for example `v1.0.0`.
 
 ## skills.sh
 

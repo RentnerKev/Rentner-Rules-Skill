@@ -1,6 +1,6 @@
 ---
 name: rentner-rules
-description: Apply RentnerKev's coding conventions when planning, implementing, refactoring, or reviewing TypeScript, Rust, hybrid web/core, or Tauri projects. Select the project scope first. Reuse language rules for React/TanStack hooks and ordinary Cargo code, shared JavaScript/TypeScript tooling, and the appropriate web/core or native IPC boundaries. Use when these conventions are requested or the project follows them.
+description: Apply RentnerKev's coding and CI/CD conventions when planning, implementing, refactoring, or reviewing TypeScript, Rust, hybrid web/core, or Tauri projects and their repository automation. Select the project scope first; compose language rules with GitHub or Forgejo workflow, dependency, security, and release rules when relevant. Use when these conventions are requested or the project follows them.
 ---
 
 # Rentner Rules
@@ -40,6 +40,13 @@ Identify the affected application before selecting a profile. A declared Tauri a
 - Apply the central [JavaScript/TypeScript tooling policy](references/typescript/tooling.md) to every JS/TS area and auxiliary script, including hybrid, Tauri, and future profiles. This does not replace Rust tooling or impose TypeScript architecture on a Rust target.
 - Prefer Tailwind CSS for web styling. Keep any necessary plain CSS exception small; this does not select a Rust UI framework.
 - Keep changes focused on the actual request. Separate agreed requirements from proposals during planning.
+
+## CI/CD and repository automation
+
+- For CI/CD planning, workflow/scripts, dependency automation, releases/publishing, or repository labels/templates, read [deployment routing](references/deployment/index.md), then its common rules and the active provider reference. Select the actual provider and needed capabilities before generating files; preserve coherent existing infrastructure.
+- Compose this shared area with the selected project/language profiles. Tauri retains its native delivery override; unrelated tooling or provider folders do not create a hybrid application. Infrastructure-only repositories use checks for their actual deliverables.
+- For Kevin's `.forgejo/workflows/`, apply the [specialized runner strategy](references/deployment/forgejo-runners.md) per job: `bun` for TypeScript/Bun, `rust` for Cargo, `tauri` for native Tauri delivery; infrastructure and integration jobs follow verified tool requirements. This does not select GitHub runner labels.
+- CI/CD-only scripts stay under the owning provider folder. Keep normal development/build orchestration with its existing application owner; the deployment references do not require a root script migration or a complete workflow suite.
 
 ## Git branches and pull requests
 

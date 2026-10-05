@@ -40,6 +40,8 @@ Write comments for non-obvious invariants, security reasons, compatibility windo
 
 ## Tests and checks
 
+For provider workflows/scripts, dependency-update automation, or release/publish work, compose [shared deployment routing](../deployment/index.md) with this reference and the [central tooling policy](tooling.md). Automation checks only the actual TypeScript stack; it does not introduce Rust or hybrid checks into a TypeScript-only product.
+
 Keep tests in `src/tests` and mirror the tested source path below `src/`. For example:
 
 ```text

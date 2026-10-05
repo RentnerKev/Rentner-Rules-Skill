@@ -22,13 +22,15 @@ project/
 │   ├── Cargo.lock
 │   ├── src/
 │   └── tests/
-├── scripts/              # when shared orchestration needs scripts
+├── scripts/              # when shared product orchestration needs scripts
 ├── docker/               # when container build/runtime files are needed
 ├── docker-compose.yml    # when Compose is used; central product entrypoint
 └── README.md
 ```
 
 Source separation does not imply a separate JavaScript package or workspace for `web/`. The tree shows ownership, not mandatory scaffolding: retain the selected package manager and established Compose filename, and create only the configs, assets, tests, and deployment files the product needs. Repository-wide docs, `.github/` or `.forgejo/`, update policy, and editor settings remain valid root resources.
+
+Provider-exclusive CI/CD scripts belong under `.github/scripts/` or `.forgejo/scripts/`, according to [shared deployment ownership](../deployment/ci-cd.md#provider-ownership-and-workflow-scripts). The optional root `scripts/` above is for actual shared product/development tooling, not a default destination for provider automation.
 
 | Area | Tooling and source ownership |
 | --- | --- |

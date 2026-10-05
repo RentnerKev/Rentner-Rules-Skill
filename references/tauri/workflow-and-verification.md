@@ -36,7 +36,7 @@ For genuine desktop E2E, choose a currently supported runner/driver for the prom
 
 ## CI and final review
 
-Use the existing CI provider and a proportionate pipeline:
+Compose [shared deployment routing](../deployment/index.md) with this profile for the actual provider, workflow/script ownership, updater, security, and release metadata. Tauri keeps precedence over general hybrid: native builds/bundles/signing/updater checks remain governed here; Docker/server deployment and web preview channels are not automatic. For Kevin's `.forgejo/workflows/`, apply [specialized runners](../deployment/forgejo-runners.md): frontend checks on `bun`, ordinary Rust core checks on `rust`, and native Tauri build/packaging on `tauri`. Use a proportionate pipeline:
 
 - Run TypeScript typecheck, the central lint/format checks, affected frontend tests, and an appropriate frontend build.
 - Run Rust formatting/check/Clippy/tests and suitable dependency/security checks with the actual manifest, lock, features, and platform flags from the Rust profile.

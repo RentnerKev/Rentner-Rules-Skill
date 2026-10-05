@@ -10,6 +10,8 @@ Document real working directories, startup/build commands, required component ve
 
 For local development, reuse the root package scripts, their Cargo targets, and existing orchestration first. Add a Makefile, justfile, task runner, or small root script only for meaningful shared workflows beyond those commands. Do not add a task system or a second web package to save one command. Any wrapper must select the right directory/manifest, propagate failure status, and preserve the shared safety restrictions; do not hide dependency installs, migrations, or unrelated services inside a check.
 
+This root orchestration concerns product development/builds. Provider-exclusive workflow, security, release and deploy scripts follow [provider script ownership](../deployment/ci-cd.md#provider-ownership-and-workflow-scripts) instead.
+
 Root config paths must select the actual `web/src`, assets, aliases, generated-route location, and build output. Check TypeScript includes, Vite/TanStack source paths, CI working directories, and Docker build contexts when changing layout; do not assume a config beside the source or a `cd web` install/build step.
 
 If both components must run, define readiness, useful startup failure reporting, signal handling, and cleanup of owned child processes. Do not treat a launched process as ready or kill unrelated processes to free a port. Use only safe isolated resources for test/development side effects within the actual authorization.
@@ -40,7 +42,7 @@ System tests should start isolated components with explicit readiness, test addr
 
 ## CI and final verification
 
-Use the existing CI provider (`.forgejo/`, `.github/`, or another established system). Separate TypeScript and Rust checks, then add contract-generation/drift and actual integration checks where needed. Read their language references for the real commands instead of copying a third list of formatter/lint/test rules.
+Read [shared deployment routing](../deployment/index.md) for the actual provider, workflow/script ownership, dependency automation, security, and release metadata. Compose it with this profile and both language profiles; their commands and root-tooling ownership remain authoritative. Separate TypeScript and Rust checks, then add contract-generation/drift and actual integration checks where needed. For Kevin's `.forgejo/workflows/`, the [runner strategy](../deployment/forgejo-runners.md) routes those checks to `bun` and `rust` respectively and verifies combined integration requirements. Read the language references for the real commands instead of copying a third list of formatter/lint/test rules.
 
 - Keep single-area checks focused while accounting for dependencies across the boundary.
 - Include the root JS/TS manifest, lockfile, and applicable TypeScript/Vite/lint/format configs in affected-check selection; web-only path filters must not skip checks when root tooling changes.

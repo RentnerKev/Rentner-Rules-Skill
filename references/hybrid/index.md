@@ -32,5 +32,6 @@ For existing projects, inspect their separation, contracts, and build/deployment
 | Root layout/names, language-local shared code, responsibility ownership, dependency/transport direction, existing projects | [Hybrid architecture](architecture.md) |
 | Contract source/generation, serialization/evolution, external errors, authentication/trust boundaries, observability | [Hybrid contracts and boundaries](contracts-and-boundaries.md) |
 | Root tooling/configuration, development/build coordination, test placement, CI, containers, shutdown, releases | [Hybrid workflow and verification](workflow-and-verification.md) |
+| CI/CD provider, workflow/script structure, dependency automation, release metadata | [Shared deployment routing](../deployment/index.md), composed with both language profiles and this profile |
 
 Read the hybrid details affected by the task and each applicable language profile. A local presentation change does not require redesigning the transport; a Rust module refactor does not justify new frontend models if the boundary contract remains unchanged.
