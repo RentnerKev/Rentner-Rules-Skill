@@ -6,7 +6,7 @@ Scope: [TypeScript profile](index.md). Formatting, naming, tooling, and test pla
 
 Read applicable repository instructions, Git status, the nearest canonical implementation, and directly relevant tests. Search and read only the area needed for the task; expand when a concrete dependency requires it.
 
-Prefer `rg` for file/text discovery, with explicit paths and exclusions for forbidden or private content. Never scan `drizzle/` or real environment files.
+Prefer `rg` for file/text discovery, with explicit paths and exclusions for private content. Never scan real environment files. Relevant read-only inspection of `drizzle/` is allowed; changes follow the [Drizzle and schema boundary](backend-and-safety.md#drizzle-and-schema-boundary).
 
 Planning requests remain planning until implementation is requested. Separate agreed requirements from suggestions. Complete authorized work without repeatedly asking for permission already established in the conversation.
 
@@ -64,7 +64,7 @@ Discover real commands from package scripts, test configuration, and CI. Do not 
 - Never hide failing tests, weaken assertions/security checks, or regenerate broad snapshots to make a check green.
 - Separate failures introduced by the change from pre-existing failures and unavailable checks.
 
-Do not manually modify generated route trees, build directories, or generated artifacts. Do not include an unrelated generated diff in a product commit.
+Do not manually modify generated route trees, build directories, or generated artifacts, except a direct `drizzle/` change explicitly approved under the [database policy](backend-and-safety.md#drizzle-and-schema-boundary). Normal output from the two permitted Bun DB scripts follows that policy. Do not include an unrelated generated diff in a product commit.
 
 ## Documentation, Git, and handover
 

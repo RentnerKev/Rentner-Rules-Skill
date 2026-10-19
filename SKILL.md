@@ -45,7 +45,7 @@ Identify the affected application before selecting a profile. A declared Tauri a
 
 - For Docker/Compose, server delivery/operations, CI/CD, workflow/scripts, dependency automation, releases/publishing, or repository labels/templates, read [deployment routing](references/deployment/index.md), then the references affected by that work. Select actual operating requirements, provider and needed capabilities before generating files; preserve coherent existing infrastructure.
 - Compose this shared area with the selected project/language profiles. Tauri retains its native delivery override; unrelated tooling or provider folders do not create a hybrid application. Infrastructure-only repositories use checks for their actual deliverables.
-- For actual server deployments, choose [Appliance, Standard Production, or Scale / HA](references/deployment/deployment-models.md) from lifecycle, scaling, availability and state requirements independently of language. Pure Tauri desktop delivery remains installer/bundle/updater; evaluate additional real servers separately. Runtime data/recovery rules do not authorize migration or production execution.
+- For actual server deployments, choose [Appliance, Standard Production, or Scale / HA](references/deployment/deployment-models.md) from lifecycle, scaling, availability and state requirements independently of language. Pure Tauri desktop delivery remains installer/bundle/updater; evaluate additional real servers separately. Apply the shared database command permissions and approval requirements to runtime data/recovery work.
 - For Kevin's `.forgejo/workflows/`, apply the [specialized runner strategy](references/deployment/forgejo-runners.md) per job: `bun` for TypeScript/Bun, `rust` for Cargo, `tauri` for native Tauri delivery; infrastructure and integration jobs follow verified tool requirements. This does not select GitHub runner labels.
 - CI/CD-only scripts stay under the owning provider folder. Keep normal development/build orchestration with its existing application owner; the deployment references do not require a root script migration or a complete workflow suite.
 
@@ -58,12 +58,13 @@ Identify the affected application before selecting a profile. A declared Tauri a
 ## Work safely and finish the task
 
 - Check Git status and preserve existing user changes. Read only the relevant files, callers, contracts, and tests.
-- Never read, list, modify, move, or delete `drizzle/`. Never run Drizzle commands or database migrations, including through wrapper scripts. Edit schema sources only when explicitly requested; leave migration creation to the maintainer.
+- Keep `drizzle/` unchanged by default; relevant read-only inspection is allowed. Direct changes are an exception only for a concrete, substantial benefit: explain the affected files and reason, ask through the agent's question-box/input tool, and wait for explicit user approval before editing, adding, moving, or deleting files there. If no question-box tool is available, leave the change pending and explain the limitation.
+- `bun run db:generate` and `bun run db:migrate` are always permitted without another confirmation, including their normal generated changes in `drizzle/`. This permission does not cover direct edits to those outputs or other database commands. Edit schema sources when requested; follow the detailed [Drizzle and schema boundary](references/typescript/backend-and-safety.md#drizzle-and-schema-boundary).
 - Never read or print real `.env` files, tokens, keys, or credentials. Use `.env.example` for configuration work.
-- Never manually edit generated routes, build output, or other generated artifacts.
+- Never manually edit generated routes, build output, or other generated artifacts, except an explicitly approved `drizzle/` change under the rule above.
 - Do not weaken permissions, same-origin checks, rate limits, hashing, encryption, audit logs, or path validation to make a check pass.
 - Continue within established authorization. Ask only when missing information or an actual permission boundary prevents progress; explain the concrete reason.
-- Verify the changed behavior with the affected package or crate's real tooling. Inspect verification scripts for forbidden migration side effects. Report checks, existing failures, skipped checks, and remaining maintainer steps accurately.
+- Verify the changed behavior with the affected package or crate's real tooling. Inspect verification scripts for database actions outside the standing command permission or other established authorization. Report checks, existing failures, skipped checks, and remaining maintainer steps accurately.
 - In German prose, write actual umlauts and ß, for example: “Öfters gehe ich Eis essen und laufe dabei über den Fluss.”
 
 ## Agent compatibility

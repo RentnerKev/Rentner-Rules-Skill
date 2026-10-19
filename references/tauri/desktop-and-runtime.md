@@ -24,7 +24,7 @@ Use [Tauri's process model](https://v2.tauri.app/concept/process-model/) and cur
 
 Choose files, a local database, a maintained settings plugin, or secure storage according to the data's durability/security/query needs. Browser `localStorage` is suitable for disposable UI preferences when appropriate, not an automatic authority for the desktop app's core data or credentials.
 
-Own native settings/data paths explicitly using the platform's appropriate application directories. Apply Rust's atomic replacement, overwrite, validation, and crash-durability rules where promised. Define persisted format versions and recovery/backup behavior for important data, handling corrupt/old files without silently discarding user data. Compatibility design does not authorize database migration generation/execution; the shared migration restrictions remain in force.
+Own native settings/data paths explicitly using the platform's appropriate application directories. Apply Rust's atomic replacement, overwrite, validation, and crash-durability rules where promised. Define persisted format versions and recovery/backup behavior for important data, handling corrupt/old files without silently discarding user data. Compatibility design adds no database permissions; follow the shared [database command and approval rules](../../SKILL.md#work-safely-and-finish-the-task).
 
 Keep offline behavior explicit where the feature needs it: authoritative local data, queued external work, reconnect/retry policy, and conflict handling. Do not add an offline synchronization framework to an app with no such workflow.
 

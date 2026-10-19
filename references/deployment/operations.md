@@ -30,7 +30,7 @@ For persistent systems, keep both [normal and failed-startup maintenance paths](
 
 ## Infrastructure verification
 
-Inspect Docker stages, package/build scripts, entrypoints, health/maintenance commands, and deployment callers before running them. Existing authorized runtime migration mechanisms can be documented, but agent execution through a build/startup wrapper remains prohibited under [automation safety](security.md#migration-and-side-effect-boundary).
+Inspect Docker stages, package/build scripts, entrypoints, health/maintenance commands, and deployment callers before running them. Existing runtime migration mechanisms can be documented. The two Bun DB scripts have standing permission under [automation safety](security.md#migration-and-side-effect-boundary); other build/startup wrappers and additional side effects need their own authorization.
 
 Validate changed Docker/Compose configuration against the actual installed tooling/schema and target runtime. For [Compose config validation](https://docs.docker.com/reference/cli/docker/compose/config/), explicitly select harmless environment input and prevent implicit real `.env` or service `env_file` reads; use quiet output and supported `--no-env-resolution` or safe fixture files as appropriate. `--no-interpolate` is not a complete required-value/configuration check, and quiet output alone does not prevent secret-file reads. Keep unsafe runtime tests unexecuted with concrete prerequisites.
 

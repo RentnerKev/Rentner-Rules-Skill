@@ -56,6 +56,6 @@ Code signing/notarization and updater artifact signing serve different checks. P
 
 If updates are used, follow the [Tauri updater](https://v2.tauri.app/plugin/updater/) signature verification, trusted endpoint/public-key configuration, correct platform/architecture artifacts, and compatible application/persisted-data versions. Test invalid signatures, unavailable updates, interrupted work, and safe restart where relevant. Preserve key continuity for installed clients; do not disable verification or rotate keys without a compatibility plan. Signing an updater artifact does not replace OS signing/notarization.
 
-Build/validate only within the authorized scope. Signing-key creation/rotation, release publication, deployment, and database migrations are separate actual authorization boundaries; documented compatibility/migration considerations do not authorize running migrations.
+Build/validate only within the authorized scope. Signing-key creation/rotation, release publication, and deployment require their actual authorization. Database work follows the shared [command and approval rules](../../SKILL.md#work-safely-and-finish-the-task), including standing permission for `bun run db:generate` and `bun run db:migrate`; compatibility documentation grants no additional permissions.
 
 Primary sources above were checked on 2026-10-02. Recheck current Tauri/OXC/plugin/platform support before choosing versions, test providers, or release tooling.

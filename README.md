@@ -105,6 +105,19 @@ The central [tooling policy](references/typescript/tooling.md) defines Oxlint fo
 
 Full TypeScript instructions are in the [TypeScript profile](references/typescript/index.md), with examples in [Architecture](references/typescript/architecture.md) and [Frontend](references/typescript/frontend.md). Shared authorization, safety, and workflow constraints are in [SKILL.md](SKILL.md).
 
+## Database workflow
+
+Keep `drizzle/` unchanged by default. Relevant read-only inspection is allowed. A direct change is an exception only for a concrete, substantial benefit: explain the files and reason in a question box and wait for explicit user approval before editing, adding, moving, or deleting files there.
+
+Both commands are always permitted without another confirmation:
+
+```sh
+bun run db:generate
+bun run db:migrate
+```
+
+Their normal generated changes in `drizzle/` are included in that permission. Direct edits to those outputs still need approval through a question box. Other database commands and unrelated side effects do not inherit this permission. See the shared [safety rules](SKILL.md#work-safely-and-finish-the-task) and detailed [Drizzle and schema boundary](references/typescript/backend-and-safety.md#drizzle-and-schema-boundary).
+
 ## Rust conventions
 
 The [Rust profile](references/rust/index.md) applies to libraries, CLI tools, server cores, daemons/workers, filesystem tools, Tauri Rust cores, and other ordinary Cargo projects. Structure grows with actual responsibilities; a small tool can remain a single file. New modules prefer `name.rs` plus `name/`, and coherent existing `mod.rs` layouts remain valid.
@@ -157,10 +170,10 @@ Frontend tests remain in `src/tests`; Rust behavior tests normally use `src-taur
 | --- | --- |
 | [Deployment models](references/deployment/deployment-models.md) | Appliance, Standard Production or Scale / HA from lifecycle, scaling, availability and state requirements; canonical architecture references |
 | [Docker and Compose](references/deployment/docker-and-compose.md) | Published production images, multi-stage runtime packaging, one central Compose entrypoint, configuration/ports, readiness and supervised lifecycle |
-| [Data and recovery](references/deployment/data-and-recovery.md) | PostgreSQL/Valkey selection, volumes/backups, maintenance without normal startup, persistent-format/major upgrades and unchanged migration authorization |
+| [Data and recovery](references/deployment/data-and-recovery.md) | PostgreSQL/Valkey selection, volumes/backups, maintenance without normal startup, persistent-format/major upgrades and database command/approval rules |
 | [Operations](references/deployment/operations.md) | Target deployment, runtime verification, compatible upgrades/rollback, safe infrastructure checks and operator handover |
 | [Shared CI/CD](references/deployment/ci-cd.md) | Conditional workflow selection, project verification matrix, provider-owned scripts, toolchains, and infrastructure validation |
-| [Automation security](references/deployment/security.md) | Action SHA pins, minimal rights, trusted PR/artifact boundaries, secrets/runners/caches, and unchanged migration restrictions |
+| [Automation security](references/deployment/security.md) | Action SHA pins, minimal rights, trusted PR/artifact boundaries, secrets/runners/caches, and database command/approval rules |
 | [GitHub](references/deployment/github.md) | RentnerProxy as an adaptable reference, actual Dependabot ecosystems with a one-day version-update cooldown, security/repository/release automation |
 | [Forgejo](references/deployment/forgejo.md) | TanstackDummy as an adaptable reference, version-aware Actions support, daily 03:00 UTC/manual Renovate, dashboard and one-day release age |
 | [Forgejo runners](references/deployment/forgejo-runners.md) | Kevin's `.forgejo/workflows/`: TypeScript/Bun jobs on `bun`, Cargo jobs on `rust`, native Tauri delivery on `tauri`; infrastructure/integration by verified tools |
@@ -170,7 +183,7 @@ Only add capabilities justified by the actual project. Separate hybrid language 
 
 Simple self-hosting with a joint product lifecycle prefers Appliance, with RentnerProxy as the reference. Ordinary production web/business applications prefer Standard Production, with accessible TanstackDummy as the reference: app/worker can share one versioned image while required state services have their actual lifecycle. Scale / HA requires real scaling/availability/managed-infrastructure needs; code size or language count does not justify a cluster. Hybrid can use one product image or justified separate services. Pure Tauri desktop apps keep native delivery; additional servers are assessed separately.
 
-Prefer Valkey for new compatible cache/session/queue/coordination needs and PostgreSQL for relational storage; do not add unused services or migrate existing Redis without a concrete request. Keep database/cache ports internal, durable data outside the container layer, and operator configuration small. Document backups, failed-startup recovery, explicit PostgreSQL major upgrades and rollback/state compatibility. Existing authorized runtime migrations may be documented, while agent execution, hidden migrations and reading real environment/secret or Drizzle files remain prohibited.
+Prefer Valkey for new compatible cache/session/queue/coordination needs and PostgreSQL for relational storage; do not add unused services or migrate existing Redis without a concrete request. Keep database/cache ports internal, durable data outside the container layer, and operator configuration small. Document backups, failed-startup recovery, explicit PostgreSQL major upgrades and rollback/state compatibility. Runtime migration work follows the [database workflow](#database-workflow): the two Bun scripts have standing permission, direct Drizzle-folder changes need approval through a question box, and other operations need their own authorization. Hidden migrations and reading real environment/secret files remain prohibited.
 
 The deployment/provider references link official sources checked on 2026-10-05; recheck current schema/version/platform/image/upgrade support before concrete configuration. Reference tool versions, names, deployment paths, branding, and database-migration steps are not global defaults.
 

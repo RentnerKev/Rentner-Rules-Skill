@@ -40,15 +40,26 @@ Temporary caches, rate limits, queues, and realtime transport do not replace dur
 
 ## Drizzle and schema boundary
 
-Never read, list, modify, move, or delete `drizzle/`.
+Keep `drizzle/` unchanged by default. Read-only inspection of its migrations and metadata is allowed when relevant to the task.
 
-Never run Drizzle CLI or database migration commands. This includes `drizzle-kit`, `db:generate`, `db:migrate`, `db:push`, `db:pull`, `db:studio`, and wrappers that invoke them.
+Direct edits, additions, moves, or deletions inside `drizzle/` are an exception only when there is a concrete, substantial benefit. Explain the proposed files, change, and reason in a question box using the agent's input tool, then wait for explicit user approval. Approval covers only the agreed change. If no question-box tool is available, leave the change pending and explain the limitation.
 
-An explicit schema request permits changes only to the declared schema source files and necessary schema exports. In TanStack Dummy, these are `src/db/Schema/*.ts`, `src/db/schema.ts`, and `src/db/Schema/index.ts`. Follow a different repository's explicitly declared schema-source path when applicable.
+Both project scripts have standing permission and may always run without another confirmation:
 
-Do not generate a migration afterward. Tell the maintainer that migration creation and execution remain their separate steps.
+```sh
+bun run db:generate
+bun run db:migrate
+```
 
-Exclude `drizzle/` from repository searches and recursive operations. Check package scripts before executing verification chains that could invoke database tools.
+Their normal generated migration, snapshot, and journal changes in `drizzle/` are included in that permission and do not need a separate question box. Directly editing those outputs still requires the approval above. Inspect the declared scripts to understand their execution chain; their names do not grant permission for unrelated seeding, restores, deployments, or other side effects.
+
+Other Drizzle/database commands, including direct `drizzle-kit` calls, `db:push`, `db:pull`, and `db:studio`, do not inherit this standing permission and require separate explicit authorization. Do not hide additional database operations in verification, build, startup, or deployment wrappers.
+
+For a requested schema edit, change the declared schema source files and necessary schema exports. In TanStack Dummy, these are `src/db/Schema/*.ts`, `src/db/schema.ts`, and `src/db/Schema/index.ts`. Follow a different repository's explicitly declared schema-source path when applicable.
+
+When the requested database work calls for generating or applying migrations, use the two permitted Bun scripts without asking again. Their permission does not require running them for unrelated tasks.
+
+Exclude `drizzle/` from broad automatic rewrites, formatters, and cleanup operations. Scope any read-only inspection to the task. Check package scripts before executing verification chains that could invoke database tools.
 
 ## External side effects
 

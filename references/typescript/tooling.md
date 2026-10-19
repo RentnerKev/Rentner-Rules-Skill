@@ -8,7 +8,7 @@ Use **Oxlint for linting** and **Oxfmt for formatting** in new JS/TS projects. I
 
 Do not install ESLint or Prettier alongside them when OXC covers the required behavior. A demonstrated missing rule/plugin/format capability can justify retaining the relevant alternative for that gap. Verify current coverage, stability, runtime/platform requirements, and migration cost before deciding. OXC remains the default rather than an optional second checker.
 
-Scope commands to the actual package, source, tests, and tooling files. Exclude forbidden `drizzle/` directories, real environment files, generated routes/bindings, build output, dependencies, and Cargo output before traversal. Inspect existing scripts and ignore configuration; a broad formatter invocation must not enter forbidden areas or overwrite generated files.
+Scope commands to the actual package, source, tests, and tooling files. Exclude `drizzle/`, real environment files, generated routes/bindings, build output, dependencies, and Cargo output from automatic lint/format rewrites. Relevant read-only inspection of `drizzle/` follows the [database policy](backend-and-safety.md#drizzle-and-schema-boundary). Inspect existing scripts and ignore configuration; a broad formatter invocation must not overwrite protected or generated files.
 
 An illustrative package with source/tests under `src/` can use:
 
