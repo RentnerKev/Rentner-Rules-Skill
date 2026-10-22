@@ -58,4 +58,4 @@ If updates are used, follow the [Tauri updater](https://v2.tauri.app/plugin/upda
 
 Build/validate only within the authorized scope. Signing-key creation/rotation, release publication, and deployment require their actual authorization. Database work follows the shared [command and approval rules](../../SKILL.md#work-safely-and-finish-the-task), including standing permission for `bun run db:generate` and `bun run db:migrate`; compatibility documentation grants no additional permissions.
 
-Primary sources above were checked on 2026-10-02. Recheck current Tauri/OXC/plugin/platform support before choosing versions, test providers, or release tooling.
+Primary Tauri sources above were checked on 2026-10-02; the [central tooling policy](../typescript/tooling.md) records its own Bun/Oxlint verification dates. Recheck current Tauri/Bun/Oxlint/plugin/platform support before choosing versions, test providers, or release tooling.

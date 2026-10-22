@@ -13,7 +13,7 @@ project/
 ├── tsconfig.json         # targets web/src and the actual TS tooling
 ├── vite.config.ts        # when Vite is used; points to the web source/assets
 ├── .oxlintrc.json
-├── .oxfmtrc.json
+├── bunfig.toml           # native Bun fmt settings under [fmt]
 ├── web/
 │   ├── public/
 │   └── src/
@@ -43,7 +43,7 @@ Apply the [TypeScript architecture](../typescript/architecture.md) with source p
 ## Root tooling and one project entrypoint
 
 - Keep one root JS/TS `package.json` for the hybrid product's web dependencies, auxiliary TS tooling, and project commands, with its package-manager lockfile alongside it. Do not introduce `web/package.json`, a second JS/TS lockfile, or a web workspace package merely because the application source lives in `web/`.
-- Keep web toolchain configuration at the root: TypeScript configs, Vite/TanStack build tooling, Bun settings, and Oxlint/Oxfmt configs when used. Additional configs for genuinely different build/check targets also stay at the root. Existing root manifests/configs must not be moved into `web/` during a hybrid refactor.
+- Keep web toolchain configuration at the root: TypeScript configs, Vite/TanStack build tooling, Bun settings including native `[fmt]` formatting, and Oxlint config when used. Additional configs for genuinely different build/check targets also stay at the root. Existing root manifests/configs must not be moved into `web/` during a hybrid refactor.
 - Start, build, test, typecheck, lint, and format the product through root package scripts. Expose independently runnable web and Rust checks there when needed. Use the project's actual script names; the root manifest owns these commands rather than forwarding to a duplicate web manifest.
 - Cargo manifests, lockfiles, and Rust toolchain settings stay with `core/` under the Rust profile. Root scripts target that manifest or an explicitly selected Cargo working directory.
 - Application configuration remains in `web/src/config` under the TypeScript declarative-config rules. Its runtime environment readers remain with the owning server/lib boundary. The root-tooling rule does not move application configuration into the repository root.

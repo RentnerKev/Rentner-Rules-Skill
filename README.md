@@ -84,7 +84,7 @@ Explicit branch and workflow instructions take precedence, including requirement
 
 ## Shared JavaScript/TypeScript tooling
 
-The central [tooling policy](references/typescript/tooling.md) defines Oxlint for linting and Oxfmt for formatting across all JS/TS areas, including hybrid, Tauri, auxiliary scripts, and future profiles. It owns React rules, type-aware compatibility decisions, format settings, scoped checks, and migrations with demonstrated coverage exceptions; profiles reference it instead of maintaining competing defaults.
+The central [tooling policy](references/typescript/tooling.md) defines Oxlint for linting and Bun's native `bun fmt` for formatting across all JS/TS areas, including hybrid, Tauri, auxiliary scripts, and future profiles. Formatting uses `[fmt]` in `bunfig.toml` and needs no separate formatter package. The policy owns React rules, type-aware compatibility decisions, format settings, protected-path exclusions, scoped checks, and migrations with demonstrated coverage exceptions; profiles reference it instead of maintaining competing defaults. Rust keeps rustfmt and Clippy.
 
 ## TypeScript conventions
 
@@ -247,6 +247,9 @@ Rentner-Rules-Skill/
 │       ├── data-and-recovery.md
 │       └── operations.md
 └── .github/
+    ├── scripts/
+    │   └── ci/
+    │       └── format-policy.test.ts
     └── workflows/
         └── release.yml
 ```
@@ -263,7 +266,7 @@ bunx skills@1.7.0 add . --list
 
 Expected skill: `rentner-rules`.
 
-The GitHub workflow validates all four profile folders, the shared deployment references and agent files, local Markdown links recursively, Codex interface metadata, and CLI discovery on pushes, pull requests, and published releases. These checks validate packaging; they do not run each coding agent. Release tags use SemVer, for example `v1.0.0`.
+The GitHub workflow validates all four profile folders, the shared deployment references and agent files, local Markdown links recursively, Codex interface metadata, and CLI discovery on pushes, pull requests, and published releases. It also runs `bun --no-env-file test ./.github/scripts/ci/format-policy.test.ts` with Bun 1.4.4 to verify the documented formatter scripts, style, protected-path patterns, and success/rejection behavior in temporary fixtures, without project dependencies. These checks validate packaging and formatter behavior; they do not run each coding agent. Release tags use SemVer, for example `v1.0.0`.
 
 ## skills.sh
 

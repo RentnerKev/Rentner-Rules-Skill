@@ -8,7 +8,7 @@ Kevin's infrastructure provides three specialized labels. Select from them accor
 
 | Job responsibility | Required specialized label | Examples |
 | --- | --- | --- |
-| TypeScript / Bun | `runs-on: bun` | Dependency installation, Oxfmt/Oxlint, typecheck, Bun tests/audits, TanStack builds, frontend/backend and other JS/TS tooling, TypeScript release builds |
+| TypeScript / Bun | `runs-on: bun` | Dependency installation, native Bun fmt and Oxlint, typecheck, Bun tests/audits, TanStack builds, frontend/backend and other JS/TS tooling, TypeScript release builds |
 | Rust / Cargo | `runs-on: rust` | rustfmt, check, Clippy, tests, Cargo builds/releases, Rust audits, MSRV and supported feature checks |
 | Tauri native delivery | `runs-on: tauri` | Tauri/native desktop builds, Windows/EXE builds where supported, installers/bundles, native packaging/integration, release artifacts and actual signing/updater preparation |
 
