@@ -55,6 +55,16 @@ Identify the affected application before selecting a profile. A declared Tauri a
 - Give pull requests a descriptive title with the matching change type, for example `feat: add user settings` or `fix: handle session timeout`. Do not use `codex/` or other agent labels in PR titles.
 - Follow explicit branch and workflow instructions. If work must stay on `main`, commit and push there when authorized; do not create a branch or pull request just to apply these naming conventions.
 
+## Verification and autofix.ci
+
+This shared policy selects local checks for every project/language profile and infrastructure task; retain the repository's CI quality gates.
+
+- Discover checks from the actual repository scripts, tool configuration, and CI. Before local validation, verify whether autofix.ci is configured to fix the affected files: inspect workflow steps and invoked scripts, triggers/conditions, working directories, file selection, ignores, and formatter/linter fix flags. A workflow filename or a read-only check alone does not establish automatic fix coverage.
+- For confirmed coverage, normally leave automatically correctable formatting to autofix.ci and omit redundant local formatter writes/checks and covered lint-fix runs. Continue writing code in the established project style. Reuse the coverage assessment and successful check results while their relevant inputs/configuration remain unchanged; avoid repeated formatting checks and tool calls without a concrete reason.
+- Respect explicit file/directory exclusions in workflows and tool configuration. Excluded paths are not covered by autofix.ci; use the existing permitted local validation for them and other uncovered tasks, preserving protected/generated-file boundaries. If autofix.ci is absent, its applicability is uncertain, or it does not perform the relevant fixes, keep the existing validation behavior for that scope.
+- Still run necessary typechecks, compiler checks, tests, and lint diagnostics not automatically corrected, including non-fixable rules in a fixer-enabled linter. Split combined scripts only when equivalent coverage is preserved; otherwise run the combined check. Revalidate affected behavior after semantic lint fixes before claiming correctness.
+- Security-critical changes, explicit user instructions, and technically necessary checks take precedence over token/runtime savings, including local formatting or lint validation when needed.
+
 ## Work safely and finish the task
 
 - Check Git status and preserve existing user changes. Read only the relevant files, callers, contracts, and tests.

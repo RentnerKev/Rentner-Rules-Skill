@@ -57,7 +57,7 @@ Use `.test.ts` for normal tests and `.db.test.ts` for actual database integratio
 Discover real commands from package scripts, test configuration, and CI. Do not assume an inherited README accurately describes current tooling.
 
 - First run the relevant existing tests or meaningful behavior checks.
-- Run typecheck, read-only lint, and format checks appropriate to the change.
+- Run necessary typecheck and read-only lint; select local format checks under the [shared verification policy](../../SKILL.md#verification-and-autofixci).
 - Build when runtime/bundling/routes or the size of the change justify it. Record generated-file status first and inspect the resulting diff.
 - Broaden testing when risk, failures, or additional changes warrant it.
 - Do not add tests that only mirror implementation wording or trivial reversible presentation changes.

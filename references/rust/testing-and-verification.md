@@ -61,7 +61,7 @@ Public library examples should compile and, when appropriate, execute as doctest
 
 ## Formatting, lints, and baseline checks
 
-rustfmt and normal Clippy checks are required for Rust changes. Use the established configuration and scope checks to the affected package/workspace. A normal single-package baseline with a committed lockfile is:
+Use rustfmt and normal Clippy checks for Rust changes, selecting local checks under the [shared verification policy](../../SKILL.md#verification-and-autofixci). Use the established configuration and scope checks to the affected package/workspace. A normal single-package baseline with a committed lockfile is:
 
 ```text
 cargo fmt --all --check
@@ -80,7 +80,7 @@ Do not add `#![allow(warnings)]` or broad suppressions. Use narrowly scoped, jus
 
 For provider workflows/scripts, dependency-update automation, or release/publish work, compose [shared deployment routing](../deployment/index.md) with this verification policy and [Cargo tooling](cargo-and-tooling.md). Keep actual Cargo targets/MSRV/features authoritative; a Rust-only pipeline does not acquire Bun/React/web checks merely from a provider reference.
 
-For the changed behavior, run the relevant tests first, then formatting, compilation, and Clippy. Add builds, docs, feature matrices, or platform checks where the change needs them. Do not broaden/repeat checks after passing without a new reason.
+For the changed behavior, run the relevant tests first, then compilation, Clippy, and formatting where required by the shared verification policy. Add builds, docs, feature matrices, or platform checks where the change needs them. Do not broaden/repeat checks after passing without a new reason.
 
 - Use selected workspace/package targets rather than assuming the root default covers every changed crate.
 - Test supported default, minimal/no-default, and significant feature combinations; use all-features only when valid. Optional dependencies can hide compilation and API regressions.
