@@ -32,6 +32,8 @@ Avoid mutating the process environment in threaded application code or parallel 
 
 Initialize logging/tracing once at the application boundary when needed. Libraries emit through the selected facade without installing a global subscriber/logger or choosing a caller's output policy. Do not add a logging dependency to a tiny tool without a need. For CLIs, reserve stdout for the command's data/output contract and use stderr for diagnostics where appropriate.
 
+Keep configuration, logging, and resource initialization explicit in the startup flow. Do not introduce hidden side effects before `main()` through constructor hooks; lazy initialization can be appropriate when its access and failure behavior remain explicit.
+
 Apply shared secret constraints to derived `Debug`, error formatting, spans, serialized values, and structured fields; automatic derives can leak data too. Capture actionable context and correlation identifiers without logging unbounded or private payloads. Reuse a suitable existing logging approach and verify current candidates when one must be selected.
 
 ## Concurrency and shutdown
@@ -39,6 +41,8 @@ Apply shared secret constraints to derived `Debug`, error formatting, spans, ser
 Choose concurrency only for a real requirement. Prefer clear ownership and immutable sharing before shared mutable state. Message passing, narrower synchronization, or a simpler sequential design can remove the need for `Arc<Mutex<T>>`; that type is a deliberate choice rather than a reflex. Respect `Send`/`Sync` requirements; do not add unsafe impls merely to force a mismatched design to compile.
 
 Keep lock scope short, maintain consistent lock ordering, avoid invoking arbitrary callbacks while locked, and choose a synchronization primitive appropriate to the runtime. Do not hold a blocking mutex guard across `.await`; other guards held across awaits also need a specific reason and deadlock/latency review. Handle lock poisoning according to the invariant instead of reflexively unwrapping or ignoring it.
+
+For a poisoned `std::sync::Mutex`, propagate/report the failure unless the protected invariant can be checked or restored through an explicit recovery policy. Accessing the poisoned value or clearing poison is not proof of recovery. Do not impose a blanket ban on justified restoration; see [Mutex poisoning](https://doc.rust-lang.org/std/sync/struct.Mutex.html#poisoning).
 
 Do not execute blocking filesystem/process/CPU work unnoticed on an async executor. Use the selected runtime's appropriate blocking facility or an owned worker design, with resource limits; spawning blocking work does not automatically make it cancellable.
 

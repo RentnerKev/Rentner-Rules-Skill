@@ -26,6 +26,7 @@ These are decision criteria, not a scaffolding template. Avoid both giant implem
 | --- | --- |
 | Module/crate boundaries, entrypoints, config/shared ownership, visibility, file size | [Rust architecture](architecture.md) |
 | Ownership, errors, types, traits/generics, public APIs, async selection, naming, performance | [Rust coding](coding.md) |
+| Concrete operation choices and examples: iteration, Option/Result, moving fields, map entries, conversions | [Rust operations and examples](operations-and-examples.md), with the coding rules |
 | Cargo manifests, dependency research, toolchain/MSRV, lockfiles, features, build scripts, releases | [Rust Cargo and tooling](cargo-and-tooling.md) |
 | Test placement and discovery, binary/library tests, docs, rustfmt/Clippy, CI/platform checks | [Rust testing and verification](testing-and-verification.md) |
 | External input, filesystem/path safety, environment, logging, concurrency/shutdown, unsafe/FFI | [Rust safety and runtime](safety-and-runtime.md) |
