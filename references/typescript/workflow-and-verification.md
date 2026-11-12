@@ -32,7 +32,7 @@ Use `*.config.ts`, `*.service.ts`, `*.types.ts`, `*.test.ts`, and `*.db.test.ts`
 
 Keep functions small and meaningful; prefer early returns. Split large components, hooks, and services when new behavior would add unrelated responsibilities.
 
-Use precise types and discriminated unions or result types for public contracts. Do not add `any` or unchecked casts at system boundaries.
+Use the [TypeScript coding rules](coding.md) for precise contracts, Promise/error ownership, narrowing, and collection operations. Their examples complement the naming and formatting conventions here.
 
 Do not create pure barrel/re-export files. Import from the defining module. Remove an existing pure barrel when its removal is part of the authorized change, updating its callers; do not use this rule to start an unrelated cleanup. An `index.tsx` that implements a component is valid.
 
