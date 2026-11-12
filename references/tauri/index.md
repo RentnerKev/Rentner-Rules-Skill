@@ -29,6 +29,7 @@ Shared authorization, secret, generated-file, migration, and handover restrictio
 | --- | --- |
 | Root/source layout, bootstrap, core independence, config, managed-state ownership, optional servers | [Architecture](architecture.md) |
 | `native.ts`, Query/mutations, commands/channels/events, typed contracts, errors, subscriptions | [Frontend and IPC](frontend-and-ipc.md) |
+| Examples: serializable command errors, short state locks, listener cleanup, owned cancellation | [Command and lifecycle examples](command-and-lifecycle-examples.md), with the relevant IPC/runtime rules |
 | WebView trust, capabilities/permissions, custom-command exposure, CSP, paths/processes/protocols | [Security and capabilities](security-and-capabilities.md) |
 | Background work, window/app lifecycle, persistence, multi-window, sidecars, optional desktop features | [Desktop and runtime](desktop-and-runtime.md) |
 | Versions/plugins, development/builds, test placement, desktop E2E, CI, bundling/signing/updates | [Workflow and verification](workflow-and-verification.md) |

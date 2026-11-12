@@ -2,6 +2,8 @@
 
 Scope: [Tauri profile](index.md). Reuse [frontend hook/presentation rules](../typescript/frontend.md) and [TypeScript ownership](../typescript/architecture.md); this reference defines the native adapter and IPC choices.
 
+For concrete command/error, managed-state snapshot, and late-listener-cleanup implementations, read the relevant [command and lifecycle examples](command-and-lifecycle-examples.md). They preserve this adapter boundary and the existing grouped hook contract.
+
 ## Feature-owned native access
 
 Place native calls in the owning feature's `native.ts`, alongside its existing `Components/`, `Hooks/`, `Types/`, and `validation.ts` when needed. Reusable native domain operations can use a meaningful UI-free lib module under the existing ownership rules. Do not scatter `invoke()` throughout routes, components, and unrelated hooks, or introduce a generic wrapper per trivial call.

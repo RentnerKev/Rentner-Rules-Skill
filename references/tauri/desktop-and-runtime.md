@@ -10,6 +10,8 @@ Do not block the WebView/event-loop thread or an async executor with OCR, compre
 
 Use channels for sustained progress and events for suitable notifications under the [IPC rules](frontend-and-ipc.md#commands-channels-and-events). Bound native admission and progress output, handle consumer loss, and retain tasks/child handles when completion/cleanup matters. Define cancellation and cleanup explicitly; a frontend timeout, dropped subscription, or lost window does not roll back committed native effects or necessarily stop blocking work.
 
+For a verified-owner cancellation command and cooperative worker checkpoints, see the [native cancellation example](command-and-lifecycle-examples.md#cooperative-native-cancellation-with-verified-ownership). It complements the lifecycle rules above without introducing another job architecture.
+
 ## Window and application lifecycle
 
 Distinguish closing a window, hiding it to a tray, stopping one operation, and exiting the whole app. Multi-window/tray products need a documented last-window/explicit-exit policy and a way to actually quit; do not leave invisible processes unintentionally.
