@@ -93,7 +93,7 @@ The central [tooling policy](references/typescript/tooling.md) defines Oxlint fo
 - Research current maintenance, compatibility, and suitable alternatives before adding dependencies.
 - Keep TSX components focused on presentation; put behavior in `use...Logic` hooks.
 - Use one public `use...Logic` per screen/component; avoid nested full logic hooks and forwarding wrappers. Focused custom hooks remain reusable.
-- Return `state` and `handler`, with optional `setter`, `refs`, and named library instances such as `table` or `form`.
+- Return only the needed named groups: `state`, `handler`, optional `setter`/`refs`, and named library instances such as `table` or `form`. Do not add empty groups.
 - Keep Table/Form/Modal submodules inside `Components/`.
 - For actual TypeScript servers, separate Server Function adapters in `middleware.ts`, schemas in `validation.ts`, and backend domain logic in `src/server`.
 - Put reusable UI in `src/shared` and UI-free helper modules in `src/lib`.
@@ -103,20 +103,11 @@ The central [tooling policy](references/typescript/tooling.md) defines Oxlint fo
 - Keep tests centralized under `src/tests`, mirroring source paths.
 - Preserve secrets, existing user changes, security checks, and the Drizzle/migration boundary.
 
-Full TypeScript instructions are in the [TypeScript profile](references/typescript/index.md), with examples in [Architecture](references/typescript/architecture.md) and [Frontend](references/typescript/frontend.md). Shared authorization, safety, and workflow constraints are in [SKILL.md](SKILL.md).
+Full TypeScript instructions are in the [TypeScript profile](references/typescript/index.md), with operation/type/Promise examples in [Coding](references/typescript/coding.md), ownership in [Architecture](references/typescript/architecture.md), and React lifecycle/hook examples in [Frontend](references/typescript/frontend.md). Shared authorization, safety, and workflow constraints are in [SKILL.md](SKILL.md).
 
 ## Database workflow
 
-Keep `drizzle/` unchanged by default. Relevant read-only inspection is allowed. A direct change is an exception only for a concrete, substantial benefit: explain the files and reason in a question box and wait for explicit user approval before editing, adding, moving, or deleting files there.
-
-Both commands are always permitted without another confirmation:
-
-```sh
-bun run db:generate
-bun run db:migrate
-```
-
-Their normal generated changes in `drizzle/` are included in that permission. Direct edits to those outputs still need approval through a question box. Other database commands and unrelated side effects do not inherit this permission. See the shared [safety rules](SKILL.md#work-safely-and-finish-the-task) and detailed [Drizzle and schema boundary](references/typescript/backend-and-safety.md#drizzle-and-schema-boundary).
+`bun run db:generate` and `bun run db:migrate` are permitted without another confirmation, including their normal generated files. Direct changes inside `drizzle/` require a concrete benefit and explicit approval through a question box; other database commands and unrelated side effects do not inherit script permission. The authoritative policy lives in [SKILL.md](SKILL.md#work-safely-and-finish-the-task), with schema ownership and execution-chain details in the [Drizzle and schema boundary](references/typescript/backend-and-safety.md#drizzle-and-schema-boundary).
 
 ## Rust conventions
 
@@ -128,6 +119,7 @@ The profile routes to focused references:
 | --- | --- |
 | [Architecture](references/rust/architecture.md) | Entrypoints, module/crate boundaries, config/shared ownership, visibility, and coherent file sizes |
 | [Coding](references/rust/coding.md) | Ownership, typed errors/states, traits/generics, APIs, async selection, and measured performance |
+| [Operations and examples](references/rust/operations-and-examples.md) | Concrete iteration, Option/Result, field moves, map updates, parsing, and text operations |
 | [Cargo and tooling](references/rust/cargo-and-tooling.md) | Current dependency research, stable/MSRV, lockfiles, features, build scripts, and supply-chain checks |
 | [Testing and verification](references/rust/testing-and-verification.md) | Crate-root `tests/`, private-test exceptions, Cargo discovery, docs, rustfmt/Clippy, and CI |
 | [Safety and runtime](references/rust/safety-and-runtime.md) | Paths/filesystem operations, external data, environment/logging, bounded concurrency, shutdown, and unsafe/FFI |
@@ -156,6 +148,7 @@ The usual operation path is `component → owning hook/query/mutation → native
 | --- | --- |
 | [Architecture](references/tauri/architecture.md) | Project shape, bootstrap/registration, core independence, managed resources, config, and optional servers |
 | [Frontend and IPC](references/tauri/frontend-and-ipc.md) | Feature `native.ts`, Query integration, IPC primitive selection, contracts/errors, and subscription ownership |
+| [Command and lifecycle examples](references/tauri/command-and-lifecycle-examples.md) | Serializable errors, managed-state snapshots, late listener cleanup, and owned cooperative cancellation |
 | [Security and capabilities](references/tauri/security-and-capabilities.md) | Native validation, effective permissions/custom-command ACL, CSP, remote content, protocols, files/processes, and secrets |
 | [Desktop and runtime](references/tauri/desktop-and-runtime.md) | Background jobs, cancellation/shutdown, windows, persistence, optional desktop integrations, and observability |
 | [Workflow and verification](references/tauri/workflow-and-verification.md) | Current versions/plugins, development/builds, isolated tests/E2E, platform CI, bundles, signing, and updates |
@@ -183,7 +176,7 @@ Only add capabilities justified by the actual project. Separate hybrid language 
 
 Simple self-hosting with a joint product lifecycle prefers Appliance, with RentnerProxy as the reference. Ordinary production web/business applications prefer Standard Production, with accessible TanstackDummy as the reference: app/worker can share one versioned image while required state services have their actual lifecycle. Scale / HA requires real scaling/availability/managed-infrastructure needs; code size or language count does not justify a cluster. Hybrid can use one product image or justified separate services. Pure Tauri desktop apps keep native delivery; additional servers are assessed separately.
 
-Prefer Valkey for new compatible cache/session/queue/coordination needs and PostgreSQL for relational storage; do not add unused services or migrate existing Redis without a concrete request. Keep database/cache ports internal, durable data outside the container layer, and operator configuration small. Document backups, failed-startup recovery, explicit PostgreSQL major upgrades and rollback/state compatibility. Runtime migration work follows the [database workflow](#database-workflow): the two Bun scripts have standing permission, direct Drizzle-folder changes need approval through a question box, and other operations need their own authorization. Hidden migrations and reading real environment/secret files remain prohibited.
+Prefer Valkey for new compatible cache/session/queue/coordination needs and PostgreSQL for relational storage; do not add unused services or migrate existing Redis without a concrete request. Keep database/cache ports internal, durable data outside the container layer, and operator configuration small. Document backups, failed-startup recovery, explicit PostgreSQL major upgrades and rollback/state compatibility. All runtime/build/verification paths follow the [database workflow](#database-workflow); infrastructure wrappers do not bypass it. Reading real environment/secret files remains prohibited.
 
 The deployment/provider references link official sources checked on 2026-10-05; recheck current schema/version/platform/image/upgrade support before concrete configuration. Reference tool versions, names, deployment paths, branding, and database-migration steps are not global defaults.
 
@@ -210,6 +203,7 @@ Rentner-Rules-Skill/
 │   ├── typescript/
 │   │   ├── index.md
 │   │   ├── architecture.md
+│   │   ├── coding.md
 │   │   ├── frontend.md
 │   │   ├── dependencies-and-config.md
 │   │   ├── backend-and-safety.md
@@ -219,6 +213,7 @@ Rentner-Rules-Skill/
 │   │   ├── index.md
 │   │   ├── architecture.md
 │   │   ├── coding.md
+│   │   ├── operations-and-examples.md
 │   │   ├── cargo-and-tooling.md
 │   │   ├── testing-and-verification.md
 │   │   └── safety-and-runtime.md
@@ -231,6 +226,7 @@ Rentner-Rules-Skill/
 │   │   ├── index.md
 │   │   ├── architecture.md
 │   │   ├── frontend-and-ipc.md
+│   │   ├── command-and-lifecycle-examples.md
 │   │   ├── security-and-capabilities.md
 │   │   ├── desktop-and-runtime.md
 │   │   └── workflow-and-verification.md

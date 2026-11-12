@@ -64,7 +64,7 @@ Discover real commands from package scripts, test configuration, and CI. Do not 
 - Never hide failing tests, weaken assertions/security checks, or regenerate broad snapshots to make a check green.
 - Separate failures introduced by the change from pre-existing failures and unavailable checks.
 
-Do not manually modify generated route trees, build directories, or generated artifacts, except a direct `drizzle/` change explicitly approved under the [database policy](backend-and-safety.md#drizzle-and-schema-boundary). Normal output from the two permitted Bun DB scripts follows that policy. Do not include an unrelated generated diff in a product commit.
+Do not manually modify generated route trees, build directories, or generated artifacts. The [database policy](backend-and-safety.md#drizzle-and-schema-boundary) distinguishes permitted generation/migration scripts from explicitly approved direct Drizzle edits. Do not include an unrelated generated diff in a product commit.
 
 ## Documentation, Git, and handover
 

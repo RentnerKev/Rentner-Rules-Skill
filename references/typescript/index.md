@@ -16,7 +16,7 @@ Installed `@rentnerkev/*` packages are the primary source for their supported UI
 2. A feature may contain `index.tsx`, `Components/`, `Hooks/`, `Types/`, `middleware.ts`, and `validation.ts`. Create only the parts the feature needs.
 3. Keep TSX components as presentation templates: imports, typed props, hook wiring, and JSX. Put state, queries, mutations, effects, derived business values, and action workflows in `use...Logic` hooks.
 4. Give each screen or complex component one public `use...Logic` entrypoint. Do not nest full screen/component logic hooks or add presentation wrappers that forward their complete results. Focused custom hooks remain valid; see the frontend composition rules.
-5. Return named hook groups: `state` and `handler`, with optional `setter`, `refs`, and clearly named library instances such as `table` or `form`. Include only the groups actually needed.
+5. Return only the needed named hook groups: `state`, `handler`, optional `setter`/`refs`, and clearly named library instances such as `table` or `form`. Read-only hooks can return only `state`; do not invent empty groups.
 6. Place a complex Table, Form, or Modal inside `Components/<Component>/`, with its own components, hooks, and types when useful. Use TanStack Table and the existing shared table components.
 7. For actual TypeScript servers, use feature `middleware.ts` for the Server Function boundary: method, input validation, authentication, permission, rate limit, and service delegation. Put business logic, database access, queues, mail, and storage in backend services.
 8. Use `validation.ts` for input schemas and pure normalization. It describes the validated contract; it does not perform authentication or persistence.

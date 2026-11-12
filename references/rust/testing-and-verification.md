@@ -61,7 +61,7 @@ Public library examples should compile and, when appropriate, execute as doctest
 
 ## Formatting, lints, and baseline checks
 
-Use rustfmt and normal Clippy checks for Rust changes, selecting local checks under the [shared verification policy](../../SKILL.md#verification-and-autofixci). Use the established configuration and scope checks to the affected package/workspace. A normal single-package baseline with a committed lockfile is:
+Use rustfmt and normal Clippy checks for Rust changes, selecting local checks under the [shared verification policy](../../SKILL.md#verification-and-autofixci). Use the established configuration and scope checks to the affected package/workspace. A normal single-package baseline with a committed lockfile is shown below; select the needed checks, run relevant behavior tests first, and omit formatter checks only when the shared policy establishes coverage:
 
 ```text
 cargo fmt --all --check

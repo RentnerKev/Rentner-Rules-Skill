@@ -16,7 +16,7 @@ Apply the shared scope, authorization, dependency-research, safety, and handover
 - Use idiomatic ownership, typed states and errors, and concrete types unless an abstraction solves a real problem.
 - Prefer synchronous code when it meets the need. Make runtime, concurrency, shared state, and unsafe decisions explicit.
 - Prefer observable behavior tests in crate-root `tests/`; private algorithm tests and executable API documentation have justified exceptions.
-- Use rustfmt and Clippy, then the relevant Cargo tests and compatibility checks. Research time-sensitive tooling and dependency choices at the time of use.
+- Select checks through [Rust verification](testing-and-verification.md) and the shared autofix.ci policy: relevant behavior tests first, then needed compiler/lint/format and compatibility checks. Research time-sensitive tooling and dependency choices at the time of use.
 
 These are decision criteria, not a scaffolding template. Avoid both giant implementation files and needless layers, traits, workspaces, or tiny files. Preserve compatibility and refactor only for a concrete improvement within the request.
 

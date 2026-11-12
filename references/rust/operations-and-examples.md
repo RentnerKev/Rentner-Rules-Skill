@@ -8,12 +8,7 @@ For owned standard collections, choose iteration according to ownership:
 
 ```rust
 fn normalize_names(mut names: Vec<String>) -> Vec<String> {
-    // Read existing elements without moving them.
-    let has_blank_name = names.iter().any(|name| name.trim().is_empty());
-
-    if has_blank_name {
-        names.retain(|name| !name.trim().is_empty());
-    }
+    names.retain(|name| !name.trim().is_empty());
 
     // Mutate elements in the existing collection.
     for name in names.iter_mut() {

@@ -8,7 +8,7 @@ Use the [official Rust Style Guide](https://doc.rust-lang.org/style-guide/) for 
 
 For read-only access, prefer `&T`, `&str`, and `&[T]` when their lifetimes fit the operation. Take or return owned data when ownership transfer, storage, independent lifetime, or task boundaries require it. Do not automatically turn every input into `String` or `Vec<T>`.
 
-Avoid cloning simply to silence the borrow checker. First reconsider ownership, borrowing scope, and data flow. A cheap clone can still be clearer than intricate lifetimes or a contorted API; evaluate its actual cost and semantics. `Arc` shares ownership, not automatic thread safety or deep immutability. Shared mutable state and synchronization decisions belong to [runtime safety](safety-and-runtime.md#concurrency-and-shutdown).
+Avoid cloning simply to silence the borrow checker. First reconsider ownership, borrowing scope, and data flow.
 
 Do not force every struct to carry lifetimes, every owned input to be generic, or every return to avoid allocation. Keep ownership visible and APIs understandable.
 
@@ -40,7 +40,7 @@ fn enqueue(queue: &mut Vec<String>, name: String) {
 
 If a return value must outlive its source, return owned data instead of forcing a borrowed result. Do not add `'static` bounds or leak allocations merely to bypass a lifetime problem. Named lifetimes should describe meaningful relationships; elision, `'_`, and conventional local names such as `'a` remain appropriate.
 
-`Clone` is type-specific, not a promise of a deep or cheap copy. `Arc::clone(&value)` shares the same allocation and makes that intent visible. Use `Rc`/`Arc` for actual shared ownership, not as default replacements for ordinary ownership and borrowing. A deliberate clone can be preferable to excessively complex borrowing.
+`Clone` is type-specific, not a promise of a deep or cheap copy. `Arc::clone(&value)` shares the same allocation and makes that intent visible; it does not provide automatic thread safety or deep immutability. Use `Rc`/`Arc` for actual shared ownership, not as default replacements for ordinary ownership and borrowing. A deliberate clone can be preferable to excessively complex borrowing; evaluate its cost and semantics. Synchronization decisions belong to [runtime safety](safety-and-runtime.md#concurrency-and-shutdown).
 
 ### Collections and generic inputs
 
@@ -114,7 +114,7 @@ Use inherent `impl Type` methods for ordinary functionality. An extension trait 
 
 ## Public library contracts
 
-Keep APIs narrow and use consistent ownership and naming. Consider future extension before publishing structs, enum variants, or traits. `#[non_exhaustive]` can be appropriate for an intentionally extensible public type; adding it later is itself a compatibility decision.
+Keep APIs narrow and use consistent ownership and naming. Consider future extension before publishing structs, enum variants, or traits.
 
 Public fields, required trait methods, error variants, feature defaults, and relevant auto-traits such as `Send`/`Sync` affect compatibility. Changing private internals can change these guarantees. Do not expose a third-party type unnecessarily when it would bind consumers to that dependency's version, but avoid wrappers with no benefit. Preserve established contracts in existing libraries; assess changes using [Cargo's SemVer guidance](https://doc.rust-lang.org/cargo/reference/semver.html).
 
@@ -122,7 +122,7 @@ Document the contract callers need: normal behavior, examples, expected errors, 
 
 - Add `is_empty()` alongside a collection-like `len()`.
 - Use `#[must_use]` for important computed values or lazy operations that would be misused if discarded. Prefer annotating a shared result type when appropriate; do not duplicate the annotation solely because a function returns an already annotated type such as `Result`.
-- Use `#[non_exhaustive]` for deliberately extensible external enums/structs, not every internal state. Across crates it prevents exhaustive matching or struct-literal construction respectively; this also restricts external struct-update syntax with `Default`.
+- Use `#[non_exhaustive]` for deliberately extensible external enums/structs, not every internal state. Across crates it prevents exhaustive matching or struct-literal construction respectively; this also restricts external struct-update syntax with `Default`. Adding the attribute later is itself a compatibility decision.
 - Treat public `const fn` as a compatibility commitment; removing `const` may break callers.
 - Do not depend on foreign `#[doc(hidden)]` implementation details as public contracts.
 - Overload operators only where their usual mathematical/logical meaning fits. Do not invent terse domain syntax through surprising operator behavior.

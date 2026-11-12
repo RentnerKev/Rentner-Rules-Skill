@@ -114,7 +114,7 @@ Prefer small, purposeful hooks. Extract coherent behavior when a hook starts coo
 
 ## State, effects, and rendering
 
-Apply the [TypeScript operation rules](coding.md) inside hooks; moving code out of TSX does not change React's runtime rules. The logic hook's function body runs during render. Requests, subscriptions, state mutations, and other external side effects belong in the appropriate handler or lifecycle, not that body. Newly created local objects may be built normally; do not mutate props, existing state, hook inputs/results, or cached data.
+Apply the [TypeScript operation rules](coding.md) inside hooks; moving code out of TSX does not change React's runtime rules. The logic hook's function body runs during render. Requests, subscriptions, state updates, and other external side effects belong in the appropriate handler or lifecycle, not that body. Newly created local objects may be built normally; do not directly mutate props, existing state, hook inputs/results, or cached data. Calling a returned setter, handler, or library instance's supported method remains valid under its API contract.
 
 Call ordinary hooks unconditionally at the top level of components/custom hooks, before early returns, never in loops or callbacks. The React `use` API has documented exceptions; do not generalize them to `useState`, `useEffect`, or custom hooks. Render components through JSX rather than calling their functions directly, and do not define a new component type inside another component/hook on each render. See [Rules of Hooks](https://react.dev/reference/rules/rules-of-hooks) and [React purity](https://react.dev/reference/rules).
 
