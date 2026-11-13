@@ -1,14 +1,14 @@
 # Persistent data and recovery
 
-Scope: selected [server deployment models](deployment-models.md) with state, infrastructure components, or maintenance requirements. Reuse the owning language's runtime safety and [shared authorization/secret restrictions](../../SKILL.md#work-safely-and-finish-the-task). Documentation of an operator procedure does not authorize executing it against production.
+Scope: [complete product image delivery](deployment-models.md) with state, infrastructure components, or maintenance requirements. Reuse the owning language's runtime safety and [shared authorization/secret restrictions](../../SKILL.md#work-safely-and-finish-the-task). Documentation of an operator procedure does not authorize executing it against production.
 
 ## PostgreSQL
 
-Prefer PostgreSQL for applications that need a relational database. Do not add it to applications without that requirement. Under Standard Production it normally runs as a separate service or the actual external database; application services use the internal service address and least required database access. Do not publish PostgreSQL's host port by default or document passwords/real connection strings.
+Prefer PostgreSQL for applications that need a relational database. Do not add it without that requirement. Bundle it in the [complete product image](deployment-models.md); prefer a compatible Alpine-based PostgreSQL image/stage under the [base-image policy](docker-and-compose.md#production-images). Keep its endpoints internal and use least required database access. Do not publish its host port by default or document real passwords/connection strings.
 
-An operator can use the running DB service for authorized maintenance, for example the pattern `docker compose exec <db-service> psql ...`, with authentication derived from the project. This is a documented access pattern, not an instruction for the agent to inspect credentials or execute SQL/migrations. External databases use their approved private access path.
+Document authorized maintenance through the product service or its supported maintenance entrypoint, with authentication handled by the product. This documents an access pattern; it does not instruct the agent to inspect credentials or execute SQL/migrations. Maintenance must remain possible when normal application startup fails.
 
-In an intentional appliance, PostgreSQL may be embedded in the application image. Bind it internally, persist its actual data outside the writable image layer, and explicitly handle initialization, readiness, consumer ordering, shutdown, backups, and access independent of the web application's startup. Never reinitialize or replace an existing data directory because readiness failed. Bundling the server also makes its data-format/major-version upgrade a product responsibility.
+For embedded PostgreSQL, persist its actual data outside the writable image layer and explicitly handle initialization, readiness, consumer ordering, shutdown, backups, and access independent of web application startup. Never reinitialize or replace an existing data directory because readiness failed. Bundling the server makes its data-format/major-version upgrade a product responsibility.
 
 ## Valkey preference and compatibility
 
@@ -24,7 +24,7 @@ Decide whether each dataset is disposable, recoverable from authoritative storag
 
 Keep durable data separate from the image and container writable layer. Containers must be replaceable while required data survives. Use named volumes or intentional bind mounts according to the actual deployment; document each mount's purpose, path, ownership/permissions, writer, backup inclusion, retention, and compatibility. Never infer a mandatory data path from a reference project's image or a different PostgreSQL image version.
 
-Prefer a small understandable appliance data surface, using one/few volumes when technically sufficient. Internal subdirectories still need correct ownership and recovery boundaries. Avoid unnecessary implementation volumes, but do not merge unrelated failure/backup/security requirements merely to reach one volume. Scale/HA storage needs its actual concurrent access and durability guarantees; sharing an ordinary data directory between database servers is not an HA design.
+Prefer a small understandable product data surface, using one named data volume plus a backup bind mount when technically sufficient. Internal subdirectories still need correct ownership and recovery boundaries. Avoid implementation-only mounts; preserve distinct backup/security requirements where necessary. Never share a PostgreSQL data directory between concurrent database servers.
 
 For every persistent production deployment, define backup and tested restore procedures covering the actual database, uploaded/object data, configuration/state, and required operator-managed encryption material. The agent documents names/ownership without reading or copying keys. Backups need appropriate access protection, retention, consistency, and separation from the failed host/data volume. A local backup directory alone does not prove disaster recovery.
 
@@ -40,7 +40,7 @@ Stop/quiesce competing writers as required. Never run two PostgreSQL servers aga
 
 ## Persistent format and PostgreSQL major upgrades
 
-Changing a bundled/separate PostgreSQL major version is not an ordinary application image replacement. Before changing the deployment/image, require an explicit maintainer/operator upgrade plan: current/target versions and supported tool/image paths, application/extensions compatibility, protected verified backup, supported conversion/dump-restore/replication method, isolated verification, downtime/write coordination, and a realistic rollback/recovery point. Check [PostgreSQL's upgrade guidance](https://www.postgresql.org/docs/current/upgrading.html) and the chosen image's current data-directory contract.
+Changing the bundled PostgreSQL major version is not an ordinary application image replacement. Before changing the deployment/image, require an explicit maintainer/operator upgrade plan: current/target versions and supported tool/image paths, application/extensions compatibility, protected verified backup, supported conversion/dump-restore/replication method, isolated verification, downtime/write coordination, and a realistic rollback/recovery point. Check [PostgreSQL's upgrade guidance](https://www.postgresql.org/docs/current/upgrading.html) and the chosen image's current data-directory contract.
 
 Do not silently point a new major at old persisted data, assume a moved mount upgrades its contents, or claim an old binary can read a newly upgraded directory. Preserve the previous state/recovery path until the plan's verification criteria are met. An application update does not authorize PostgreSQL major-version conversion, backup/restore, or other data-conversion operations.
 

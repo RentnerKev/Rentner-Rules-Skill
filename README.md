@@ -4,7 +4,7 @@
 
 Reusable coding conventions by Kevin Sträßler, with four profiles: TypeScript, Rust, a shared TypeScript web / Rust core product, and Tauri.
 
-A shared deployment area adds project-appropriate GitHub/Forgejo CI/CD, Docker/Compose and server operating models, data/recovery, dependency automation, security, releases, labels, and branded release assets without replacing those profiles.
+A shared deployment area adds project-appropriate GitHub/Forgejo CI/CD, Docker/Compose with complete product image delivery, data/recovery, dependency automation, security, releases, labels, and branded release assets without replacing those profiles.
 
 The TypeScript profile covers React and TanStack Start feature structure, presentation components, grouped logic hooks, declarative configuration, clean package usage, and verified changes. The Rust-only profile covers responsibility-oriented modules, idiomatic ownership and errors, Cargo, testing, and runtime safety for ordinary Rust projects. General hybrid adds web/core repository and boundary rules. Tauri reuses the language conventions with its client frontend, native IPC, capabilities, and desktop lifecycle. It is packaged like [Hybrid Coding Skill](https://github.com/RentnerKev/Hybrid-Coding-Skill).
 
@@ -77,6 +77,8 @@ For planning, ask for a plan or rules discussion first; the skill keeps that wor
 It works independently of Hybrid Coding. When both are used, Hybrid Coding provides orchestration and Rentner Rules provides code and architecture conventions.
 
 ## Git branches and pull requests
+
+Write issues, PRs, comments, reviews, discussions, commit messages, release notes, changelogs, labels/descriptions, and their templates or generated text in English, even when the conversation is in German. Product UI language follows product requirements.
 
 New PR branches use a fitting change type and a short kebab-case description, such as `feat/user-settings` or `fix/session-timeout`. PR titles describe the change with the matching type, such as `feat: add user settings`; neither uses a `codex/` prefix or agent labels. Other suitable types include `docs`, `refactor`, `test`, and `chore`.
 
@@ -157,11 +159,11 @@ Frontend tests remain in `src/tests`; Rust behavior tests normally use `src-taur
 
 ## Shared deployment, CI/CD and release automation
 
-[Deployment routing](references/deployment/index.md) identifies the affected project, actual operating requirements/provider, existing runtime/automation, runner capabilities, and needed artifacts. Server operating model, language profile and provider are separate decisions. It composes with the four profiles; Tauri retains precedence over general hybrid. A provider folder alone does not establish the active host, and existing projects are not automatically migrated to a new pipeline or topology.
+[Deployment routing](references/deployment/index.md) identifies the affected project, actual operating requirements/provider, existing runtime/automation, runner capabilities, and needed artifacts. Complete-image packaging applies independently of the language profile and provider. It composes with the four profiles; Tauri retains precedence over general hybrid. A provider folder alone does not establish the active host, and existing projects are not automatically migrated to a new pipeline or topology.
 
 | Reference | Decisions |
 | --- | --- |
-| [Deployment models](references/deployment/deployment-models.md) | Appliance, Standard Production or Scale / HA from lifecycle, scaling, availability and state requirements; canonical architecture references |
+| [Complete image delivery](references/deployment/deployment-models.md) | One complete product image/service with bundled runtime processes and minimal operator configuration |
 | [Docker and Compose](references/deployment/docker-and-compose.md) | Published production images, multi-stage runtime packaging, one central Compose entrypoint, configuration/ports, readiness and supervised lifecycle |
 | [Data and recovery](references/deployment/data-and-recovery.md) | PostgreSQL/Valkey selection, volumes/backups, maintenance without normal startup, persistent-format/major upgrades and database command/approval rules |
 | [Operations](references/deployment/operations.md) | Target deployment, runtime verification, compatible upgrades/rollback, safe infrastructure checks and operator handover |
@@ -174,7 +176,7 @@ Frontend tests remain in `src/tests`; Rust behavior tests normally use `src-taur
 
 Only add capabilities justified by the actual project. Separate hybrid language jobs and Tauri frontend/core/native delivery; do not add Rust checks to TypeScript-only products, web checks to Rust-only products, or automatic server/container deployment to desktop apps. Provider-exclusive scripts stay under `.github/scripts/` or `.forgejo/scripts/`; application development/build tooling retains its owner. Missing runner capabilities, labels, or genuine banner assets require concrete maintainer steps, not invented configuration or placeholders.
 
-Simple self-hosting with a joint product lifecycle prefers Appliance, with RentnerProxy as the reference. Ordinary production web/business applications prefer Standard Production, with accessible TanstackDummy as the reference: app/worker can share one versioned image while required state services have their actual lifecycle. Scale / HA requires real scaling/availability/managed-infrastructure needs; code size or language count does not justify a cluster. Hybrid can use one product image or justified separate services. Pure Tauri desktop apps keep native delivery; additional servers are assessed separately.
+Docker server delivery always ships one complete product image, one minimal production Compose service, and a small `.env.example`, following the user-provided TanStack Dummy example. Bundle required app, worker, PostgreSQL, and Valkey processes with supervision and recovery support. Remove superseded Docker/Compose variants within authorized consolidation work; do not offer split-service, per-language, or HA alternatives. Prefer Alpine-based images/stages wherever compatible, including PostgreSQL; document concrete compatibility exceptions. Pure Tauri desktop apps retain native delivery.
 
 Prefer Valkey for new compatible cache/session/queue/coordination needs and PostgreSQL for relational storage; do not add unused services or migrate existing Redis without a concrete request. Keep database/cache ports internal, durable data outside the container layer, and operator configuration small. Document backups, failed-startup recovery, explicit PostgreSQL major upgrades and rollback/state compatibility. All runtime/build/verification paths follow the [database workflow](#database-workflow); infrastructure wrappers do not bypass it. Reading real environment/secret files remains prohibited.
 

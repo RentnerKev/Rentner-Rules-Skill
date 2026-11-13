@@ -1,6 +1,6 @@
 # Deployment operations and verification
 
-Scope: production/runtime changes under a selected [deployment model](deployment-models.md), composed with [Docker/Compose](docker-and-compose.md), [data/recovery](data-and-recovery.md), and the affected language/runtime rules. Building, publishing, deploying, database conversion, and recovery are distinct operations with their own existing authorization. Preparing rules or documentation does not authorize live changes.
+Scope: production/runtime changes for [complete product image delivery](deployment-models.md), composed with [Docker/Compose](docker-and-compose.md), [data/recovery](data-and-recovery.md), and the affected language/runtime rules. Building, publishing, deploying, database conversion, and recovery are distinct operations with their own existing authorization. Preparing rules or documentation does not authorize live changes.
 
 ## Deployment sequence
 
@@ -8,7 +8,7 @@ Use the real target environment and release process, preserving a coherent exist
 
 Before an authorized deployment, establish target identity/access, current and candidate image digests/platforms, actual roles/configuration/volumes, data/protocol compatibility, backup/recovery readiness, downtime expectations, and the supported update mechanism. Validate using harmless configuration without reading real environment files/secrets. A successful CI run or registry push does not establish these target facts.
 
-Serialize competing writes to the same target, check current state before applying changes, and preserve existing data. Pull the exact candidate, update only affected roles in their dependency/drain order, and wait for bounded readiness. Use the selected model's actual restart/rollout controls; recreating a single-host Compose service is not a zero-downtime promise. Scale/HA rollouts require real capacity, traffic draining, failure-domain and mixed-version guarantees.
+Serialize competing writes to the same target, check current state before applying changes, and preserve existing data. Pull the exact complete-image candidate, drain and replace the product service, and wait for bounded readiness. Keep internal dependency shutdown/startup order in the image supervisor; recreating a single-host Compose service is not a zero-downtime promise.
 
 After the update, verify the running version/digest and intended configuration/platform, role readiness, needed dependency access, and a representative user/runtime operation. Worker/scheduler deployments need relevant processing/coordination checks rather than only the web process. Report success only when the agreed checks pass; record the precise failed or unavailable check otherwise.
 
@@ -36,7 +36,7 @@ Validate changed Docker/Compose configuration against the actual installed tooli
 
 Where the execution chain is permitted and the change needs it, build/inspect the actual image, verify final artifacts/dependencies/platform and absence of build secrets, and run isolated startup/health/shutdown/persistence checks without publish credentials or production resources. Test restore/recovery with disposable authorized copies, never ordinary production volumes. Do not add every theoretical infrastructure test to a small change.
 
-For Scale/HA, verify the actual replica/dependency failure, retry/queue/scheduler and rollout compatibility requirements using safe scenarios. A local Compose smoke does not prove managed service failover or multi-host HA. Keep native desktop checks in the [Tauri delivery profile](../tauri/workflow-and-verification.md), assessing additional server components separately.
+Do not add alternative Scale/HA deployment variants to the complete-image delivery. If explicitly changed requirements call for another topology, verify its actual failure, state-sharing, rollout, and availability contracts; a local smoke alone cannot prove them. Keep native desktop checks in the [Tauri delivery profile](../tauri/workflow-and-verification.md).
 
 Review the final diff, reference/routing consistency, side-effect boundaries and operator prerequisites. Report exactly which static, image, runtime, platform and recovery checks ran, which remain unverified, and why. A schema parse or documentation review cannot be reported as a production deployment/restore validation.
 
