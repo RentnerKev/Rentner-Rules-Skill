@@ -14,6 +14,15 @@ docker --context kiri compose version
 
 Use `docker context use kiri` when configuring Kiri as the user's default. Check relevant `DOCKER_HOST`/`DOCKER_CONTEXT` overrides and the selected buildx builder without exposing credentials; a Docker CLI installed with Docker Desktop does not itself require Desktop to run. Prefer CLI/API operations in the background over UI automation when they support the requested operation. Kiri on Windows uses WSL2 and a named-pipe Docker API; follow the current [Windows setup documentation](https://docs.runkiri.com/windows/). A runtime switch does not copy another engine's images, containers, or volumes automatically. Preserve existing data and check available Kiri resources before recreating anything; do not delete volumes, prune another engine, or shut down unrelated WSL distributions to switch runtimes.
 
+### Disposable test environments and cleanup
+
+Use the [standing local-development permission](../../SKILL.md#local-development-tests-and-cleanup) to create and run needed Kiri test containers without another confirmation. Use synthetic/demo data in isolated storage; never mount existing application data or use an ordinary service as a disposable fixture.
+
+- Inspect existing resources first. Give test containers, Compose projects, images, volumes, and networks unique task-specific names/tags or labels, and record which resources the task creates. Keep Docker/Compose/buildx operations explicitly on Kiri and verify the selected builder's endpoint.
+- Arrange cleanup before starting checks, using automatic container removal where appropriate and a `finally`/trap or equivalent teardown for the remaining resources. Remove owned containers, disposable volumes/networks, test images and temporary fixture files after the checks. Remove images pulled only for these tests when they were absent beforehand and are not needed by another workload.
+- Isolate temporary image-build caches in a task-specific builder when needed so they can be removed with that builder after the final iteration. Reuse the task's cache while iterating. Preserve pre-existing/shared images and caches; do not use `docker system prune`, unrestricted volume/cache pruning, or forced removal of resources used by another task as cleanup shortcuts.
+- Verify removal using the recorded resource IDs, names, or labels in the `kiri` context, and check any task-specific builder/cache and host fixture directories as well. Report failed cleanup and remaining resources accurately.
+
 ### Valkey access from host-run applications
 
 Use [Valkey](data-and-recovery.md#valkey-standard-and-compatibility) for compatible cache, session, queue, and coordination requirements. When the application runs directly on the development host and Valkey runs in Kiri, publish container TCP port 6379 on **`127.0.0.1:6379`** by default. Set the host application endpoint accordingly, for example the credential-free local URL `redis://127.0.0.1:6379`; retain the protocol name required by the client.

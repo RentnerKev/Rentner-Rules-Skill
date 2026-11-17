@@ -67,6 +67,12 @@ This shared policy selects local checks for every project/language profile and i
 - Still run necessary typechecks, compiler checks, tests, and lint diagnostics not automatically corrected, including non-fixable rules in a fixer-enabled linter. Split combined scripts only when equivalent coverage is preserved; otherwise run the combined check. Revalidate affected behavior after semantic lint fixes before claiming correctness.
 - Security-critical changes, explicit user instructions, and technically necessary checks take precedence over token/runtime savings, including local formatting or lint validation when needed.
 
+## Local development tests and cleanup
+
+- During authorized local development, create and run disposable test containers in Kiri, test with synthetic/demo data, and repeat necessary builds and tests, including Rust builds, without asking for another confirmation. This also authorizes stopping and removing the temporary resources created for those checks. Existing database-command and secret restrictions still apply.
+- Cleanup is part of completing the task, including after failed checks or cancellation. Remove task-created temporary containers, images, volumes, networks, build caches, build outputs, and test files once they are no longer needed. Preserve pre-existing resources, shared caches, user data, and requested deliverables; isolate temporary resources so their cleanup cannot affect unrelated work. Follow [Kiri test cleanup](references/deployment/docker-and-compose.md#disposable-test-environments-and-cleanup) and [Rust build cleanup](references/rust/testing-and-verification.md#temporary-builds-and-cleanup) where applicable.
+- Verify cleanup and report any resources that could not be removed, with the reason. Do not silently leave temporary services or build artifacts on the machine.
+
 ## Work safely and finish the task
 
 - Check Git status and preserve existing user changes. Read only the relevant files, callers, contracts, and tests.

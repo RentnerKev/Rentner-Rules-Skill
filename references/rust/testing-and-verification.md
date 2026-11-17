@@ -59,6 +59,12 @@ Network/database/process tests need explicit isolation and the applicable author
 
 Public library examples should compile and, when appropriate, execute as doctests. Use `no_run` for examples that must compile but should not execute external side effects; use `compile_fail` for intentional rejection contracts. Avoid `ignore` simply to hide a stale example. Doctests are a useful documentation exception to the preference for a separate test directory.
 
+## Temporary builds and cleanup
+
+The [standing local-development permission](../../SKILL.md#local-development-tests-and-cleanup) covers repeated Cargo builds and tests without another confirmation. For temporary build iterations, use a task-specific output directory through `CARGO_TARGET_DIR` or `--target-dir`, and track any separately configured intermediate/output directories. Reuse these directories during the task rather than cleaning and rebuilding between every check.
+
+After the final check, including failure or cancellation, stop owned test processes and remove the task's temporary build directories, binaries, test data, and other scratch files. Preserve requested deliverables, pre-existing `target/` contents, shared Cargo registry/git caches, and installed toolchains. Do not run blanket `cargo clean` against a shared or pre-existing build directory. Verify the owned temporary paths are gone and report anything left behind.
+
 ## Formatting, lints, and baseline checks
 
 Use rustfmt and normal Clippy checks for Rust changes, selecting local checks under the [shared verification policy](../../SKILL.md#verification-and-autofixci). Use the established configuration and scope checks to the affected package/workspace. A normal single-package baseline with a committed lockfile is shown below; select the needed checks, run relevant behavior tests first, and omit formatter checks only when the shared policy establishes coverage:
