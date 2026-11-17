@@ -4,11 +4,7 @@ Scope: [TypeScript profile](index.md). The preferred stack and config layout are
 
 ## Preferred platform
 
-For new non-Tauri web projects, prefer Bun, TypeScript strict, React, TanStack Start, Tailwind CSS, Zod, and the TanStack libraries appropriate to the feature: Router, Query, Form, and Table. The [Tauri profile](../tauri/index.md) supplies its client build/runtime override. All JavaScript/TypeScript areas use the shared [tooling policy](tooling.md) for lint/format choices.
-
-Select supported, compatible versions from current documentation and the actual project constraints. Do not copy an old starter's version pins into a new application without checking them.
-
-Read the existing package manager declaration and lockfile. Use the project's package manager consistently; do not introduce a second lockfile or change runtime/toolchain as a side effect of an unrelated task.
+Use the [TypeScript profile's preferred stack](index.md) for new non-Tauri web projects and the [Tauri frontend override](../tauri/index.md) where applicable. The shared [dependency policy](../dependencies-and-documentation.md) owns version research and package-manager preservation; [tooling](tooling.md) owns JS/TS lint/format choices.
 
 ## Installed packages first
 
@@ -16,30 +12,13 @@ Before implementing a reusable UI primitive, inspect installed `@rentnerkev/*` p
 
 A concrete missing capability or incompatibility can justify a small wrapper or another solution. Identify that gap rather than silently duplicating an existing package. Do not assume a private npm registry is needed for publicly available packages.
 
-Reuse other established dependencies when they adequately solve the problem. Do not add a dependency for functionality the runtime or existing platform already provides.
-
 ## Version-matched package documentation
 
-Determine the installed dependency version from the actual package metadata and lockfile before choosing an API. For `@rentnerkev/*`, prefer the installed package's documented read-only `/ai` helpers when that release exports them: `getPackageInfo()`, `getPackageDocumentation()`, `getPackageApi()`, `searchPackageDocumentation()`, and `getPackageExamples()`. Read only the declarations, guide sections, and examples relevant to the integration. Use these helpers in local development tooling, outside the application/client bundle.
-
-Apply the same approach to any dependency offering local AI helpers, bundled guides, declarations, or examples. Discover its supported entrypoints and helper contract instead of assuming every package exports `/ai` or the Rentner helper names. If helpers are unavailable, inspect the shipped declarations/source and official documentation for the installed version; do not install or upgrade a package merely to obtain documentation helpers.
-
-The connected RentnerPackages MCP server and website describe a published documentation snapshot, which can differ from the locally installed release. Compare versions before using remote APIs/examples, and resolve mismatches with the installed package or version-specific upstream documentation. A remote guide does not establish that a symbol exists locally. These documentation rules also apply in hybrid/Tauri projects and to other language dependencies with equivalent facilities.
+Follow the shared [installed-package documentation rules](../dependencies-and-documentation.md#installed-packages-and-documentation), including the Rentner `/ai` helpers and remote snapshot/version checks.
 
 ## Research before adding a package
 
-Before selecting a new dependency:
-
-1. Establish the actual capability the application needs.
-2. Check current primary sources: official docs, repository, release history, support/deprecation notices, and relevant security advisories.
-3. Compare suitable alternatives and the existing platform against that need.
-4. Check compatibility with the project's runtime, TypeScript, React, SSR/server boundaries, deployment, and license requirements.
-5. Explain the choice briefly using current evidence. Identify uncertainty or an unavoidable tradeoff.
-6. Add only the selected dependency and the lockfile changes required for it.
-
-Consider maintenance, replacement or archive notices, release freshness in context, migration cost, API fit, bundle/server impact, and accessibility for UI packages. Popularity or the newest release alone does not establish suitability.
-
-When browser or network access is unavailable, disclose the missing current verification. Do not present a remembered package choice as researched.
+Apply the shared [selection checklist](../dependencies-and-documentation.md#research-before-adding-a-dependency). For JS/TS, specifically verify TypeScript/React compatibility, SSR/server/client boundaries, bundle impact, and accessibility for UI packages.
 
 ## Declarative configuration
 

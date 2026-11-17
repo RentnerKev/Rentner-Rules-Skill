@@ -43,6 +43,8 @@ jobs:
         shell: bash
         run: |
           for file in SKILL.md README.md LICENSE agents/openai.yaml \
+            references/dependencies-and-documentation.md \
+            references/http-apis-and-credentials.md \
             agents/README.md agents/codex.md agents/cursor.md \
             agents/claude-code.md agents/gemini-cli.md \
             agents/github-copilot.md agents/windsurf.md \

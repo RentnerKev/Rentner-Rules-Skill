@@ -55,7 +55,7 @@ Test meaningful behavior, failures, boundaries, and regressions. For filesystem/
 
 Use isolated temporary directories, injected clocks/configuration, and deterministic inputs. Tests may run concurrently; do not depend on ordering, a real home directory, process-wide environment mutation, global logger installation, or timing sleeps to coordinate behavior. Control concurrency with appropriate synchronization and bounded timeouts. Assert stable semantics rather than platform-specific error wording when wording is not the contract.
 
-Network/database/process tests need explicit isolation and the applicable authorization. Keep any opt-in infrastructure suite clearly identified and report when it was skipped; never silently use an ordinary service as a test fixture. Shared migration and secret restrictions remain in force.
+Network/database/process tests need explicit isolation. Use the [standing development permission](../../SKILL.md#local-development-tests-and-cleanup) for disposable local fixtures and the applicable authorization for other infrastructure. Keep opt-in suites identified and report skips; never use an ordinary service as a test fixture. Shared database-command and secret restrictions remain in force.
 
 Public library examples should compile and, when appropriate, execute as doctests. Use `no_run` for examples that must compile but should not execute external side effects; use `compile_fail` for intentional rejection contracts. Avoid `ignore` simply to hide a stale example. Doctests are a useful documentation exception to the preference for a separate test directory.
 
@@ -63,7 +63,7 @@ Public library examples should compile and, when appropriate, execute as doctest
 
 The [standing local-development permission](../../SKILL.md#local-development-tests-and-cleanup) covers repeated Cargo builds and tests without another confirmation. For temporary build iterations, use a task-specific output directory through `CARGO_TARGET_DIR` or `--target-dir`, and track any separately configured intermediate/output directories. Reuse these directories during the task rather than cleaning and rebuilding between every check.
 
-After the final check, including failure or cancellation, stop owned test processes and remove the task's temporary build directories, binaries, test data, and other scratch files. Preserve requested deliverables, pre-existing `target/` contents, shared Cargo registry/git caches, and installed toolchains. Do not run blanket `cargo clean` against a shared or pre-existing build directory. Verify the owned temporary paths are gone and report anything left behind.
+Apply the shared teardown and verification requirements to these temporary directories and test processes. Preserve pre-existing `target/` contents, shared Cargo registry/git caches, and installed toolchains; do not run blanket `cargo clean` against a shared or pre-existing build directory.
 
 ## Formatting, lints, and baseline checks
 
@@ -86,7 +86,7 @@ Do not add `#![allow(warnings)]` or broad suppressions. Use narrowly scoped, jus
 
 For provider workflows/scripts, dependency-update automation, or release/publish work, compose [shared deployment routing](../deployment/index.md) with this verification policy and [Cargo tooling](cargo-and-tooling.md). Keep actual Cargo targets/MSRV/features authoritative; a Rust-only pipeline does not acquire Bun/React/web checks merely from a provider reference.
 
-For the changed behavior, run the relevant tests first, then compilation, Clippy, and formatting where required by the shared verification policy. Add builds, docs, feature matrices, or platform checks where the change needs them. Do not broaden/repeat checks after passing without a new reason.
+Use the baseline above and add builds, docs, feature matrices, or platform checks only where the change needs them. Reuse successful checks while relevant inputs remain unchanged under the shared verification policy.
 
 - Use selected workspace/package targets rather than assuming the root default covers every changed crate.
 - Test supported default, minimal/no-default, and significant feature combinations; use all-features only when valid. Optional dependencies can hide compilation and API regressions.

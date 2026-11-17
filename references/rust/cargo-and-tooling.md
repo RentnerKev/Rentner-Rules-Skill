@@ -14,7 +14,7 @@ Choose a resolver compatible with that policy. Edition 2024 packages imply resol
 
 ## Dependency selection
 
-Start with std and already-installed suitable crates. Before adding a crate or proposing a version, establish the required capability and verify:
+Apply the shared [dependency and version-matched documentation policy](../dependencies-and-documentation.md). Start with std and suitable installed crates, then verify these Cargo-specific constraints before adding a crate or proposing a version:
 
 1. The newest suitable non-yanked stable release on its registry, release history, and official repository/docs. Avoid remembered tutorial pins, wildcard `*` requirements, and unjustified prereleases.
 2. Maintenance and development activity in context, archive/deprecation/supersession notices, and established alternatives. Low release frequency alone does not mean a mature crate is abandoned.

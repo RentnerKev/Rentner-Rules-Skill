@@ -42,21 +42,17 @@ Temporary caches, rate limits, queues, and realtime transport do not replace dur
 
 ## Drizzle and schema boundary
 
-Apply the [shared database permissions](../../SKILL.md#work-safely-and-finish-the-task). Read-only inspection of migrations/metadata is allowed. Direct changes in `drizzle/` require the shared concrete-benefit explanation and explicit question-box approval; generating files through the two permitted scripts is a separate case.
-
-`bun run db:generate` and `bun run db:migrate` may run without another confirmation, including their normal generated migrations, snapshots, and journals. Inspect the declared scripts: this permission does not cover unrelated seeding, restores, deployments, or other added side effects. Direct `drizzle-kit` commands, `db:push`, `db:pull`, `db:studio`, and other database commands need separate explicit authorization.
+The shared [database and generated-file policy](../../SKILL.md#database-commands-and-generated-files) owns script permissions, direct-edit approvals, and execution-chain restrictions. Direct `drizzle-kit`, `db:push`, `db:pull`, and `db:studio` operations are outside the two permitted scripts and need their own established authorization.
 
 For a requested schema edit, change the declared schema source files and necessary schema exports. In TanStack Dummy, these are `src/db/Schema/*.ts`, `src/db/schema.ts`, and `src/db/Schema/index.ts`. Follow a different repository's explicitly declared schema-source path when applicable.
 
-When requested database work needs generating/applying migrations, use the two permitted Bun scripts without asking again. Their permission does not require running them for unrelated tasks or using ordinary/production services as test fixtures. Do not hide other database operations in verification, build, startup, or deployment wrappers.
-
-Exclude `drizzle/` from broad automatic rewrites, formatters, and cleanup operations. Scope any read-only inspection to the task. Check package scripts before executing verification chains that could invoke database tools.
+For requested generation/application work, use the permitted Bun scripts rather than substituting other database commands. Generated snapshots and journals follow that same policy; do not run them for unrelated changes.
 
 ## External side effects
 
 Do not send real email, run production backups/restores, or mutate ordinary/production databases or Valkey/Redis services as a test.
 
-Database integration tests require explicit authorization for an isolated test database. Use mocks, unit/contract tests, and temporary isolated resources where appropriate.
+Use disposable local test services under the [standing development permission](../../SKILL.md#local-development-tests-and-cleanup), with database commands still governed by the shared policy. Other test infrastructure needs its applicable authorization. Use mocks or unit/contract checks when a permitted isolated database setup is unavailable.
 
 Do not invoke bootstrap access generation, permission synchronization, data seeding, production deployment, or external communication merely because a build or feature change would benefit from it. Carry out an already authorized operation within its actual scope.
 

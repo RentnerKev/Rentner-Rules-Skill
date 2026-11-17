@@ -211,7 +211,7 @@ Keep an input controlled or uncontrolled for its lifetime. For a controlled text
 - Query functions must throw/reject failures rather than return fake successful empty data. For supported transports, consume the supplied `AbortSignal`; query cancellation does not automatically undo committed mutations. Keep query results immutable and apply the [HTTP/error contract](coding.md#error-values-and-http-results) in the owning adapter.
 - Use TanStack Form for new forms in the preferred stack. Preserve an established form approach within an existing feature instead of unnecessarily mixing implementations.
 - Keep form state, validation wiring, submit workflows, and errors in hooks; keep the form component focused on rendering.
-- Use TanStack Table with the existing shared table UI. Define columns and behavior with the owning table component or hook, following the same presentation boundary.
+- Follow the [table integration rules](architecture.md#complex-components-and-tables), keeping supported package UI first and columns/behavior with the owning table component or hook.
 - Use the capabilities of the installed versions. Consult their current official documentation when an API is unfamiliar or may have changed.
 
 For example, include every input affecting a cached read: `queryKey: ['users', { page, search }]`. A compatible direct-fetch query function forwards its `signal` as `fetch(url, { signal })`. Keep these declarations with the existing owner rather than creating query-key files. Mutation success updates/invalidation target affected data; use an awaited invalidation when the workflow must remain pending through that refresh. See [query keys](https://tanstack.com/query/latest/docs/framework/react/guides/query-keys), [query functions](https://tanstack.com/query/latest/docs/framework/react/guides/query-functions), and [cancellation](https://tanstack.com/query/latest/docs/framework/react/guides/query-cancellation).
@@ -230,7 +230,7 @@ Use inline styles or plain CSS only for a concrete requirement that classes cann
 - Every toast must have both a meaningful, non-empty `title` and `content`. Use the title for concise context and the content for the actual result or useful next step; translate both. This is a project requirement even when the package types make the title optional.
 - Select the matching severity: `error` for failure, `success` for a completed successful action, `warning` for a condition needing attention, and `info` for neutral information. With `toast.success/error/warning/info(content, { title })`, the first argument supplies the content and the options supply the title; use the actual installed API.
 - Apply the same requirement to `useToast()`, imperative calls, updates, and `toast.promise` states. Supply title/content objects for promise loading/success/error messages instead of bare strings, and preserve both fields when updating an existing toast.
-- Trigger feedback from the owning logic hook's handler or supported mutation lifecycle; announce success only after the action has actually succeeded. Reuse the application's provider/store and keep one owner for each notification so the same result is not announced twice. Keep required field labels, descriptions, and field-specific validation associations accessible; these do not replace the action-result toast.
+- Trigger feedback from the owning logic hook's handler or supported mutation lifecycle; announce success only after the action has actually succeeded. Reuse the application's provider/store and keep one owner for each notification so the same result is not announced twice.
 
 ## Visible text and accessibility
 
@@ -238,6 +238,6 @@ Use the project's translation mechanism for UI text and add German and English t
 
 Simple translation lookups are permitted in presentation components; workflows and substantial derived state belong in hooks. Avoid hardcoded visible messages in components or hooks.
 
-Carry semantic HTML, labels, focus management, keyboard access, and loading, empty, success, and error states through the implementation. Use stable list keys. Reuse the UI package's accessibility behavior where available.
+Keep semantic HTML, labels, descriptions, field-specific validation, focus management, and keyboard access intact. Render loading/empty/data-error views where the screen needs them; action/operation outcomes follow the [toast policy](#action-feedback-and-toasts). Field validation and data views do not replace those action-result toasts. Use stable list keys and reuse the UI package's accessibility behavior.
 
 Client permission state controls presentation; every protected operation still requires authorization at its trusted server or native boundary.

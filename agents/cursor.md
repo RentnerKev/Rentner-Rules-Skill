@@ -7,7 +7,7 @@ bunx skills@1.7.0 add RentnerKev/Rentner-Rules-Skill --skill rentner-rules -g -a
 bunx skills@1.7.0 list -g -a cursor
 ```
 
-Omit `-g` for a project install at `.agents/skills/rentner-rules/`. The default global destination is `~/.cursor/skills/rentner-rules/`. Cursor also discovers project skills in `.cursor/skills/`.
+Omit `-g` for a project install at `.agents/skills/rentner-rules/`. The pinned CLI uses the shared global `~/.agents/skills/rentner-rules/` for this target. Cursor also discovers project skills in `.cursor/skills/`.
 
 Select `/rentner-rules` from Agent chat's skill menu, or let Cursor select the skill when relevant. Confirm that the skill appears in Cursor's Skills interface. Cursor reads the portable `SKILL.md` directly, including its project/language routing and shared tooling policy.
 

@@ -48,9 +48,9 @@ Apply the same explicit compatibility/backup/recovery planning to persisted appl
 
 ## Migration authorization boundary
 
-Follow the central [Drizzle and schema boundary](../typescript/backend-and-safety.md#drizzle-and-schema-boundary) for every execution path. The two Bun scripts retain their stated permission; infrastructure work does not grant additional permission for direct generated-file changes or other database operations. Do not hide extra operations in CI, build, startup, healthcheck, release/deploy, maintenance, or verification chains.
+The shared [database and generated-file policy](../../SKILL.md#database-commands-and-generated-files) owns command permissions and execution-chain restrictions, including recovery/restore work. Apply it alongside this reference's data identity, backup, and compatibility requirements.
 
-Existing projects may have runtime migration mechanisms. Document their existence, owner, trigger, failure/compatibility consequences, and operator prerequisites. A separate runtime/container wrapper does not inherit the two Bun scripts' permission. Documenting an existing mechanism neither requires removing it nor authorizes adding automatic startup migrations or copying RentnerProxy's mechanism into another project.
+For existing runtime migration mechanisms, document their owner, trigger, failure/compatibility consequences, and operator prerequisites. Their existence alone neither requires removal nor authorizes adding startup migrations or copying the mechanism into another project.
 
 If a proposed build/startup/restore/integration check necessarily executes an operation outside the standing command permission and other established authorization, keep safe inspection/unit/contract checks and report that exact prerequisite and unverified runtime check. Do not bypass protections or substitute production resources. Apply the common [side-effect boundary](security.md#migration-and-side-effect-boundary).
 

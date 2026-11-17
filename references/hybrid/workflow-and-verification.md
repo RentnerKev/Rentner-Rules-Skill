@@ -38,7 +38,7 @@ Keep tests in their owning language area. Create a root test suite only when tes
 
 For boundary changes, verify relevant shared fixtures or producer/consumer contract tests on both sides: serialized names, missing/null fields, enum variants, wide values, error codes/statuses, and significant incompatible inputs. Include authorization/tenant/origin checks, retries/partial work, or stream/cancellation cases when the boundary change affects them. Use real adapters where their behavior matters rather than two mocks that agree with each other while both differ from the wire contract.
 
-System tests should start isolated components with explicit readiness, test addresses/ports, bounded timeouts, and cleanup, then assert externally visible behavior. Keep external infrastructure opt-in and correctly authorized; do not substitute an ordinary service or production credential when the isolated fixture is unavailable. Report skipped configurations accurately.
+System tests should start isolated components with explicit readiness, test addresses/ports, bounded timeouts, and cleanup, then assert externally visible behavior. Disposable local fixtures use the [standing development permission](../../SKILL.md#local-development-tests-and-cleanup); other external infrastructure remains opt-in and needs its applicable authorization. Do not substitute an ordinary service or production credential when an isolated fixture is unavailable. Report skipped configurations accurately.
 
 ## CI and final verification
 

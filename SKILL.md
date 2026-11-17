@@ -36,8 +36,7 @@ Identify the affected application before selecting a profile. A declared Tauri a
 ## Shared conventions
 
 - Preserve clear ownership, small coherent modules, explicit runtime boundaries, and readable public contracts. The concrete structure belongs to the language profile.
-- Reuse the project's installed dependencies and established APIs. Research current primary sources before selecting a new package or crate; avoid unnecessary dependencies.
-- For `@rentnerkev/*` and other dependencies offering local AI documentation/helpers, use [version-matched package documentation](references/typescript/dependencies-and-config.md#version-matched-package-documentation) before relying on remote examples. Apply this documentation approach wherever the dependency supports it, independently of the application profile.
+- Reuse suitable installed dependencies and their version-matched APIs. Follow the shared [dependency selection and documentation policy](references/dependencies-and-documentation.md), including local `/ai` helpers where provided; language profiles add their ecosystem-specific checks.
 - For HTTP APIs or issued integration keys in any language, apply the shared [API versioning and credential conventions](references/http-apis-and-credentials.md).
 - Apply the central [JavaScript/TypeScript tooling policy](references/typescript/tooling.md) to every JS/TS area and auxiliary script, including hybrid, Tauri, and future profiles. This does not replace Rust tooling or impose TypeScript architecture on a Rust target.
 - Prefer Tailwind CSS for web styling. Keep any necessary plain CSS exception small; this does not select a Rust UI framework.
@@ -83,13 +82,17 @@ This shared policy selects local checks for every project/language profile and i
 - Cleanup is part of completing the task, including after failed checks or cancellation. Remove task-created temporary containers, images, volumes, networks, build caches, build outputs, and test files once they are no longer needed. Preserve pre-existing resources, shared caches, user data, and requested deliverables; isolate temporary resources so their cleanup cannot affect unrelated work. Follow [Kiri test cleanup](references/deployment/docker-and-compose.md#disposable-test-environments-and-cleanup) and [Rust build cleanup](references/rust/testing-and-verification.md#temporary-builds-and-cleanup) where applicable.
 - Verify cleanup and report any resources that could not be removed, with the reason. Do not silently leave temporary services or build artifacts on the machine.
 
+## Database commands and generated files
+
+- Keep `drizzle/` unchanged by default; relevant read-only inspection is allowed. Direct changes require a concrete, substantial benefit, an explanation of files/reason, and explicit user approval through the agent's question-box/input tool. If that tool is unavailable, leave a direct change pending.
+- `bun run db:generate` and `bun run db:migrate` have standing permission without another confirmation, including their normal generated changes in `drizzle/`. Inspect the declared scripts: this does not authorize direct edits to those outputs, other database commands, or unrelated wrapper side effects. Other operations need their own established authorization; local test-container permission does not extend these database-command permissions.
+- Apply the same boundary to checks, builds, startup, CI, recovery, and deployment execution chains. Documenting an existing runtime migration mechanism does not grant permission to run or copy it. Change schema sources within the request; use the [Drizzle schema ownership details](references/typescript/backend-and-safety.md#drizzle-and-schema-boundary).
+- Never manually edit generated routes, build output, or other generated artifacts, except a directly approved `drizzle/` change under the rule above. Regenerate permitted outputs through their owning tools and exclude protected outputs from broad rewrites. Removing task-owned temporary build outputs follows the cleanup policy above.
+
 ## Work safely and finish the task
 
 - Check Git status and preserve existing user changes. Read only the relevant files, callers, contracts, and tests.
-- Keep `drizzle/` unchanged by default; relevant read-only inspection is allowed. Direct changes require a concrete, substantial benefit, an explanation of files/reason, and explicit user approval through the agent's question-box/input tool. If that tool is unavailable, leave a direct change pending.
-- `bun run db:generate` and `bun run db:migrate` have standing permission without another confirmation, including their normal generated changes in `drizzle/`. This does not authorize direct edits to those outputs, other database commands, or unrelated wrapper side effects. Edit schema sources within the request; use the detailed [Drizzle and schema boundary](references/typescript/backend-and-safety.md#drizzle-and-schema-boundary).
 - Never read or print real `.env` files, tokens, keys, or credentials. Use `.env.example` for configuration work.
-- Never manually edit generated routes, build output, or other generated artifacts, except an explicitly approved direct `drizzle/` change under the rule above. Regenerate other permitted outputs through their owning tools.
 - Do not weaken permissions, same-origin checks, rate limits, hashing, encryption, audit logs, or path validation to make a check pass.
 - Continue within established authorization. Ask only when missing information or an actual permission boundary prevents progress; explain the concrete reason.
 - Verify the changed behavior with the affected package or crate's real tooling. Inspect verification scripts for database actions outside the standing command permission or other established authorization. Report checks, existing failures, skipped checks, and remaining maintainer steps accurately.

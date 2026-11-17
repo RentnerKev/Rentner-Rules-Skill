@@ -10,6 +10,8 @@ Ship one minimal production Compose file and a small `.env.example`, following [
 
 Do not offer separate app/worker/database/cache services, per-language Dockerfiles, development/production Docker variants, Compose overlays/profiles, or alternative split-service/HA stacks as product installation choices. Multi-stage build stages and versioned runtime/maintenance scripts are internal parts of the single product image, not additional delivery variants. When consolidating an existing deployment, remove superseded Dockerfiles, Compose variants, scripts, and documentation within the authorized scope, after checking callers and preserving required build/runtime functionality.
 
+This production-installation constraint does not prohibit [disposable local test containers](../../SKILL.md#local-development-tests-and-cleanup) or their temporary build/test tooling. Keep those resources scoped and cleaned up; do not turn them into additional operator-facing installation variants.
+
 Keep source modules, language checks, and internal process identities separate where appropriate; one deliverable does not merge their code or privileges. If a concrete external-service or HA requirement conflicts with the complete-image contract, explain the conflict and obtain an explicit change of requirements before implementing a different topology. Do not infer an exception from application size, language count, or generic production best practices.
 
 ## Runtime and persistent state

@@ -2,11 +2,11 @@
 
 All integrations use the same [SKILL.md](../SKILL.md), project/language profiles, and relative references. The `.md` files in this directory describe installation and invocation; they are not automatically loaded agent configuration. [openai.yaml](openai.yaml) is Codex-specific interface metadata.
 
-Install the complete skill directory, including the nested `references/typescript/`, `references/rust/`, `references/hybrid/`, and `references/tauri/` folders. Every agent uses the same four established profiles and central JS/TS tooling policy. Hybrid adds web/core root/boundary rules; Tauri reuses language rules with its client/native override and integration references. Routing in `SKILL.md` selects Tauri before general hybrid for the affected application.
+Install the complete skill directory, including all of `references/`; copying only the profile folders omits shared dependency/API and deployment rules. Each agent follows the single routing and precedence policy in `SKILL.md`.
 
 ## Supported integrations
 
-These identifiers and project locations follow the pinned [Skills CLI 1.7.0 agent registry](https://github.com/vercel-labs/skills/blob/v1.7.0/src/agents.ts). Each location contains `rentner-rules/SKILL.md` and its supporting files.
+These identifiers and project locations follow the pinned [Skills CLI 1.7.0 agent registry](https://github.com/vercel-labs/skills/blob/v1.7.0/src/agents.ts). Each location contains `rentner-rules/SKILL.md` and its supporting files. Targets whose project directory is `.agents/skills/` use the shared global `~/.agents/skills/` directly in this CLI version; do not infer their install destination from a different native-agent directory in the registry. Other targets use their agent directory, normally linked to the canonical shared copy unless `--copy` is selected.
 
 | Agent | CLI identifier | Project skill directory | Integration notes |
 | --- | --- | --- | --- |

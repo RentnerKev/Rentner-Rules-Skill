@@ -64,7 +64,7 @@ Discover real commands from package scripts, test configuration, and CI. Do not 
 - Never hide failing tests, weaken assertions/security checks, or regenerate broad snapshots to make a check green.
 - Separate failures introduced by the change from pre-existing failures and unavailable checks.
 
-Do not manually modify generated route trees, build directories, or generated artifacts. The [database policy](backend-and-safety.md#drizzle-and-schema-boundary) distinguishes permitted generation/migration scripts from explicitly approved direct Drizzle edits. Do not include an unrelated generated diff in a product commit.
+Apply the shared [database and generated-file policy](../../SKILL.md#database-commands-and-generated-files). Do not include an unrelated generated diff in a product commit.
 
 ## Documentation, Git, and handover
 
@@ -75,5 +75,3 @@ When committing or pushing is requested or already authorized, stage only the in
 Check environment, route/permission, i18n, audit/realtime, and deployment consequences where relevant.
 
 Report the result, relevant changed paths, checks performed, existing failures, skips, risks, and any maintainer-only steps. Do not claim a verification, installation, publication, or registration succeeded without evidence.
-
-Use correct German umlauts and ß in German communication, documentation, and UI. For example: “Öfters gehe ich Eis essen und laufe dabei über den Fluss.”

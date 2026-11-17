@@ -60,9 +60,9 @@ Place tables, forms, and modals under `Components/<MeaningfulName>/`. Add local 
 
 For example, use `Users/Components/UsersTable/`; do not place `Users/Table/` beside `Users/Components/`.
 
-Use TanStack Table for table state and behavior, and reuse the project's `src/shared/Table` components for common presentation. Feature columns, permissions, actions, filters, and selection workflows remain with the owning component or hook.
+Follow the [installed-package priority](dependencies-and-config.md#installed-packages-first), including `@rentnerkev/table` where it covers the need. For a direct TanStack Table integration, reuse suitable project shared table components. Do not build a parallel table implementation or duplicate package-owned state merely to match a `src/shared/Table` path. Feature columns, permissions, actions, filters, and selection workflows remain with the owning component or hook.
 
-A `table` returned from the hook is the complete library instance. Domain actions such as deleting a user or exporting selected records remain in `handler`.
+When a hook exposes a TanStack `table`, return the complete library instance. Package-managed tables need only the supported props/state their actual API requires. Domain actions such as deleting a user or exporting selected records remain in `handler`.
 
 ## Shared UI and lib modules
 
