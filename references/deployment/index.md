@@ -15,6 +15,7 @@ Scope: a shared infrastructure area composed with the selected [project and lang
 
 | Work | Reference |
 | --- | --- |
+| Local container development with Kiri and host access to Valkey | [Local development with Kiri](docker-and-compose.md#local-development-with-kiri) |
 | Complete product image, bundled runtime processes, and installation boundaries | [Complete image delivery](deployment-models.md) |
 | Production Dockerfile/image, central Compose, configuration/ports, readiness and process lifecycle | [Docker and Compose](docker-and-compose.md) |
 | PostgreSQL/Valkey choice, volumes/backups, failed-startup maintenance, persistent-format upgrades | [Data and recovery](data-and-recovery.md) |

@@ -178,9 +178,15 @@ Only add capabilities justified by the actual project. Separate hybrid language 
 
 Docker server delivery always ships one complete product image, one minimal production Compose service, and a small `.env.example`, following the user-provided TanStack Dummy example. Bundle required app, worker, PostgreSQL, and Valkey processes with supervision and recovery support. Remove superseded Docker/Compose variants within authorized consolidation work; do not offer split-service, per-language, or HA alternatives. Prefer Alpine-based images/stages wherever compatible, including PostgreSQL; document concrete compatibility exceptions. Pure Tauri desktop apps retain native delivery.
 
-Prefer Valkey for new compatible cache/session/queue/coordination needs and PostgreSQL for relational storage; do not add unused services or migrate existing Redis without a concrete request. Keep database/cache ports internal, durable data outside the container layer, and operator configuration small. Document backups, failed-startup recovery, explicit PostgreSQL major upgrades and rollback/state compatibility. All runtime/build/verification paths follow the [database workflow](#database-workflow); infrastructure wrappers do not bypass it. Reading real environment/secret files remains prohibited.
+Use Valkey as the standard for compatible cache/session/queue/coordination needs and prefer PostgreSQL for relational storage; do not add unused services or migrate existing Redis data without a concrete request and compatibility plan. Keep production database/cache ports internal, durable data outside the container layer, and operator configuration small. Document backups, failed-startup recovery, explicit PostgreSQL major upgrades and rollback/state compatibility. All runtime/build/verification paths follow the [database workflow](#database-workflow); infrastructure wrappers do not bypass it. Reading real environment/secret files remains prohibited.
 
 The deployment/provider references link official sources checked on 2026-10-05; recheck current schema/version/platform/image/upgrade support before concrete configuration. Reference tool versions, names, deployment paths, branding, and database-migration steps are not global defaults.
+
+## Local container development
+
+Use **Kiri** with the `kiri` Docker context for local containers. Docker CLI, Compose, and buildx remain available; do not start Docker Desktop as a fallback. Prefer background CLI/API operations for supported tasks. Existing images, containers, volumes, and persisted data belong to their engine and are not migrated automatically.
+
+For an application running directly on the development host, publish Valkey on `127.0.0.1:6379` using `127.0.0.1:6379:6379`. `EXPOSE` alone or a random host port is insufficient. Verify a Valkey `PING`/`PONG` through the host endpoint. Keep required client/protocol identifiers such as `redis://` and `ioredis`; the server is Valkey. See [local development with Kiri](references/deployment/docker-and-compose.md#local-development-with-kiri) for context selection, port conflicts, verification, and data preservation. Production delivery retains one complete image/service with private dependency ports.
 
 ## Repository structure
 

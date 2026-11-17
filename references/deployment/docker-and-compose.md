@@ -1,6 +1,34 @@
 # Docker images and Compose
 
-Scope: requested container packaging/delivery, following [complete product image delivery](deployment-models.md) for actual servers. A CLI distribution or build-tool image can use the image rules without acquiring a server model, Compose stack or state services. Apply the owning language profile for build inputs, commands, locks, and runtime behavior; [automation security](security.md) and [migration restrictions](data-and-recovery.md#migration-authorization-boundary) remain authoritative.
+Scope: local container development and requested container packaging/delivery, following [complete product image delivery](deployment-models.md) for actual server delivery. A CLI distribution or build-tool image can use the image rules without acquiring a server model, Compose stack or state services. Apply the owning language profile for build inputs, commands, locks, and runtime behavior; [automation security](security.md) and [migration restrictions](data-and-recovery.md#migration-authorization-boundary) remain authoritative.
+
+## Local development with Kiri
+
+Use **Kiri** for local development containers. Docker Desktop is no longer the local runtime; do not start its application, services, or WSL distribution as a fallback when a Docker command fails. The Docker CLI, Compose, and buildx can still be used against Kiri. Inspect the effective context and explicitly select `kiri` when other engines are installed or a command must be independent of the shell's default:
+
+```sh
+docker context show
+docker --context kiri ps
+docker --context kiri compose version
+```
+
+Use `docker context use kiri` when configuring Kiri as the user's default. Check relevant `DOCKER_HOST`/`DOCKER_CONTEXT` overrides and the selected buildx builder without exposing credentials; a Docker CLI installed with Docker Desktop does not itself require Desktop to run. Prefer CLI/API operations in the background over UI automation when they support the requested operation. Kiri on Windows uses WSL2 and a named-pipe Docker API; follow the current [Windows setup documentation](https://docs.runkiri.com/windows/). A runtime switch does not copy another engine's images, containers, or volumes automatically. Preserve existing data and check available Kiri resources before recreating anything; do not delete volumes, prune another engine, or shut down unrelated WSL distributions to switch runtimes.
+
+### Valkey access from host-run applications
+
+Use [Valkey](data-and-recovery.md#valkey-standard-and-compatibility) for compatible cache, session, queue, and coordination requirements. When the application runs directly on the development host and Valkey runs in Kiri, publish container TCP port 6379 on **`127.0.0.1:6379`** by default. Set the host application endpoint accordingly, for example the credential-free local URL `redis://127.0.0.1:6379`; retain the protocol name required by the client.
+
+Use the explicit mapping `127.0.0.1:6379:6379` with `--publish`/`-p`, or the equivalent `ports` entry in existing authorized development orchestration. `EXPOSE 6379` and Compose `expose` alone do not publish a host port. An automatically assigned host port does not satisfy a program expecting 6379. Check for an existing listener, including one from Docker Desktop; do not kill unrelated processes or silently select another port. If projects need isolated simultaneous instances, assign deliberate distinct host ports and update each application's endpoint instead of sharing queue/session data accidentally.
+
+Prefer retaining an existing container and its data when changing its published ports. Kiri's [port controls](https://docs.runkiri.com/docker/network/#publishing-ports) support editing mappings on a running container. Verify the installed version's CLI/API or UI support before changing them; do not assume Docker's ordinary `update` command can change port bindings. Persist the intended mapping through the existing development owner so it survives normal restarts/recreation.
+
+For background operation, Kiri's [own API implementation](https://github.com/libracoder/kiri/blob/main/crates/kiri/src/daemon/api.rs) supports `POST /kiri/containers/<id>/ports` on its local Docker API connection, including the Windows named pipe. The body `{"ports":[{"container_port":6379,"host_port":6379,"proto":"tcp","host_ip":"127.0.0.1"}]}` replaces the container's published-port list without recreating it. Inspect existing mappings and retain unrelated required entries; verify installed-version support and the result instead of treating this Kiri extension as a standard Docker endpoint.
+
+Verify the mapping with `docker --context kiri port <container> 6379/tcp`, then perform a bounded, read-only Valkey `PING` through the **host endpoint** and expect `PONG`. A container-internal `valkey-cli ping` alone does not prove Windows/host connectivity. Check required readiness and reconnect behavior in the actual client. Other containers use their network's service/container address; their own `localhost` is not the development host.
+
+Keep the published development port on loopback. This local access does not add database/cache ports or alternative Compose variants to the production installation: [production Compose](#compose-and-configuration) still ships one complete image/service and keeps internal dependency ports private. Stop Docker Desktop and disable its autostart when the user requests that host configuration; installing or applying this skill alone does not authorize machine-wide service changes.
+
+Kiri's Windows/context and port guidance was checked against the official sources above on 2026-11-17. Recheck installed versions and platform support when applying it.
 
 ## Production images
 
@@ -22,7 +50,7 @@ Ship one minimal central production Compose file and a short install/update path
 
 Keep Compose to the product image, restart policy, init helper where needed, justified stop grace, public application port, `env_file`, and required persistent data/backup mounts. Keep internal commands, process wiring, healthchecks, resource/logging defaults where supported, and lifecycle logic in the image/runtime implementation. Add a Compose setting only when the operator actually needs it. Product runtime scripts can live with Docker/runtime files; provider-exclusive publishing/deploy automation follows [provider script ownership](ci-cd.md#provider-ownership-and-workflow-scripts).
 
-Publish only ports required by the intended users/ingress. Keep database/cache/control interfaces off the host by default; services use internal network names, never another container's `localhost`. Inside a true single-container appliance, embedded services can use loopback or Unix sockets. Use bounded authorized maintenance access instead of permanently exposing PostgreSQL/Valkey. Select networks/firewall/TLS and reverse-proxy trust from the actual environment; do not blindly trust forwarded headers or all container networks.
+For production, publish only ports required by the intended users/ingress. Keep database/cache/control interfaces off the host by default; services use internal network names, never another container's `localhost`. Inside a true single-container appliance, embedded services can use loopback or Unix sockets. Use bounded authorized maintenance access instead of permanently exposing PostgreSQL/Valkey. Host-run development applications use the explicit [local loopback mapping](#valkey-access-from-host-run-applications). Select networks/firewall/TLS and reverse-proxy trust from the actual environment; do not blindly trust forwarded headers or all container networks.
 
 Separate browser-public application settings, server runtime configuration, secrets, and build-time inputs. Minimize mandatory values, validate them early, use safe defaults, and document variable names/harmless examples through `.env.example`. A value baked into frontend assets cannot be assumed changeable through container environment at startup. Keep server secrets out of public client settings.
 
