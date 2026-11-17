@@ -32,7 +32,7 @@ Installed `@rentnerkev/*` packages are the primary source for their supported UI
 | --- | --- |
 | Feature structure, tables, shared/lib ownership, constants, query keys | [Architecture](architecture.md) |
 | Promise handling, concurrency, type contracts, narrowing, collections, error operations and examples | [TypeScript coding](coding.md) |
-| Components, typed hook returns, refs, TanStack state, styling, accessibility, i18n | [Frontend](frontend.md) |
+| Components, typed hook returns, refs, TanStack state, styling, action-feedback toasts, accessibility, i18n | [Frontend](frontend.md) |
 | Config purity, environment wiring, installed packages, new dependency research | [Dependencies and config](dependencies-and-config.md) |
 | Shared JS/TS lint/format defaults, React rules, type-aware checks, and compatible migrations | [JavaScript/TypeScript tooling](tooling.md) |
 | Server boundaries, authorization, transactions, secrets, Drizzle restrictions | [Backend and safety](backend-and-safety.md) |

@@ -18,6 +18,14 @@ A concrete missing capability or incompatibility can justify a small wrapper or 
 
 Reuse other established dependencies when they adequately solve the problem. Do not add a dependency for functionality the runtime or existing platform already provides.
 
+## Version-matched package documentation
+
+Determine the installed dependency version from the actual package metadata and lockfile before choosing an API. For `@rentnerkev/*`, prefer the installed package's documented read-only `/ai` helpers when that release exports them: `getPackageInfo()`, `getPackageDocumentation()`, `getPackageApi()`, `searchPackageDocumentation()`, and `getPackageExamples()`. Read only the declarations, guide sections, and examples relevant to the integration. Use these helpers in local development tooling, outside the application/client bundle.
+
+Apply the same approach to any dependency offering local AI helpers, bundled guides, declarations, or examples. Discover its supported entrypoints and helper contract instead of assuming every package exports `/ai` or the Rentner helper names. If helpers are unavailable, inspect the shipped declarations/source and official documentation for the installed version; do not install or upgrade a package merely to obtain documentation helpers.
+
+The connected RentnerPackages MCP server and website describe a published documentation snapshot, which can differ from the locally installed release. Compare versions before using remote APIs/examples, and resolve mismatches with the installed package or version-specific upstream documentation. A remote guide does not establish that a symbol exists locally. These documentation rules also apply in hybrid/Tauri projects and to other language dependencies with equivalent facilities.
+
 ## Research before adding a package
 
 Before selecting a new dependency:

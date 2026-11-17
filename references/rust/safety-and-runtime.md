@@ -6,6 +6,8 @@ Scope: [Rust profile](index.md). Load sections for the actual boundaries touched
 
 Validate external data at its boundary before it becomes trusted domain state. Parsing/deserialization is not authorization or complete semantic validation. Bound input sizes, nesting, archive expansion, allocations, queues, retries, and timeouts where untrusted or uncontrolled work could exhaust resources. Use checked arithmetic/conversions for sizes and offsets.
 
+For Rust HTTP services and issued integration keys, apply the shared [API versioning and credential conventions](../http-apis-and-credentials.md).
+
 When Serde is appropriate, keep persisted/wire contracts deliberate: validate invariants after decoding, define defaults only when meaningful, and preserve format compatibility. Decide whether unknown fields are accepted or rejected according to the actual contract rather than applying `deny_unknown_fields` everywhere. Do not indiscriminately derive serialization for internal or secret-bearing objects. See [Serde attributes](https://serde.rs/attributes.html); selecting Serde still follows the dependency rules.
 
 Invoke external programs with `std::process::Command` and separate arguments rather than interpolating untrusted data into a shell command. Validate argument semantics as well as syntax. Use a shell only for a real requirement and keep its quoting/side effects explicit.

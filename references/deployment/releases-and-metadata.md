@@ -37,6 +37,8 @@ Distinguish a versioned release, publishing artifacts to a registry/download ser
 
 A fitting sequence is checks → verify release identity → build exact source → inspect artifacts → assign/verify versions and tags → publish → update notes → appropriate smoke/runtime checks. Adapt the order to the existing process: a `release: published` event already has a tag/release, so validate it rather than creating another one. Do not apply this sequence as mandatory boilerplate.
 
+Run relevant soak/endurance suites during release preparation under the [shared verification policy](../../SKILL.md#verification-and-autofixci); they are not routine development/PR checks.
+
 - Validate repository, release/event identity, tag syntax, prerelease/channel agreement, permitted source refs/ancestry, and the resolved commit. Recheck identity before writes when source or event metadata could have changed. Build the expected commit/tag, not an unrelated default-branch checkout or untrusted PR revision.
 - Keep trusted automation and build source distinct when their trust/revision differs. Pass exact validated identities between jobs and verify artifact provenance/digests/platforms rather than rebuilding a different artifact after approval/scan.
 - Use immutable version/source tags and record image/artifact digests. Moving dev/channel tags are conveniences, not immutable identities. Protect existing versioned artifacts from silent overwrite/collision and make retries idempotent for the same verified release.

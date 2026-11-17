@@ -218,11 +218,19 @@ For example, include every input affecting a cached read: `queryKey: ['users', {
 
 ## Styling and installed UI
 
-Use installed `@rentnerkev/*` packages as the primary components for the areas they support. Read the installed API, types, or current official docs before integration. Reuse providers, tokens, and neighboring usage patterns instead of building a competing input, select, toast, picker, or other base component.
+Use installed `@rentnerkev/*` packages as the primary components for the areas they support. Follow the [version-matched documentation rules](dependencies-and-config.md#version-matched-package-documentation) before integration. Reuse providers, tokens, and neighboring usage patterns instead of building a competing input, select, toast, picker, or other base component.
 
 Use Tailwind classes and the existing design tokens for layout, spacing, colors, typography, states, and responsive behavior.
 
 Use inline styles or plain CSS only for a concrete requirement that classes cannot adequately express, such as runtime dimensions, a necessary CSS custom property, or a library's style/config API. Keep the exception small and explain it when the reason is not obvious. Do not choose plain CSS merely because it is familiar.
+
+## Action feedback and toasts
+
+- Show user-facing action/operation feedback through `@rentnerkev/toasts`: login failures, successful saves/deletions, failed requests, warnings, and informational results. Do not render these outcome messages as inline `<p>`/`<div>` text, ad hoc banners, or browser alerts, and do not leave them only in the console.
+- Every toast must have both a meaningful, non-empty `title` and `content`. Use the title for concise context and the content for the actual result or useful next step; translate both. This is a project requirement even when the package types make the title optional.
+- Select the matching severity: `error` for failure, `success` for a completed successful action, `warning` for a condition needing attention, and `info` for neutral information. With `toast.success/error/warning/info(content, { title })`, the first argument supplies the content and the options supply the title; use the actual installed API.
+- Apply the same requirement to `useToast()`, imperative calls, updates, and `toast.promise` states. Supply title/content objects for promise loading/success/error messages instead of bare strings, and preserve both fields when updating an existing toast.
+- Trigger feedback from the owning logic hook's handler or supported mutation lifecycle; announce success only after the action has actually succeeded. Reuse the application's provider/store and keep one owner for each notification so the same result is not announced twice. Keep required field labels, descriptions, and field-specific validation associations accessible; these do not replace the action-result toast.
 
 ## Visible text and accessibility
 

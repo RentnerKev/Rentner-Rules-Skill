@@ -14,6 +14,8 @@ Put business policy, database queries, transactions, queues, mail, storage, and 
 
 Prefer `GET` for reads and `POST` for mutations at Server Function boundaries. For raw APIs, preserve the project's endpoint contract and HTTP semantics.
 
+For HTTP API routes and issued integration keys, apply the shared [versioned paths and `pub_...pvt_...` credential lifecycle](../http-apis-and-credentials.md).
+
 ## Authorization and request protections
 
 Protected operations authorize themselves on the server, using the project's permission service. A route guard, layout, or hidden UI control is insufficient.

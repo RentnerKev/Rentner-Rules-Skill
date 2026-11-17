@@ -37,8 +37,11 @@ Identify the affected application before selecting a profile. A declared Tauri a
 
 - Preserve clear ownership, small coherent modules, explicit runtime boundaries, and readable public contracts. The concrete structure belongs to the language profile.
 - Reuse the project's installed dependencies and established APIs. Research current primary sources before selecting a new package or crate; avoid unnecessary dependencies.
+- For `@rentnerkev/*` and other dependencies offering local AI documentation/helpers, use [version-matched package documentation](references/typescript/dependencies-and-config.md#version-matched-package-documentation) before relying on remote examples. Apply this documentation approach wherever the dependency supports it, independently of the application profile.
+- For HTTP APIs or issued integration keys in any language, apply the shared [API versioning and credential conventions](references/http-apis-and-credentials.md).
 - Apply the central [JavaScript/TypeScript tooling policy](references/typescript/tooling.md) to every JS/TS area and auxiliary script, including hybrid, Tauri, and future profiles. This does not replace Rust tooling or impose TypeScript architecture on a Rust target.
 - Prefer Tailwind CSS for web styling. Keep any necessary plain CSS exception small; this does not select a Rust UI framework.
+- In React frontends, including hybrid and Tauri, follow the [action-feedback toast policy](references/typescript/frontend.md#action-feedback-and-toasts): use `@rentnerkev/toasts` with both a meaningful title and content.
 - Keep changes focused on the actual request. Separate agreed requirements from proposals during planning.
 
 ## Deployment and repository automation
@@ -57,10 +60,17 @@ Identify the affected application before selecting a profile. A declared Tauri a
 - Give pull requests a descriptive title with the matching change type, for example `feat: add user settings` or `fix: handle session timeout`. Do not use `codex/` or other agent labels in PR titles.
 - Follow explicit branch and workflow instructions. If work must stay on `main`, commit and push there when authorized; do not create a branch or pull request just to apply these naming conventions.
 
+## Repository documentation
+
+- Keep repository documentation small and useful: a concise README plus required or concretely needed files such as the license and `SECURITY.md`. Update affected instructions in place; do not add a documentation file, implementation narrative, or screenshot collection for every ordinary change/PR.
+- Make the README easy to scan: product purpose, a short feature overview, prerequisites, installation/quick start, essential configuration, and relevant support/security/license links. Use useful product images and meaningful, accurate badges; reuse suitable assets. Prefer short sections, lists, tables, and runnable examples over long prose or exhaustive feature/file descriptions.
+- Add a separate guide only when users/operators need a procedure that cannot fit clearly in the existing concise documentation or the repository requires it. Keep necessary API, security, recovery, and compatibility instructions accurate without duplicating them. Screenshots and other images should explain the product or a necessary step, rather than serve as automatic PR evidence.
+
 ## Verification and autofix.ci
 
 This shared policy selects local checks for every project/language profile and infrastructure task; retain the repository's CI quality gates.
 
+- Reserve 30-minute soak/endurance tests and comparable long duration runs for release preparation. Do not automatically start them, wait for them, or make them a routine development/PR check. Continue running appropriate unit, integration, Docker, and short recovery tests for the actual change.
 - Discover checks from the actual repository scripts, tool configuration, and CI. Before local validation, verify whether autofix.ci is configured to fix the affected files: inspect workflow steps and invoked scripts, triggers/conditions, working directories, file selection, ignores, and formatter/linter fix flags. A workflow filename or a read-only check alone does not establish automatic fix coverage.
 - For confirmed coverage, normally leave automatically correctable formatting to autofix.ci and omit redundant local formatter writes/checks and covered lint-fix runs. Continue writing code in the established project style. Reuse the coverage assessment and successful check results while their relevant inputs/configuration remain unchanged; avoid repeated formatting checks and tool calls without a concrete reason.
 - Respect explicit file/directory exclusions in workflows and tool configuration. Excluded paths are not covered by autofix.ci; use the existing permitted local validation for them and other uncovered tasks, preserving protected/generated-file boundaries. If autofix.ci is absent, its applicability is uncertain, or it does not perform the relevant fixes, keep the existing validation behavior for that scope.

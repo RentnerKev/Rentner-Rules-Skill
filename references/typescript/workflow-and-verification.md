@@ -68,7 +68,7 @@ Do not manually modify generated route trees, build directories, or generated ar
 
 ## Documentation, Git, and handover
 
-Update documentation affected by the change. Keep application README files concise: identity/banner, prerequisites, setup, feature overview, feature structure, and license. Put extended domain instructions where they belong.
+Follow the shared [repository documentation policy](../../SKILL.md#repository-documentation): update necessary instructions in place, keep the README concise and useful, and add separate guides or screenshots only for a concrete user/operator need or repository requirement.
 
 When committing or pushing is requested or already authorized, stage only the intended files, inspect the staged diff, write a clear commit message, and push the intended branch. Preserve other work and never force-push or rewrite shared history without explicit authorization.
 
