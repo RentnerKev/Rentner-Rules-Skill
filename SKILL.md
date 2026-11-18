@@ -1,6 +1,6 @@
 ---
 name: rentner-rules
-description: Apply RentnerKev's coding, CI/CD, and deployment conventions when planning, implementing, refactoring, or reviewing TypeScript, Rust, hybrid web/core, or Tauri projects and their infrastructure. Select project and language scope first; compose relevant provider, Docker/Compose, operating-model, dependency, security, and release rules. Use when these conventions are requested or the project follows them.
+description: Apply RentnerKev's coding, CI/CD, and deployment conventions when planning, implementing, refactoring, or reviewing TypeScript, Rust, Go, TypeScript/Rust hybrid, or Tauri projects and their infrastructure. Select project and language scope first; compose relevant provider, Docker/Compose, operating-model, dependency, security, and release rules. Use when these conventions are requested or the project follows them.
 ---
 
 # Rentner Rules
@@ -22,13 +22,15 @@ Identify the affected application before selecting a profile. A declared Tauri a
 | --- | --- | --- | --- |
 | TypeScript-only | `.ts`/`.tsx`, `tsconfig.json`, and the stack declared in `package.json` | [TypeScript](references/typescript/index.md) | Established conventions; React/TanStack rules where used |
 | Rust-only | `.rs` and the owning `Cargo.toml` or Cargo workspace | [Rust](references/rust/index.md) | Established conventions for ordinary Cargo projects |
+| Go | `.go` and the owning `go.mod`; `go.work` when it coordinates modules | [Go](references/go/index.md) | Standard library first, with a central test tree per module |
 | TypeScript + Rust hybrid | A TypeScript web area and Rust core/server form one non-Tauri product in the same repository | [Hybrid](references/hybrid/index.md), plus the language profiles | Established web/core and boundary conventions |
 | Tauri | Declared Tauri application or Tauri framework dependencies/configuration | [Tauri](references/tauri/index.md), plus the applicable language rules | Established native IPC integration; takes precedence over general hybrid |
 
 - Use the user's requested target and the actual affected files. A root `package.json` does not make a nested Rust crate TypeScript, and a Cargo workspace does not change React files into Rust.
 - Read the matching profile before implementation or review, then only the references it requires. During architecture planning, read the profile being planned.
-- Apply TypeScript hooks, `state`/`handler`/`setter`/`refs`, `Components/`/`Hooks/`/`Types/`, TanStack boundaries, formatting, and `src/tests` only to the TypeScript area. Do not translate these conventions into `.rs` modules or Rust structs by analogy.
+- Apply TypeScript hooks, `state`/`handler`/`setter`/`refs`, `Components/`/`Hooks/`/`Types/`, TanStack boundaries, formatting, and `src/tests` only to the TypeScript area.
 - The Rust profile is framework-independent and covers libraries, CLI tools, server cores, workers, daemons, filesystem tools, Tauri Rust cores, and system tools. Select frameworks, runtimes, and crates only for a concrete project need.
+- Apply the Go profile to the owning module, including a Go service beside a TypeScript frontend. Keep all Go test files under `tests/` beside that module's `go.mod`. Apply the TypeScript profile independently to its own area.
 - In a non-Tauri hybrid project, compose the full TypeScript and Rust profiles with the hybrid profile. Its root-tooling rule takes precedence over package-local TypeScript tooling placement: keep the JS/TS manifest, lockfile, web tooling configuration, and project commands at the repository root, TypeScript source under `web/`, and Cargo under `core/`. Read the hybrid profile before planning layout, contracts, or build/test work.
 - For Tauri, read its profile before composing the language rules. Retain TypeScript presentation/hooks and Rust core conventions, apply the client/native override, and use Tauri integration references for IPC, capabilities, desktop lifecycle, and delivery.
 - Keep language-local changes scoped to their owner. Unrelated tooling files or the mere presence of both languages do not establish a shared web/core product. Route a Tauri application through its own profile; choose other affected applications independently.

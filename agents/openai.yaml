@@ -1,4 +1,4 @@
 interface:
   display_name: "Rentner Rules"
-  short_description: "TypeScript, Rust, Hybrid, Tauri, CI/CD and deployment rules"
+  short_description: "TypeScript, Rust, Go, Hybrid, Tauri, CI/CD and deployment rules"
   default_prompt: "Use $rentner-rules to apply the relevant project/language profiles, shared tooling and provider CI/CD rules, write repository collaboration content in English, and deliver Docker servers as one complete image with minimal Compose and compatible Alpine bases."

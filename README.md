@@ -14,6 +14,7 @@ Reusable coding and delivery conventions by Kevin Sträßler. One portable skill
 | --- | --- |
 | [TypeScript / React / TanStack](references/typescript/index.md) | Feature ownership, presentation and logic hooks, config, backend, tests |
 | [Rust](references/rust/index.md) | Modules, ownership, errors, Cargo, runtime safety, tests |
+| [Go](references/go/index.md) | Package boundaries, standard library, errors and concurrency, module tooling, central `tests/` |
 | [Hybrid web/core](references/hybrid/index.md) | Root tooling, language boundaries, contracts, coordinated checks |
 | [Tauri](references/tauri/index.md) | Native IPC, capabilities, lifecycle, platform delivery; takes precedence over general hybrid |
 | [Dependencies and documentation](references/dependencies-and-documentation.md) | Installed-version APIs, local `/ai` helpers, dependency research |

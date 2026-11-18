@@ -31,10 +31,11 @@ Choose suitable dependency, container, SBOM, and static analysis checks for sche
 | --- | --- | --- |
 | TypeScript-only | Actual package manager and frozen lockfile, [shared JS/TS tooling](../typescript/tooling.md), typecheck/tests/build from [TypeScript verification](../typescript/workflow-and-verification.md); frontend/backend and container checks only where present | Rust/Cargo jobs, Rust CodeQL, hybrid compatibility, or Rust runtime checks |
 | Rust-only | Actual Cargo manifests/targets, locks, toolchain/MSRV, supported feature combinations, rustfmt/Clippy/tests/docs and relevant release packaging under [Rust verification](../rust/testing-and-verification.md) and [Cargo tooling](../rust/cargo-and-tooling.md) | Bun/React/TanStack/web checks or a JS runtime merely to orchestrate Cargo |
+| Go | Check the owning modules, Go toolchain, format, vet, central tests, and relevant builds under [Go verification](../go/tooling-and-verification.md) | A JS runtime, a Rust toolchain, or a provider-specific Go runner label |
 | Non-Tauri TypeScript + Rust hybrid | Independently runnable language checks, genuine contract/drift and integration checks; root JS/TS tooling and Cargo ownership from [hybrid coordination](../hybrid/workflow-and-verification.md) | A duplicate web package, every feature/target combination, one mandatory version, or a container per language |
 | Tauri | Frontend plus native checks, IPC/capabilities/config/resources, real platform runners/builds, bundles and protected signing/updater verification from [Tauri delivery](../tauri/workflow-and-verification.md) | General hybrid layout, Docker/server deployment, web previews, or identical build/signing support on every OS |
 
-For other repository types, preserve their existing verification and check the actual deliverable. Do not add TypeScript/Rust application tooling to a documentation-only repository.
+For other repository types, preserve their existing verification and check the actual deliverable. Documentation-only repositories use documentation and packaging checks.
 
 Path filters and caches must include relevant root manifests/locks/toolchain configs, provider scripts/workflows, shared contracts/generators, native resources, and build inputs. A boundary change can require both languages even when only one source area changed. Required checks must still produce the status expected by branch protection when work is skipped; do not leave required workflows permanently pending through inappropriate filters.
 

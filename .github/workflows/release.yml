@@ -61,6 +61,8 @@ jobs:
             references/rust/operations-and-examples.md \
             references/rust/testing-and-verification.md \
             references/rust/safety-and-runtime.md \
+            references/go/index.md references/go/architecture.md \
+            references/go/coding.md references/go/tooling-and-verification.md \
             references/hybrid/index.md references/hybrid/architecture.md \
             references/hybrid/contracts-and-boundaries.md \
             references/hybrid/workflow-and-verification.md \
