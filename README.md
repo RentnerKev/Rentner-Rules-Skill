@@ -1,4 +1,4 @@
-![Rentner Rules – TypeScript, Rust, Hybrid and Tauri](.github/assets/release-banners/new-release-banner.png)
+![Rentner Rules – TypeScript, Rust, Go, Hybrid, Tauri, Docker, and CI/CD](.github/assets/release-banners/new-release-banner.png)
 
 # Rentner Rules Skill
 
